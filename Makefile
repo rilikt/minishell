@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/30 12:29:08 by timschmi          #+#    #+#              #
-#    Updated: 2024/07/06 17:22:48 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/07 14:35:12 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,11 @@ EXES = $(NAME)
 
 SUBDIRS = libft/
 
-LDFLAGS= -L./libft -lft -L/Users/timschmi/.brew/opt/readline/lib -lreadline -lncurses
-IFLAGS = -I/Users/timschmi/.brew/opt/readline/include
+LDFLAGS= -L./libft -lft -lreadline
 
 CC = cc
 
-CFLAGS = #-Wall -Wextra -Werror 
+CFLAGS =  #-Wall -Wextra -Werror 
 
 all: $(SUBDIRS) $(EXES)
 
@@ -31,7 +30,7 @@ $(SUBDIRS):
 	$(MAKE) -C $@
 
 $(EXES): $(OFILES)
-	$(CC) $(CFLAGS) -o $@ $^ $(IFLAGS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	rm -f $(OFILES)
 
 %.o: %.c
