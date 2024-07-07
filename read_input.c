@@ -6,26 +6,46 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/06 17:29:20 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:15:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 
+int check_whitespace(char *input) // checks if the string only contains whitespace
+{
+	int i;
+
+	i = 0;
+
+	while (input[i] && input[i] != '\n')
+	{
+		if (input[i] > 32) // ascii values below 32
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char *read_input(void)
 {
 	char *input = NULL;
 	char path[1024];
+	char *rl_str;
 
-	getcwd(path, sizeof(path)); // maybe move to home dir first
-	printf("%s", path);
-	input = readline(" > "); // readline returns 0 on EOF
+	getcwd(path, sizeof(path));
+	rl_str = ft_strjoin(path, " > ");
+	input = readline(rl_str); // readline returns 0 on EOF
 	if (!input)
 	{
 		free(input);
 		exit(EXIT_FAILURE);
 	}
-	// printf("%s", getenv("PWD")); // shows PWD
+	if (check_whitespace(input))
+	{
+		free(input);
+		input = read_input();
+	}
 	
 	add_history(input);
 	

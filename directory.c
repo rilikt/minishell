@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/06 17:43:30 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:18:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,27 @@ void change_directory(char *move_to)
 {
 	char path[1024];
 	char *new_path;
+	char *input = move_to;
 
 	getcwd(path, sizeof(path)); // get the current dir and append onto it
 	
-	if (!ft_strchr(move_to, '/'))
+	if (!ft_strchr(move_to, '/')) // for relative path containing 
 	{
 		if (path[ft_strlen(path)-1] != '/')
 		move_to = ft_strjoin("/", move_to);
-		new_path = ft_strjoin(path, move_to);
-	
-		if (chdir(new_path) == -1)
-		{
-			perror("chdir in change_directory\n");
-		}
+		move_to = ft_strjoin(path, move_to);
 	}
-	else 
+	if (chdir(move_to) == -1)
 	{
-		if (chdir(move_to) == -1)
-		{
-			perror("chdir in change_directory\n");
-		}
+		fprintf(stderr, "cd : %s %s\n", strerror(errno), input);
 	}
+
+	return;
+}
+
+void display_pwd(void)
+{
+	char path[1024];
+	printf("%s\n", getcwd(path, sizeof(path)));
 	return;
 }
