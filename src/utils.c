@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:19:49 by timschmi         ###   ########.fr       */
+/*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
+/*   Updated: 2024/07/08 15:22:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int main(void)
+void clean_shell(char **str)
 {
-	char *input;
-	char **arg;
+	int i;
 
-	signal(SIGINT, signal_handle);
-	go_home();
-	while(1)
+	i = 0;
+	while(str[i])
 	{
-		input = read_input();
-	
-		arg = parse_input(input);
-
-		if (!ft_strncmp(arg[0], "exit", 4))
-			break;
-
-		execute_commands(arg);
+		free(str[i]);
+		i++;
 	}
-
-	clean_shell(arg);
-
-	
-	return (0);
+	free(str);
 }

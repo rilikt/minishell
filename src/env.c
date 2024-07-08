@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:19:49 by timschmi         ###   ########.fr       */
+/*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
+/*   Updated: 2024/07/08 15:39:50 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int main(void)
+void print_env(void) // prints out env from extern char **environ we might have to create our own env don't know
 {
-	char *input;
-	char **arg;
+	char **env = environ;
 
-	signal(SIGINT, signal_handle);
-	go_home();
-	while(1)
+	while (*env != NULL)
 	{
-		input = read_input();
-	
-		arg = parse_input(input);
-
-		if (!ft_strncmp(arg[0], "exit", 4))
-			break;
-
-		execute_commands(arg);
+		printf("%s\n", *env);
+		env++;
 	}
-
-	clean_shell(arg);
-
-	
-	return (0);
+	return ;
 }
