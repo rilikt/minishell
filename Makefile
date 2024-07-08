@@ -5,45 +5,85 @@
 #                                                     +:+ +:+         +:+      #
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/04/30 12:29:08 by timschmi          #+#    #+#              #
-#    Updated: 2024/07/07 14:35:12 by timschmi         ###   ########.fr        #
+#    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
+#    Updated: 2024/07/08 14:48:06 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
-SRCS = main.c read_input.c parse_input.c execute_commands.c signals.c directory.c
-OFILES = $(SRCS:.c=.o)
-NAME = minishell
-EXES = $(NAME)
-
-SUBDIRS = libft/
-
-LDFLAGS= -L./libft -lft -lreadline
-
+RED = \033[31m
+GREEN = \033[32m
+YELLOW = \033[33m
+BLUE = \033[34m
+MAGENTA = \033[35m
+CYAN = \033[36m
+RESET = \033[0m
+SRC_PATH := src/
+OBJ_PATH := obj/
+INCLUDE_PATH := include/
+SRCS := main.c\
+		read_input.c\
+		parse_input.c\
+		execute_commands.c\
+		signals.c\
+		directory.c
+SRC =	$(addprefix $(SRC_PATH),$(SRCS))
+OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
+NAME := minishell
+LIB := $(INCLUDE_PATH)libft
+LIBFT := $(INCLUDE_PATH)libft/libft.a
+HEADER := shell.h
+ART = $(INCLUDE_PATH)art.txt
 CC = cc
+CFLAGS = # -Wall -Wextra -Werror
+LFLAGS = -L$(LIB) -lft -lreadline
 
-CFLAGS =  #-Wall -Wextra -Werror 
+all: $(NAME)
+$(LIBFT):
 
-all: $(SUBDIRS) $(EXES)
-
-$(SUBDIRS):
-	$(MAKE) -C $@
-
-$(EXES): $(OFILES)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-	rm -f $(OFILES)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	@printf "$(CYAN)Building libraries$(RESET)"
+	@$(MAKE) -C $(LIB) & PID=$$!; \
+	while kill -0 $$PID 2>/dev/null; do \
+		printf "$(CYAN). $(RESET)"; \
+		sleep 0.1; \
+	done; \
+	wait $$PID;
+	@printf "$(GREEN)\nBuild complete.$(RESET)\n\n"
+	@sleep 1
+	@printf " $(YELLOW)Compiling $(NAME)$(RESET)\n\n"
+	
+$(NAME): $(OBJS)
+	@$(MAKE) print
+	@$(MAKE) $(LIBFT)
+	@$(CC) $(CFLAGS)  $(LFLAGS) -o $@ $^
+	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
+	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
+	@$(MAKE) welcome
+	
+obj/%.o: src/%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -o $@ -c $^ -g
+	@printf "$(GREEN)█ $(RESET)"
 
 clean:
-	$(MAKE) -C libft/ clean
-	rm -f $(OFILES)
+	@printf "\n$(BLUE)MAKING CLEAN$(RESET)\n\n"
+	@$(MAKE) -C $(LIB)/ clean
+	@printf "$(BLUE)REMOVING OBJECT FILES$(RESET)\n\n"
+	@rm -rf obj
 
 fclean: clean
-	$(MAKE) -C libft/ fclean
-	rm -f $(EXES)
+	@printf "$(BLUE)"
+	@$(MAKE) -C $(LIB)/ fclean
+	@printf "$(BLUE)REMOVING EXECUTABLE$(RESET)\n\n"
+	@rm -rf $(NAME)
+
+print:
+	@printf "\n\n$(YELLOW)$(NAME) is compiling please wait$(RESET)\n\n"
+
+welcome:
+	@printf "$(MAGENTA)"
+	@cat $(ART)
+	@printf "$(RESET)\n\n\n"
 
 re: fclean all
 
-.PHONY:  all clean fclean re $(SUBDIRS)
+.PHONY: all clean fclean re print welcome ft
