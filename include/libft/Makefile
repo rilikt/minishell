@@ -18,7 +18,6 @@ CFLAGS ?= -Wall -Wextra -Werror
 
 $(NAME): $(OBJFILES)
 	@ar -rcs $(NAME) $(OBJFILES)
-	@echo MAKING libft.a ...
 
 $(OBJFILES): $(CFILES)
 	@$(CC) -c $(CFLAGS) $(CFILES)
@@ -30,18 +29,13 @@ all: $(NAME)
 
 bonus: $(OBJFILES) $(BONUSOBJ)
 	@ar -rcs $(NAME) $(OBJFILES) $(BONUSOBJ)
-	
-	
-t: 
-	@$(CC) $(CFLAGS) $(CFILES) $(BONUSCF) -g
+
 
 clean:
 	@rm -f $(OBJFILES)
-	@echo CLEAN LIBFT OBJFILES ...
 
 fclean:
 	@rm -f $(OBJFILES) $(NAME) $(BONUSOBJ)
-	@echo FCLEAN LIBFT ...
 
 re: fclean all
 

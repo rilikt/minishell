@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/08 12:12:45 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/07/08 14:33:35 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,77 +17,74 @@ BLUE = \033[34m
 MAGENTA = \033[35m
 CYAN = \033[36m
 RESET = \033[0m
-
 SRC_PATH := src/
 OBJ_PATH := obj/
 INCLUDE_PATH := include/
-
 SRCS := main.c\
 		read_input.c\
 		parse_input.c\
 		execute_commands.c\
 		signals.c\
 		directory.c
-
 SRC =	$(addprefix $(SRC_PATH),$(SRCS))
-
-
 OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
-
 NAME := minishell
-
-LIBFT := $(INCLUDE_PATH)libtf/libft.a
-
+LIB := $(INCLUDE_PATH)libft
+LIBFT := $(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
-
 ART = $(INCLUDE_PATH)art.txt
-
 CC = cc
-
 CFLAGS = # -Wall -Wextra -Werror
-LFLAGS = -lreadline
-all: printing $(LIBS) $(NAME)
+LFLAGS = -L$(LIB) -lft -lreadline
 
+all: $(NAME)
 $(LIBFT):
-	@echo -e "$(CYAN)Building libraries $(RESET)"
-	@$(MAKE) -C $@ & PID=$$!; \
+
+	@printf "$(CYAN)Building libraries$(RESET)"
+	@$(MAKE) -C $(LIB) & PID=$$!; \
 	while kill -0 $$PID 2>/dev/null; do \
-		echo -n ". "; \
-		sleep 0.5; \
+		printf "$(CYAN). $(RESET)"; \
+		sleep 0.1; \
 	done; \
 	wait $$PID;
-	@echo ""
-	@echo "$(GREEN)Build complete.$(RESET)"
+	@printf "$(GREEN)\nBuild complete.$(RESET)\n\n"
 	@sleep 1
-	@echo " $(YELLOW)Compiling $(NAME)$(RESET)"
-
-$(NAME): $(OBJS) welcome
-	@echo ""
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
-	@echo "$(GREEN)$(NAME) successfully compiled!$(RESET)"
-	@echo ""
-	@echo "$(MAGENTA)WELCOME TO MINISHELL!!!"
-
+	@printf " $(YELLOW)Compiling $(NAME)$(RESET)\n\n"
+	
+$(NAME): $(OBJS)
+	@$(MAKE) print
+	@$(MAKE) $(LIBFT)
+	@$(CC) $(CFLAGS)  $(LFLAGS) -o $@ $^
+	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
+	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
+	@$(MAKE) welcome
+	
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -o $@ -c $^ -g
-	@echo -n "$(GREEN)█ "
+	@printf "$(GREEN)█ $(RESET)"
 
 clean:
-	$(MAKE) -C $(LIBFT)/ clean
+	@printf "\n$(BLUE)MAKING CLEAN$(RESET)\n\n"
+	@$(MAKE) -C $(LIB)/ clean
+	@printf "$(BLUE)REMOVING OBJECT FILES$(RESET)\n\n"
 	@rm -rf obj
 
 fclean: clean
-	$(MAKE) -C $(LIBFT)/ fclean
+	@printf "$(BLUE)"
+	@$(MAKE) -C $(LIB)/ fclean
+	@printf "$(BLUE)REMOVING EXECUTABLE$(RESET)\n\n"
 	@rm -rf $(NAME)
 
-printing:
-	@echo "$(YELLOW) $(NAME) is compiling please wait$(RESET)"
+print:
+	@printf "\n\n$(YELLOW)$(NAME) is compiling please wait$(RESET)\n\n"
 
 welcome:
+	@printf "$(MAGENTA)"
 	@cat $(ART)
-	@echo "$(RESET)"
-		
+	@printf "$(RESET)\n\n\n"
+	@./minishell
+
 re: fclean all
 
-.PHONY:  all clean fclean re 
+.PHONY: all clean fclean re print welcome ft

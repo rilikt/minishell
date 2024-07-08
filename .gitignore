@@ -3,3 +3,4 @@ minishell
 a.out
 *.out
 *.a
+.DS_Store
