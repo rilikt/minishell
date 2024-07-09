@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/09 16:02:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:05:56 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(void)
 
 		parse_input(arg);
 
-		if (!ft_strncmp(arg[0], "exit", 4))
+		if (!ft_strncmp(arg[0], "exit", 5))
 			break;
 
 		execute_commands(arg);
