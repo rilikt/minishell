@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:36:07 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:15:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,34 @@
 
 extern char **environ;
 
+typedef struct s_cmd 
+{
+	char *op;
+
+	char *cmd1;
+	char *arg1;
+
+	char *cmd2;
+	char *arg2;
+
+	struct s_cmd *next;
+
+}	t_cmd;
+
 char *read_input(void);
-char **parse_input(char *str);
+char **tokenize(char *str);
 void execute_commands(char **arg);
 void signal_handle(int signum);
 void go_home(void);
-void change_directory(char *move_to);
-void display_pwd(void);
+void change_directory(char **arg);
+void display_pwd(char **arg);
 void exit_shell(void);
 void clean_shell(char **str);
-void print_env(void);
+void print_env(char **arg);
+int check_operators(char *arg);
+void append_node(t_cmd *head, char **arg, int i);
+void parse_input(char **arg);
+
+
 
 #endif

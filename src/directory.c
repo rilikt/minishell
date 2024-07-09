@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:13:46 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:58:16 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@ void go_home(void) //moves the current working dir to root
 	return;
 }
 
-void change_directory(char *move_to)
+void change_directory(char **arg)
 {
 	char path[1024];
 	char *new_path;
-	char *input = move_to;
+	char *input = arg[1];
+	char *move_to = arg[1];
+
+	if (arg[2])
+	{
+		write(2, "cd : too many arguments\n", 25);
+		return;
+	}
 
 	getcwd(path, sizeof(path)); // get the current dir and append onto it
 	
@@ -49,9 +56,16 @@ void change_directory(char *move_to)
 	return;
 }
 
-void display_pwd(void)
+void display_pwd(char **arg)
 {
 	char path[1024];
+	
+	if (arg[1])
+	{
+		write(2, "pwd : too many arguments\n", 25);
+		return;
+	}
+	
 	printf("%s\n", getcwd(path, sizeof(path)));
 	return;
 }
