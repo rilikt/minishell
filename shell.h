@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:36:07 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:07:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,55 @@
 #include <errno.h>
 #include <string.h>
 
-extern char **environ;
+enum e_type {
+	WORD,
+	VARIABLE,
+	IN_REDIRECT,
+	IN_HEREDOC,
+	OUT_REDIRECT,
+	OUT_RED_APPEND,
+	PIPE,
+} ;
+
+enum e_mode {
+	INTERACTIVE,
+	NON_INTERACTIVE,
+} ;
+
+typedef struct s_redirect {
+	int		type;
+	char	*filename;
+	t_rdct	*next;
+} t_rdct;
+
+typedef struct s_token
+{
+	int		type;
+	char	*str;
+} t_token;
+
+typedef struct s_tokenlist {
+	int		index;
+	t_token	*token;
+	t_list	*prev;
+	t_list	*next;
+} t_list;
+
+
+typedef struct s_command {
+	char	**args;
+	t_rdct	*reds;
+	t_cmd	*next;
+} t_cmd;
+
+typedef struct s_shell {
+	int		mode;
+	char	*input;
+	t_list	*tokens;
+	t_cmd	*commands;
+	int		cmd_nb;
+	
+} t_shell;
 
 char *read_input(void);
 char **parse_input(char *str);
