@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/11 12:07:35 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:35:01 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,30 @@ typedef struct s_shell {
 	t_list	*tokens;
 	t_cmd	*commands;
 	int		cmd_nb;
+	int		exitstatus;
 	
 } t_shell;
+
+
+/*		builtins		*/
+
+
+/*		error and utils	*/
+
+
+/*		executer		*/
+
+
+/*		expander		*/
+
+
+/*		mode_nd_signals	*/
+
+
+/*		parser			*/
+
+
+/*		tokenizer		*/
 
 char *read_input(void);
 char **parse_input(char *str);
@@ -83,5 +105,6 @@ void display_pwd(void);
 void exit_shell(void);
 void clean_shell(char **str);
 void print_env(void);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/09 16:35:14 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:27:00 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	char *input;
-	char **arg;
+	t_shell	shell;
 
 	signal(SIGINT, signal_handle);
 	go_home();
 	while(1)
 	{
-		input = read_input();
+		shell.input = read_input();
 	
-		arg = parse_input(input);
+		tokenize(&shell);
 
-		if (!ft_strncmp(arg[0], "exit", 4))
-			break;
+		parse(&shell);
 
-		execute_commands(arg);
+		expand_and_execute(&shell);
 	}
 
-	clean_shell(arg);
-
+	clean_shell(&shell);
 	
 	return (0);
 }
