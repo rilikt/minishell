@@ -6,34 +6,30 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/09 17:05:56 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:44:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
-	char *input;
-	char **arg;
+	t_shell	shell;
 
 	signal(SIGINT, signal_handle);
 	go_home(); //moves to "root" dir of the user
 	while(1)
 	{
-		input = read_input();
+		shell.input = read_input();
 	
-		arg = tokenize(input);
+		tokenize(&shell);
 
-		parse_input(arg);
+		parse(&shell);
 
-		if (!ft_strncmp(arg[0], "exit", 5))
-			break;
-
-		execute_commands(arg);
+		expand_and_execute(&shell);
 	}
 
-	clean_shell(arg);
+	clean_shell(&shell);
 
 	return (0);
 }

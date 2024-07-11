@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:58:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:43:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void print_env(char **arg) // prints out env from extern char **environ we might have to create our own env don't know
 {
-	char **env = environ;
+	
 
 	if (arg[1])
 	{

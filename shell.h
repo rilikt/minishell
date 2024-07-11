@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/10 11:31:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:44:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,77 @@
 #include <errno.h>
 #include <string.h>
 
-extern char **environ;
+enum e_type {
+	WORD,
+	VARIABLE,
+	IN_REDIRECT,
+	IN_HEREDOC,
+	OUT_REDIRECT,
+	OUT_RED_APPEND,
+	PIPE,
+} ;
+
+enum e_mode {
+	INTERACTIVE,
+	NON_INTERACTIVE,
+} ;
+
+typedef struct s_redirect {
+	int		type;
+	char	*filename;
+	t_rdct	*next;
+} t_rdct;
+
+typedef struct s_token
+{
+	int		type;
+	char	*str;
+} t_token;
+
+typedef struct s_tokenlist {
+	int		index;
+	t_token	*token;
+	t_list	*prev;
+	t_list	*next;
+} t_list;
+
+
+typedef struct s_command {
+	char	**args;
+	t_rdct	*reds;
+	t_cmd	*next;
+} t_cmd;
+
+typedef struct s_shell {
+	int		mode;
+	char	*input;
+	t_list	*tokens;
+	t_cmd	*commands;
+	int		cmd_nb;
+	int		exitstatus;
+	
+} t_shell;
+
+
+/*		builtins		*/
+
+
+/*		error and utils	*/
+
+
+/*		executer		*/
+
+
+/*		expander		*/
+
+
+/*		mode_nd_signals	*/
+
+
+/*		parser			*/
+
+
+/*		tokenizer		*/
 
 typedef struct s_cmd 
 {
@@ -53,6 +123,7 @@ int check_operators(char *arg);
 void append_node(t_cmd **head, char **arg, int i);
 void parse_input(char **arg);
 void print_list(t_cmd *head);
+
 
 
 
