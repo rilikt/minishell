@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/09 16:59:52 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:31:22 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,31 @@ void clean_shell(char **str)
 	free(str);
 }
 
+void print_list(t_cmd *head)
+{
+	t_cmd *temp = head;
+
+	while (temp)
+	{
+		printf("operator: %s, command1: %s, argument1: %s, command2: %s, argument2: %s\n", temp->op, temp->cmd1, temp->arg1, temp->cmd2, temp->arg2);
+		temp = temp->next;
+	}
+}
+
+
 t_cmd *create_node()
 {
 	t_cmd *new_node;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
-	
+
+	new_node->next = NULL;
+	new_node->arg1 = NULL;
+	new_node->arg2 = NULL;
+	new_node->cmd1 = NULL;
+	new_node->cmd2 = NULL;
+	new_node->op = NULL;
+
 	return (new_node);
 }
 
@@ -50,7 +69,7 @@ void find_arg1(t_cmd *node, char **arg, int i)
 		}
 		i--;
 	}
-	node->cmd1 = arg[i]; // stores the command
+	node->cmd1 = arg[i]; // stores the command 
 	i++;
 	while(i < j) // joins arguments for commands into a single str
 	{
@@ -60,8 +79,6 @@ void find_arg1(t_cmd *node, char **arg, int i)
 			str = ft_strjoin(str, " ");
 	}
 	node->arg1 = str;
-	free (str);
-	printf("command: %s, argument: %s\n", node->cmd1, node->arg1);
 	return ;
 }
 
@@ -87,33 +104,31 @@ void find_arg2(t_cmd *node, char **arg, int i)
 			str2 = ft_strjoin(str2, " ");
 	}
 	node->arg2 = str2;
-	free(str2);
-	printf("command: %s, argument: %s\n", node->cmd2, node->arg2);
 	return ;
 }
 
-void set_values(t_cmd *node, char **arg, int i)
+t_cmd *set_values(t_cmd **node, char **arg, int i)
 {
-	node->op = arg[i]; 
+	t_cmd *temp = *node;
+	temp->op = arg[i]; // check operator and proceed accordingly
 
-	find_arg1(node, arg, i);
+	find_arg1(temp, arg, i); 
 	
-	find_arg2(node, arg , i);
+	find_arg2(temp, arg , i);
+
+	return (temp);
 }
 
-void append_node(t_cmd *head, char **arg, int i)
+void append_node(t_cmd **head, char **arg, int i)
 {
 	t_cmd *new_node;
 
 	new_node = create_node();
-	set_values(new_node, arg, i);
-	if (head == NULL)
+	new_node = set_values(&new_node, arg, i);
+	if (*head == NULL)
 	{
-		head = new_node;
-		head->next = NULL;
+		*head = new_node;
 		return;
 	}
-
-	new_node->next = NULL;
 	return ;
 }
