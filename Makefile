@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/08 15:34:04 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/12 16:28:21 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ SRCS := main.c\
 		execute_commands.c\
 		signals.c\
 		directory.c\
-		utils.c\
-		env.c
+		token_list.c\
+		env.c\
+		tokenizer.c
 SRC =	$(addprefix $(SRC_PATH),$(SRCS))
 OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
 NAME := minishell

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/11 14:44:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:27:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,29 @@ enum e_mode {
 typedef struct s_redirect {
 	int		type;
 	char	*filename;
-	t_rdct	*next;
+	struct s_redirect	*next;
 } t_rdct;
 
-typedef struct s_token
-{
-	int		type;
-	char	*str;
-} t_token;
 
 typedef struct s_tokenlist {
+	int		type;
+	char	*str;
 	int		index;
-	t_token	*token;
-	t_list	*prev;
-	t_list	*next;
-} t_list;
+	struct s_tokenlist	*prev;
+	struct s_tokenlist	*next;
+} t_token;
 
 
 typedef struct s_command {
 	char	**args;
 	t_rdct	*reds;
-	t_cmd	*next;
+	struct s_command	*next;
 } t_cmd;
 
 typedef struct s_shell {
 	int		mode;
 	char	*input;
-	t_list	*tokens;
+	t_token	*tokens;
 	t_cmd	*commands;
 	int		cmd_nb;
 	int		exitstatus;
@@ -94,23 +90,19 @@ typedef struct s_shell {
 
 
 /*		tokenizer		*/
+void tokenize(t_shell **shell);
+int is_whitespace(char c);
+int is_operator(char *str, int *input_i);
+int in_qoutes(char *str, int *input_i);
+void append_node(t_token **head, char *str);
+int operator_check(char c);
+void print_tokens(t_shell *shell);
 
-typedef struct s_cmd 
-{
-	char *op;
 
-	char *cmd1;
-	char *arg1;
 
-	char *cmd2;
-	char *arg2;
 
-	struct s_cmd *next;
-
-}	t_cmd;
 
 char *read_input(void);
-char **tokenize(char *str);
 void execute_commands(char **arg);
 void signal_handle(int signum);
 void go_home(void);
@@ -120,7 +112,6 @@ void exit_shell(void);
 void clean_shell(char **str);
 void print_env(char **arg);
 int check_operators(char *arg);
-void append_node(t_cmd **head, char **arg, int i);
 void parse_input(char **arg);
 void print_list(t_cmd *head);
 
