@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 16:38:33 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:47:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,26 @@
 #include <string.h>
 
 enum e_errorcodes {
-	ERR_MALLOC,
+	ERR_MALLOC = 1,
 	ERR_SYNTAX,
-	
+	ERR_PIPE,
+	ERR_FORK,
+	ERR_DUP2,
 } ;
+
+enum e_forkmode {
+	START,
+	MIDDLE,
+	END,
+} ;
+
+enum e_pipeends {
+	IN_READ,
+	IN_WRITE,
+	OUT_READ,
+	OUT_WRITE,
+} ;
+
 
 enum e_type {
 	WORD,
@@ -68,6 +84,7 @@ typedef struct s_command {
 
 typedef struct s_shell {
 	int		mode;
+	char	**envp;
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*commands;
@@ -91,10 +108,12 @@ void	exit_shell(void);
 
 
 /*		executer		*/
-void	execute_commands(char **arg);
+void	execute_commandline(t_shell *shell);
 
 
 /*		expander		*/
+//expanding.c
+void	expande(t_cmd *cmd, char **envp);
 
 
 /*		mode_nd_signals	*/
