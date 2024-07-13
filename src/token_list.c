@@ -6,38 +6,53 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/12 16:32:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:24:30 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
+
+int check_variable(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		if (str[i] == '$' && !is_whitespace(str[i+1]))
+			return(VARIABLE);
+		i++;
+	}
+	return(WORD);
+}
+
+
 int find_type(char *str)
 {
 	char *operator = "|<>$";
-
 	int i = 0;
-	int j = 0;
 	int len = ft_strlen(str);
 	while (operator[i])
 	{
-		if (str[j] == operator[i])
+		if (str[0] == operator[i])
 		{
-			if (str[j] == '|')
+			if (str[0] == '|')
 				return (PIPE);
-			else if (str[j] == '$')
+			else if (str[0] == '$')
 				return(VARIABLE);
-			else if (str[j] == '<' && len == 1)
+			else if (str[0] == '<' && len == 1)
 				return (IN_REDIRECT);
-			else if (str[j] == '>' && len == 1)
+			else if (str[0] == '>' && len == 1)
 				return (OUT_REDIRECT);
-			else if (str[j] == '<')
-				return (IN_HEREDOC);
-			else if (str[j] == '>')
+			else if (str[0] == '<')
+				return (IN_HEREDOC); // maybe set a flag and dont check everytime
+			else if (str[0] == '>')
 				return (OUT_RED_APPEND);
 		}
 		i++;
 	}
+	if (str[0] == 34)
+		return (check_variable(str));
 	return(WORD);
 }
 
@@ -57,7 +72,30 @@ t_token *create_node(char *str)
 	return (new_node);
 }
 
-void append_node(t_token **head, char *str)
+void is_heredoc(t_token *node, t_shell *shell)
+{
+	if (node->prev->type != IN_HEREDOC)
+		return;
+	
+	char *line = NULL;
+	char *input = NULL;
+	char *delimiter = node->str;
+	while(1)
+	{
+		line = readline("heredoc > ");
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
+			break;
+		line = ft_strjoin(line, "\n");
+		input = ft_strjoin(input, line);
+	}
+	node->str = input;
+	node->type = check_variable(input);
+	input = ft_strjoin(input, delimiter);
+	shell->input = ft_strjoin(shell->input, "\n");
+	shell->input = ft_strjoin(shell->input, input);
+}
+
+void append_node(t_token **head, char *str, t_shell *shell)
 {
 	t_token *new_node;
 	t_token *temp;
@@ -73,5 +111,6 @@ void append_node(t_token **head, char *str)
 		temp = temp->next;
 	temp->next = new_node;
 	new_node->prev = temp;
+	is_heredoc(new_node, shell);
 	return ;
 }

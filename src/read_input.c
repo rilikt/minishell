@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 12:09:23 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:25:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char *read_input(void)
 		input = read_input();
 	}
 	
-	add_history(input);
+	// add_history(input);
 	
 	return (input);
 }

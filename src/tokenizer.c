@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/12 16:30:48 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:20:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,17 @@ void tokenize(t_shell **shell)
 				break;
 			else if (is_operator(str, &i))
 				break;
-			else if (operator_check(str[i+1]))
-			{
-				i++;
+			else if (operator_check(str[i+1], &i))
 				break;
-			}
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
-		append_node(&token, token_str);
+		append_node(&token, token_str, *shell);
 	}
 	(*shell)->tokens = token;
 }
 
-int operator_check(char c)
+int operator_check(char c, int *input_i)
 {
 	char *operator = "|<>$";
 	int i = 0;
@@ -52,7 +49,10 @@ int operator_check(char c)
 	while (operator[i])
 	{
 		if (c == operator[i])
+		{
+			*input_i += 1;
 			return(1);
+		}
 		i++;
 	}
 	return(0);
