@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 15:17:10 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/08 15:17:40 by timschmi         ###   ########.fr       */
+/*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
+/*   Updated: 2024/07/13 15:56:16 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void exit_shell(void)
+#include "../../shell.h"
+
+void	ft_error(char *msg, int errorcode)
 {
+	if (msg)
+		printf("%s\n", msg);
+	exit (errorcode);
 	
 }

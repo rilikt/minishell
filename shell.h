@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 13:25:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:38:33 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+
+enum e_errorcodes {
+	ERR_MALLOC,
+	ERR_SYNTAX,
+	
+} ;
 
 enum e_type {
 	WORD,
@@ -72,48 +78,49 @@ typedef struct s_shell {
 
 
 /*		builtins		*/
+void	go_home(void);
+void	change_directory(char **arg);
+void	display_pwd(char **arg);
+void	print_env(char **arg);
 
 
 /*		error and utils	*/
+void	ft_error(char *msg, int errorcode);
+void	clean_shell(char **str);
+void	exit_shell(void);
 
 
 /*		executer		*/
+void	execute_commands(char **arg);
 
 
 /*		expander		*/
 
 
 /*		mode_nd_signals	*/
+void	signal_handle(int signum);
 
 
 /*		parser			*/
+void	parse_input(char **arg);
 
 
 /*		tokenizer		*/
-void tokenize(t_shell **shell);
-int is_whitespace(char c);
-int is_operator(char *str, int *input_i);
-int in_qoutes(char *str, int *input_i);
-void append_node(t_token **head, char *str, t_shell *shell);
-int operator_check(char c, int *input_i);
-void print_tokens(t_shell *shell);
+char	*read_input(void);
+void	tokenize(t_shell *shell);
+int		is_whitespace(char c);
+int		is_operator(char *str, int *input_i);
+int		in_qoutes(char *str, int *input_i);
+void	append_node(t_token **head, char *str, t_shell *shell);
+int		operator_check(char c, int *input_i);
+void	print_tokens(t_shell *shell);
+int		check_operators(char *arg);
+
+void	print_list(t_cmd *head);
 
 
 
 
-
-char *read_input(void);
-void execute_commands(char **arg);
-void signal_handle(int signum);
-void go_home(void);
-void change_directory(char **arg);
-void display_pwd(char **arg);
-void exit_shell(void);
-void clean_shell(char **str);
-void print_env(char **arg);
-int check_operators(char *arg);
-void parse_input(char **arg);
-void print_list(t_cmd *head);
 
 
 

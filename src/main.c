@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 13:24:56 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:06:48 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	t_shell	*shell = (t_shell *)malloc(sizeof(t_shell));
+	t_shell	shell;
 
-	signal(SIGINT, signal_handle);
+	// setup_shell(&shell);
 	go_home(); //moves to "root" dir of the user
 	while(1)
 	{
-		shell->input = read_input();
+		shell.input = read_input();
 	
 		tokenize(&shell);
 
-		add_history(shell->input);
+		add_history(shell.input);
 
-		print_tokens(shell);
+		print_tokens(&shell);
 
 		// parse(&shell);
 

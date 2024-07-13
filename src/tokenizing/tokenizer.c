@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 13:20:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:38:55 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell.h"
+#include "../../shell.h"
 
-void tokenize(t_shell **shell)
+void tokenize(t_shell *shell)
 {
-	char *str = (*shell)->input;
+	char *str = shell->input;
 	char *token_str;
 	t_token *token = NULL;
 
@@ -36,9 +36,9 @@ void tokenize(t_shell **shell)
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
-		append_node(&token, token_str, *shell);
+		append_node(&token, token_str, shell);
 	}
-	(*shell)->tokens = token;
+	shell->tokens = token;
 }
 
 int operator_check(char c, int *input_i)

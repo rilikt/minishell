@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/12 16:28:21 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/13 16:35:22 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,16 +20,32 @@ RESET = \033[0m
 SRC_PATH := src/
 OBJ_PATH := obj/
 INCLUDE_PATH := include/
-SRCS := main.c\
-		read_input.c\
-		parse_input.c\
-		execute_commands.c\
-		signals.c\
-		directory.c\
-		token_list.c\
-		env.c\
-		tokenizer.c
-SRC =	$(addprefix $(SRC_PATH),$(SRCS))
+
+BUILTINS :=	directory.c\
+			env.c
+ERR_UTILS:=	error.c\
+			utils.c
+EXECUTING:= execute_commands.c
+EXPANDING:=
+MDE_SGNL :=	signals.c
+PARSING  :=	parse_input.c
+TOKENIZER:=	read_input.c\
+			token_list.c\
+			tokenizer.c
+
+SOURCES = main.c\
+		$(addprefix builtins/,$(BUILTINS))\
+		$(addprefix error_and_utils/,$(ERR_UTILS))\
+		$(addprefix executing/,$(EXECUTING))\
+		$(addprefix expanding/,$(EXPANDING))\
+		$(addprefix mode_and_signals/,$(MDE_SGNL))\
+		$(addprefix parsing/,$(PARSING))\
+		$(addprefix tokenizing/,$(TOKENIZER))
+		
+		
+SRC =	$(addprefix $(SRC_PATH),$(SOURCES))
+
+
 OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
 NAME := minishell
 LIB := $(INCLUDE_PATH)libft
