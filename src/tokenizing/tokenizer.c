@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 16:38:55 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:40:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int in_qoutes(char *str, int *input_i)
 	while(str[i] && (str[i] != 34 && str[i] != 39))
 		i++;
 	if (str[i] != str[start]) // need to check with which quotes it started to know which ones have to close
-		return (printf("qoutes not closed\n"), 0); // error handle, exit shell
+		ft_error("qoutes not closed", ERR_SYNTAX); // error handle, exit shell
 	else
 	{
 		*input_i = i + 1; // to move behind the quote
@@ -114,10 +114,11 @@ int is_whitespace(char c)
 void print_tokens(t_shell *shell)
 {
 	int i = 1;
-	while (shell->tokens)
+	t_token *temp= shell->tokens;
+	while (temp)
 	{
 		printf("-token%d- str: %s, type: %d\n", i, shell->tokens->str, shell->tokens->type);
-		shell->tokens = shell->tokens->next;
+		temp = temp->next;
 		i++;
 	}
 }

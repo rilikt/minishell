@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 18:47:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:36:57 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,8 @@ void	signal_handle(int signum);
 
 
 /*		parser			*/
-void	parse_input(char **arg);
+void parse_tokens(t_shell *shell);
+
 
 
 /*		tokenizer		*/
@@ -134,8 +135,6 @@ void	append_node(t_token **head, char *str, t_shell *shell);
 int		operator_check(char c, int *input_i);
 void	print_tokens(t_shell *shell);
 int		check_operators(char *arg);
-
-void	print_list(t_cmd *head);
 
 
 

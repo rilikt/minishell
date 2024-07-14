@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 16:00:13 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:46:31 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ t_token *create_node(char *str)
 	t_token *new_node;
 
 	new_node = (t_token *)malloc(sizeof(t_token));
-	// if (!new_node)
-	// 	exit_error();
+	if (!new_node)
+		ft_error("malloc error", ERR_MALLOC);
 
 	new_node->next = NULL;
 	new_node->prev = NULL;
