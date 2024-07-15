@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 11:12:04 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:24:30 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	signal_handle(int signum);
 
 /*		parser			*/
 void parse_tokens(t_shell *shell);
+void print_commands(t_shell *shell);
 
 
 

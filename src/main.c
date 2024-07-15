@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 14:51:26 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:16:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int main(int argc, char **argv, char **envp)
 		print_tokens(&shell);
 
 		parse_tokens(&shell);
+
+		print_commands(&shell);
 
 		// expand_and_execute(&shell);
 	}
