@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 18:47:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:41:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/wait.h>
 
 enum e_errorcodes {
 	ERR_MALLOC = 1,
@@ -29,6 +30,7 @@ enum e_errorcodes {
 	ERR_PIPE,
 	ERR_FORK,
 	ERR_DUP2,
+	ERR_READ,
 } ;
 
 enum e_forkmode {
@@ -38,10 +40,9 @@ enum e_forkmode {
 } ;
 
 enum e_pipeends {
-	IN_READ,
-	IN_WRITE,
-	OUT_READ,
-	OUT_WRITE,
+	READ,
+	WRITE,
+
 } ;
 
 
@@ -82,6 +83,11 @@ typedef struct s_command {
 	struct s_command	*next;
 } t_cmd;
 
+typedef struct s_piping {
+	int		in[2];
+	int		out[2];
+} t_pipe;
+
 typedef struct s_shell {
 	int		mode;
 	char	**envp;
@@ -109,6 +115,9 @@ void	exit_shell(void);
 
 /*		executer		*/
 void	execute_commandline(t_shell *shell);
+void	run_childprocess(t_cmd *cmd, t_pipe *pipes, char **envp, int mode);
+void	print_pipes(t_pipe *pipes);
+
 
 
 /*		expander		*/

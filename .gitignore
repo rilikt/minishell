@@ -4,3 +4,6 @@ a.out
 *.o
 *.a
 .DS_Store
+shell.h.gch
+src/executing/a.out.dSYM/
+src/executing/hallo.txt
