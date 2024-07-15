@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 15:36:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 11:12:04 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_tokenlist {
 
 typedef struct s_command {
 	char	**args;
+	int is_var;
 	t_rdct	*reds;
 	struct s_command	*next;
 } t_cmd;

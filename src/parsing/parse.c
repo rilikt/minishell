@@ -6,12 +6,25 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 15:44:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 11:42:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
+
+int is_redir(t_token *token)
+{
+	if (token->type == IN_REDIRECT)
+		return(1);
+	else if (token->type == IN_HEREDOC)
+		return(1);
+	else if (token->type == OUT_REDIRECT)
+		return(1);
+	else if (token->type == OUT_RED_APPEND)
+		return(1);
+	return (0);
+}
 
 void print_arr(char **arr)
 {
@@ -51,8 +64,54 @@ char **create_array(t_token *start, t_token *end)
 	return (arr);
 }
 
+void append_cmd_node(t_cmd **head, char **arr, int is_var)
+{
+	t_cmd *new_node;
+	t_cmd *temp;
 
-void parse_tokens(t_shell *shell)
+	new_node = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!new_node)
+			ft_error("malloc error", ERR_MALLOC);
+	new_node->next = NULL;
+	new_node->reds = NULL;
+	new_node->args = arr;
+	new_node->is_var = is_var;
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return;
+	}
+	temp = *head;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_node;
+}
+
+
+
+void check_redir(t_cmd **command, t_token *tkn_temp)
+{
+	t_cmd *cmd_temp = *command;
+	char *filename = NULL;
+	t_rdct *new_node;
+	
+	if (!is_redir(tkn_temp))
+		return;
+	while (cmd_temp->next)
+		cmd_temp = cmd_temp->next;
+	new_node = create_rdct_node(cmd_temp);
+	
+	tkn_temp = tkn_temp->next;
+	while(tkn_temp && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
+	{
+		filename = ft_strjoin(filename, tkn_temp->str);
+		tkn_temp = tkn_temp->next;
+	}
+	
+	
+}
+
+void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in struct
 {
 	// compose **args 
 	// check for redirects
@@ -61,19 +120,24 @@ void parse_tokens(t_shell *shell)
 	t_token *start;
 	t_cmd *command = NULL;
 	char **arr;
+	int is_var;
 
 	while(temp)
 	{
+		is_var = 0;
 		start = temp;
-		while(temp && (temp->type != PIPE && temp->type != IN_REDIRECT)) // make it check for all redir
+		while(temp && (temp->type != PIPE && !is_redir(temp))) // make it check for all redir
 		{
+			if (temp->type == VARIABLE)
+				is_var = 1;
 			temp = temp->next;
 		}
 		arr = create_array(start, temp);
-		print_arr(arr);
-		// append_cmd_node(command, arr);
-		// check_redir(temp); // move to current / latest command
-		// temp = temp->next;
+		// print_arr(arr);
+		append_cmd_node(&command, arr, is_var);
+		check_redir(&command, temp); // move to current / latest command / look for redir and append node if needed
+		if (temp)
+			temp = temp->next;
 	}
 
 }

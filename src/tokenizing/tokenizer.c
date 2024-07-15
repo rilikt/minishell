@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 15:40:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:20:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void print_tokens(t_shell *shell)
 	t_token *temp= shell->tokens;
 	while (temp)
 	{
-		printf("-token%d- str: %s, type: %d\n", i, shell->tokens->str, shell->tokens->type);
+		printf("-token%d- str: %s, type: %d\n", i, temp->str, temp->type);
 		temp = temp->next;
 		i++;
 	}
