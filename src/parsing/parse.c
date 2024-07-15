@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 12:48:55 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:27:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,20 @@ void print_commands(t_shell *shell)
 	while(temp->commands)
 	{
 		redir_i = 1;
-		i + 0;
-		printf("-command%d- ", cmd_i);
+		i = 0;
+		printf("-command%d- :", cmd_i);
 		while (temp->commands->args[i])
 		{
 			printf("%s ", temp->commands->args[i]);
 			i++;
 		}
-		printf("is var: %d ", temp->commands->is_var);
+		printf("is var: %d var in redir %d ", temp->commands->is_var, temp->commands->var_in_redir);
 		if (temp->commands->reds)
 		{
 			printf("redirections: ");
 			while(temp->commands->reds)
 			{
-				printf("nr:%d type: %d, filename: %s ", redir_i, temp->commands->reds->type, temp->commands->reds->filename);
+				printf("nr:%d type: %d filename: %s ", redir_i, temp->commands->reds->type, temp->commands->reds->filename);
 				temp->commands->reds = temp->commands->reds->next;
 				redir_i++;
 			}
@@ -112,6 +112,7 @@ void append_cmd_node(t_cmd **head, char **arr, int is_var)
 	new_node->next = NULL;
 	new_node->reds = NULL;
 	new_node->args = arr;
+	new_node->var_in_redir = 0;
 	new_node->is_var = is_var;
 	if (*head == NULL)
 	{
@@ -124,7 +125,7 @@ void append_cmd_node(t_cmd **head, char **arr, int is_var)
 	temp->next = new_node;
 }
 
-void append_rdct_node(t_rdct **head, t_cmd **command, int type, char *filename)
+void append_rdct_node(t_cmd **command, int type, char *filename, int is_var)
 {
 	t_rdct *new_node;
 	t_rdct *temp;
@@ -135,14 +136,14 @@ void append_rdct_node(t_rdct **head, t_cmd **command, int type, char *filename)
 	new_node->next = NULL;
 	new_node->type = type;
 	new_node->filename = filename;
+	if (is_var)
+		(*command)->var_in_redir = 1;
 	if ((*command)->reds == NULL)
-		(*command)->reds = new_node;
-	if (*head == NULL)
 	{
-		*head = new_node;
+		(*command)->reds = new_node;
 		return;
 	}
-	temp = *head;
+	temp = (*command)->reds;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_node;
@@ -153,12 +154,12 @@ t_token *check_redir(t_cmd **command, t_token *tkn_temp)
 {
 	t_cmd *cmd_temp = *command;
 	char *filename = NULL;
-	t_rdct *redir = NULL;
 	int type;
+	int is_var = 0;
 	
 	if (!is_redir(tkn_temp))
 		return (tkn_temp);
-
+	printf("entered redir \n");
 	while (cmd_temp->next)
 		cmd_temp = cmd_temp->next;
 
@@ -167,11 +168,13 @@ t_token *check_redir(t_cmd **command, t_token *tkn_temp)
 
 	while(tkn_temp && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
 	{
+		if (tkn_temp->str[0] == '$')
+			is_var = 1;
 		filename = ft_strjoin(filename, tkn_temp->str); // what can be the valid input for a filename more than 1? sperated by space?
 		tkn_temp = tkn_temp->next;
 	}
 
-	append_rdct_node(&redir, &cmd_temp, type, filename);
+	append_rdct_node(&cmd_temp, type, filename, is_var);
 	tkn_temp = check_redir(command, tkn_temp);
 	return(tkn_temp);
 }
@@ -195,12 +198,12 @@ void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in 
 			temp = temp->next;
 		}
 		arr = create_array(start, temp);
-		print_arr(arr);
+		// print_arr(arr);
 		append_cmd_node(&command, arr, is_var);
 		temp = check_redir(&command, temp); // move to current / latest command / look for redir and append node if needed
 		if (temp)
 		{
-			printf("%s\n", temp->str);
+			// printf("%s\n", temp->str);
 			temp = temp->next;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 12:24:30 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:10:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_command {
 	char	**args;
 	int is_var;
 	t_rdct	*reds;
+	int var_in_redir;
 	struct s_command	*next;
 } t_cmd;
 

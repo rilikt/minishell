@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 16:20:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:33:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void tokenize(t_shell *shell)
 	{
 		while (is_whitespace(str[i]))
 			i++;
+		if (!str[i])
+			break;
 		start = i;
 		while (str[i] && !is_whitespace(str[i]))
 		{
