@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 16:41:40 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:27:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ typedef struct s_command {
 } t_cmd;
 
 typedef struct s_piping {
-	int		in[2];
-	int		out[2];
+	int		pipe[2];
+	int		last_pipe;
 } t_pipe;
 
 typedef struct s_shell {
