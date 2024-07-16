@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 10:27:46 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:19:57 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ enum e_errorcodes {
 	ERR_FORK,
 	ERR_DUP2,
 	ERR_READ,
+	ERR_CLOSE,
 } ;
 
 enum e_forkmode {
@@ -95,7 +96,7 @@ typedef struct s_shell {
 	t_token	*tokens;
 	t_cmd	*commands;
 	int		cmd_nb;
-	int		exitstatus;
+	int		*exitstatus;
 	
 } t_shell;
 
@@ -114,9 +115,17 @@ void	exit_shell(void);
 
 
 /*		executer		*/
-void	execute_commandline(t_shell *shell);
+//child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, char **envp, int mode);
-void	print_pipes(t_pipe *pipes);
+
+//execute_commandline.c
+void	execute_commandline(t_shell *shell);
+
+//piping_utils.c
+void	close_accordingly(t_pipe *pipes, int mode);
+int		*allocate_pid(int nb);
+int		*wait_for_children(int  *pid, int nb);
+void	change_std_fd(t_pipe *pipes, int mode);
 
 
 
@@ -145,12 +154,5 @@ void	print_tokens(t_shell *shell);
 int		check_operators(char *arg);
 
 void	print_list(t_cmd *head);
-
-
-
-
-
-
-
 
 #endif
