@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:33:45 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:37:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int check_variable(char *str)
 
 	while (str[i])
 	{
-		if (str[i] == '$' && !is_whitespace(str[i+1]))
+		if (str[i] == '$' && (!is_whitespace(str[i+1]) && str[i+1]))
 			return(VARIABLE);
 		i++;
 	}
@@ -36,7 +36,7 @@ int find_type(char *str)
 		{
 			if (str[0] == '|')
 				return (PIPE);
-			else if (str[0] == '$')
+			else if (str[0] == '$' && len != 1)
 				return(VARIABLE);
 			else if (str[0] == '<' && len == 1)
 				return (IN_REDIRECT);
@@ -49,9 +49,8 @@ int find_type(char *str)
 		}
 		i++;
 	}
-	if (str[0] == 34)
-		return (check_variable(str));
-	return(WORD);
+	return (check_variable(str));
+	// return(WORD);
 }
 
 t_token *create_node(char *str)

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:38:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:37:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void print_commands(t_shell *shell)
 			printf("%s ", temp->commands->args[i]);
 			i++;
 		}
-		printf("is var: %d var in redir %d ", temp->commands->is_var, temp->commands->var_in_redir);
+		printf("is var: %d var in redir:%d ", temp->commands->is_var, temp->commands->var_in_redir);
 		if (temp->commands->reds)
 		{
 			printf("redirections: ");
@@ -91,9 +91,6 @@ char **create_array(t_token *start, t_token *end)
 	arr[str_count] = NULL;
 	while (i < str_count)
 	{
-		arr[i] = (char *)malloc(ft_strlen(start->str));
-		if (!arr[i])
-			ft_error("malloc error", ERR_MALLOC);
 		arr[i] = start->str;
 		start = start->next;
 		i++;
@@ -101,7 +98,7 @@ char **create_array(t_token *start, t_token *end)
 	return (arr);
 }
 
-void append_cmd_node(t_cmd **head, char **arr, int is_var)
+void append_cmd_node(t_cmd **head)
 {
 	t_cmd *new_node;
 	t_cmd *temp;
@@ -111,9 +108,9 @@ void append_cmd_node(t_cmd **head, char **arr, int is_var)
 			ft_error("malloc error", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->reds = NULL;
-	new_node->args = arr;
+	new_node->args = NULL;
+	new_node->is_var = 0;
 	new_node->var_in_redir = 0;
-	new_node->is_var = is_var;
 	if (*head == NULL)
 	{
 		*head = new_node;
@@ -137,7 +134,7 @@ void append_rdct_node(t_cmd **command, int type, char *filename, int is_var)
 	new_node->type = type;
 	new_node->filename = filename;
 	if (is_var)
-		(*command)->var_in_redir = 1;
+		(*command)->var_in_redir++;
 	if ((*command)->reds == NULL)
 	{
 		(*command)->reds = new_node;
@@ -165,17 +162,68 @@ t_token *check_redir(t_cmd **command, t_token *tkn_temp)
 	type = tkn_temp->type;
 	tkn_temp = tkn_temp->next;
 
-	while(tkn_temp && tkn_temp->str && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
+	// while(tkn_temp && tkn_temp->str && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
+	// {
+	// 	if (tkn_temp->str[0] == '$')
+	// 		is_var = 1;
+	// 	filename = ft_strjoin(filename, tkn_temp->str); // what can be the valid input for a filename more than 1? sperated by space?
+	// 	tkn_temp = tkn_temp->next;
+	// }
+
+	if(tkn_temp)
 	{
-		if (tkn_temp->str[0] == '$')
+		filename = tkn_temp->str;
+		if (tkn_temp->type == VARIABLE)
 			is_var = 1;
-		filename = ft_strjoin(filename, tkn_temp->str); // what can be the valid input for a filename more than 1? sperated by space?
 		tkn_temp = tkn_temp->next;
 	}
 
 	append_rdct_node(&cmd_temp, type, filename, is_var);
 	tkn_temp = check_redir(command, tkn_temp);
 	return(tkn_temp);
+}
+
+char **append_array(char **arr, t_token *start, t_token *end)
+{
+	t_token *temp_start = start;
+	int str_count = 0;
+	int i = 0;
+	int len = 0;
+	char **re;
+
+	while (temp_start != end)
+	{
+		str_count++;
+		temp_start = temp_start->next;
+	}
+	while (arr[len])
+		len++;
+
+	re = (char **)malloc(str_count+len+1);
+	if (!arr)
+		ft_error("malloc error", ERR_MALLOC);
+	arr[str_count+len] = NULL;
+	while (i < len)
+	{
+		re[i] = arr[i];
+		i++;
+	}
+	while (start != end)
+	{
+		re[i] = start->str;
+		i++;
+		start = start->next;
+	}
+	return (re);
+}
+
+void store_in_cmd(t_cmd **head, char **arr, int is_var)
+{
+	t_cmd *temp = *head;
+	while (temp->next)
+		temp = temp->next;
+	temp->args = arr;
+	temp->is_var = is_var;
 }
 
 void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in struct
@@ -189,22 +237,32 @@ void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in 
 	while(temp)
 	{
 		is_var = 0;
+		append_cmd_node(&command);
 		start = temp;
 		while(temp && (temp->type != PIPE && !is_redir(temp))) // make it check for all redir
 		{
 			if (temp->type == VARIABLE)
-				is_var = 1;
+				is_var++;
 			temp = temp->next;
 		}
 		arr = create_array(start, temp);
-		// print_arr(arr);
-		append_cmd_node(&command, arr, is_var);
-		temp = check_redir(&command, temp); // move to current / latest command / look for redir and append node if needed
-		if (temp)
+		if (is_redir(temp))
 		{
-			// printf("%s\n", temp->str);
-			temp = temp->next;
+			temp = check_redir(&command, temp); // move to current / latest command / look for redir and append node if needed
+			print_arr(arr);
+			start = temp;
+			while(temp && (temp->type != PIPE && !is_redir(temp))) // make it check for all redir
+			{
+				if (temp->type == VARIABLE)
+					is_var++;
+				temp = temp->next;
+			}
+			arr = append_array(arr, start, temp);
+			print_arr(arr);
 		}
+		store_in_cmd(&command, arr, is_var);
+		if (temp)
+			temp = temp->next;
 	}
 	shell->commands = command;
 }
