@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:44:16 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:49:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,11 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, char **envp, int mode);
 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
+int		*wait_for_children(int  *pid, int nb);
 
 //piping_utils.c
 void	close_accordingly(t_pipe *pipes, int mode);
 int		*allocate_pid(int nb);
-int		*wait_for_children(int  *pid, int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
 
 

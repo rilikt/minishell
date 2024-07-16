@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/16 11:21:40 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:42:59 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,20 @@ void	close_accordingly(t_pipe *pipes, int *mode)
 {
 	if (*mode == START)
 	{
-		if (close(pipes->pipe[WRITE]) < 0);
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->pipe[WRITE]);
 		pipes->last_pipe = pipes->pipe[READ];
 		*mode = MIDDLE;
 	}
 	if (*mode == MIDDLE)
 	{
-		if (close(pipes->last_pipe) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
-		if (close(pipes->pipe[WRITE]) < 0);
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->last_pipe);
+		ft_close(pipes->pipe[WRITE]);
+
 		pipes->last_pipe = pipes->pipe[READ];
 	}
 	if (*mode == END)
 	{
-		if (close(pipes->last_pipe) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->last_pipe);
 	}
 	return ;
 }
@@ -42,52 +39,41 @@ int	*allocate_pid(int nb)
 
 	pid = (int *)malloc(sizeof(int) * nb);
 	if (!pid)
-		ft_error("malloc pid_arr\n", ERR_MALLOC);
+		ft_error("malloc pid_arr", ERR_MALLOC);
 	return (pid);
 }
-int	*wait_for_children(int  *pid, int nb)
-{
-	int	i;
-	int	*t;
 
-	t = (int *)malloc(sizeof(int) * nb);
-	if (!t)
-		ft_error("malloc failed", ERR_MALLOC);
-	i = -1;
-	while (++i < nb)
-	{
-		waitpid(pid[i], &t[i], 0);
-	}
-	free(pid);
-	pid = NULL;
-	return ;
+void ft_close(int fd)
+{
+	if (close(fd) < 0)
+		ft_error("oh shit close failed!", ERR_CLOSE);
+}
+void ft_dup2(int new, int old)
+{
+	if (dup2(new, old) < 0)
+		ft_error("oh shit, dup2 failed!", ERR_DUP2);
 }
 
 void	change_std_fd(t_pipe *pipes, int mode)
 {
 	if (mode == START)
 	{
-		if (close(pipes->pipe[READ]) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
-		dup2(pipes->pipe[WRITE], STDOUT_FILENO);
-		if (close(pipes->pipe[WRITE]) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->pipe[READ]);
+		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO);
+		ft_close(pipes->pipe[WRITE]);
 	}
 	else if (mode == MIDDLE)
 	{
-		if (close(pipes->pipe[READ]) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
-		dup2(pipes->last_pipe, STDIN_FILENO);
-		if (close(pipes->last_pipe) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
-		dup2(pipes->pipe[WRITE], STDOUT_FILENO);
-		if (close(pipes->pipe[WRITE]) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->pipe[READ]);
+		ft_dup2(pipes->last_pipe, STDIN_FILENO);
+		ft_close(pipes->last_pipe);
+		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO);
+		ft_close(pipes->pipe[WRITE]);
+
 	}
 	else if (mode == END)
 	{
 		dup2(pipes->last_pipe, STDIN_FILENO);
-		if (close(pipes->last_pipe) < 0)
-			ft_error("oh shit!", ERR_CLOSE);
+		ft_close(pipes->last_pipe);
 	}
 }
