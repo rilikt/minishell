@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 18:31:17 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:57:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int		is_whitespace(char c);
 int		is_operator(char *str, int *input_i);
 int		in_qoutes(char *str, int *input_i);
 void	append_node(t_token **head, char *str);
-int		operator_check(char c, int *input_i);
+int		operator_check(char *str, int *input_i);
 void	print_tokens(t_shell *shell);
 int		check_operators(char *arg);
 

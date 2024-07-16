@@ -6,11 +6,29 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:40:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:35:40 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
+
+char *rm_qoutes(char *str)
+{
+	int i = 0;
+
+	if (str[i] != 34 && str[i] != 39)
+		return (str);
+	int len = ft_strlen(str) - 2;
+	char *re = (char *)malloc(len);
+	re[len] = '\0';
+	while (i < len)
+	{
+		re[i] = str[i+1];
+		i++;
+	}
+	free (str);
+	return (re);
+}
 
 void tokenize(t_shell *shell)
 {
@@ -33,25 +51,36 @@ void tokenize(t_shell *shell)
 				break;
 			else if (is_operator(str, &i))
 				break;
-			else if (operator_check(str[i+1], &i))
+			else if (operator_check(&str[i+1], &i))
 				break;
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
+		token_str = rm_qoutes(token_str);
 		append_node(&token, token_str);
 	}
 	shell->tokens = token;
 }
 
-int operator_check(char c, int *input_i)
+int operator_check(char *str, int *input_i)
 {
-	char *operator = "|<>$";
+	char *operator = "|<>";
 	int i = 0;
 
 	while (operator[i])
 	{
-		if (c == operator[i])
+		if (str[0] == operator[i])
 		{
+			if (operator[i] == '$')
+			{
+				if (!is_whitespace(str[1]))
+				{
+					*input_i += 1;
+					return(1);
+				}
+				else
+					return (0);
+			}
 			*input_i += 1;
 			return(1);
 		}
@@ -87,7 +116,7 @@ int in_qoutes(char *str, int *input_i)
 	if (str[i] != 34 && str[i] != 39)
 		return (0);
 	i++;
-	while(str[i] && (str[i] != 34 && str[i] != 39))
+	while(str[i] && (str[i] != str[start]))
 		i++;
 	if (str[i] != str[start]) // need to check with which quotes it started to know which ones have to close
 		ft_error("qoutes not closed", ERR_SYNTAX); // error handle, exit shell
