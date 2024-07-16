@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 16:06:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:45:52 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int main(int argc, char **argv, char **envp)
 	
 		tokenize(&shell);
 
-		add_history(shell.input);
-
 		print_tokens(&shell);
 
-		// parse(&shell);
+		parse_tokens(&shell);
+
+		print_commands(&shell);
 
 		// expand_and_execute(&shell);
 	}

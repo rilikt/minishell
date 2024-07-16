@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:19:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:44:16 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ typedef struct s_tokenlist {
 
 typedef struct s_command {
 	char	**args;
+	int is_var;
 	t_rdct	*reds;
+	int var_in_redir;
 	struct s_command	*next;
 } t_cmd;
 
@@ -139,7 +141,9 @@ void	signal_handle(int signum);
 
 
 /*		parser			*/
-void	parse_input(char **arg);
+void parse_tokens(t_shell *shell);
+void print_commands(t_shell *shell);
+
 
 
 /*		tokenizer		*/
@@ -148,11 +152,16 @@ void	tokenize(t_shell *shell);
 int		is_whitespace(char c);
 int		is_operator(char *str, int *input_i);
 int		in_qoutes(char *str, int *input_i);
-void	append_node(t_token **head, char *str, t_shell *shell);
+void	append_node(t_token **head, char *str);
 int		operator_check(char c, int *input_i);
 void	print_tokens(t_shell *shell);
 int		check_operators(char *arg);
 
-void	print_list(t_cmd *head);
+
+
+
+
+
+
 
 #endif

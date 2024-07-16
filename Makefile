@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/13 16:35:22 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/07/14 15:32:45 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ BUILTINS :=	directory.c\
 			env.c
 ERR_UTILS:=	error.c\
 			utils.c
-EXECUTING:= execute_commands.c
+EXECUTING:= # execute_commands.c
 EXPANDING:=
 MDE_SGNL :=	signals.c
-PARSING  :=	parse_input.c
+PARSING  :=	parse.c
 TOKENIZER:=	read_input.c\
 			token_list.c\
 			tokenizer.c
