@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 14:33:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:40:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void tokenize(t_shell *shell)
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
-		append_node(&token, token_str, shell);
+		append_node(&token, token_str);
 	}
 	shell->tokens = token;
 }
@@ -91,11 +91,8 @@ int in_qoutes(char *str, int *input_i)
 		i++;
 	if (str[i] != str[start]) // need to check with which quotes it started to know which ones have to close
 		ft_error("qoutes not closed", ERR_SYNTAX); // error handle, exit shell
-	else
-	{
-		*input_i = i + 1; // to move behind the quote
-		return (1);
-	}
+	*input_i = i + 1; // to move behind the quote
+	return (1);
 }
 
 int is_whitespace(char c)
@@ -124,25 +121,3 @@ void print_tokens(t_shell *shell)
 		i++;
 	}
 }
-
-// int check_operators(char *arg)
-// {
-// 	char *operators[1][5] = {"|", "<", ">", "<<", ">>"};  // have an array of viable operators maybe already ordered in priority
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	j = 0;
-// 	if (arg[0] == '$') //env variable
-// 		return (0); //return for now env variables will be handled in the execution
-// 	if (ft_strlen(arg) > 2) // no operators that a larger than 2 chars 
-// 		return (0);
-
-// 	while (i < 5)
-// 	{
-// 		if (!ft_strncmp(arg, operators[0][i], ft_strlen(arg)))
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }

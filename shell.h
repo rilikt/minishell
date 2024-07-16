@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 14:10:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:46:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	tokenize(t_shell *shell);
 int		is_whitespace(char c);
 int		is_operator(char *str, int *input_i);
 int		in_qoutes(char *str, int *input_i);
-void	append_node(t_token **head, char *str, t_shell *shell);
+void	append_node(t_token **head, char *str);
 int		operator_check(char c, int *input_i);
 void	print_tokens(t_shell *shell);
 int		check_operators(char *arg);

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 14:27:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:38:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,13 @@ t_token *check_redir(t_cmd **command, t_token *tkn_temp)
 	
 	if (!is_redir(tkn_temp))
 		return (tkn_temp);
-	printf("entered redir \n");
 	while (cmd_temp->next)
 		cmd_temp = cmd_temp->next;
 
 	type = tkn_temp->type;
 	tkn_temp = tkn_temp->next;
 
-	while(tkn_temp && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
+	while(tkn_temp && tkn_temp->str && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
 	{
 		if (tkn_temp->str[0] == '$')
 			is_var = 1;
@@ -210,18 +209,3 @@ void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in 
 	shell->commands = command;
 }
 
-// void parse_input(char **arg)
-// {
-// 	t_cmd *cmd = NULL;
-// 	int i = 0;
-// 	int j = 0;
-
-// 	while(arg[i])
-// 	{
-// 		if (check_operators(arg[i]))	// if no operator found it has to be a single command 
-// 			append_node(&cmd, arg, i);	// maybe iterate trough it muliple times changing operator based on priority
-			
-// 		i++;
-// 	}
-// 	print_list(cmd);
-// }

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 12:16:19 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:45:52 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int main(int argc, char **argv, char **envp)
 		shell.input = read_input();
 	
 		tokenize(&shell);
-
-		add_history(shell.input);
 
 		print_tokens(&shell);
 

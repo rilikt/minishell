@@ -6,12 +6,11 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/14 14:46:31 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:33:45 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
-
 
 int check_variable(char *str)
 {
@@ -25,7 +24,6 @@ int check_variable(char *str)
 	}
 	return(WORD);
 }
-
 
 int find_type(char *str)
 {
@@ -72,7 +70,7 @@ t_token *create_node(char *str)
 	return (new_node);
 }
 
-void is_heredoc(t_token *node, t_shell *shell)
+void is_heredoc(t_token *node)
 {
 	if (node->prev->type != IN_HEREDOC)
 		return;
@@ -82,20 +80,18 @@ void is_heredoc(t_token *node, t_shell *shell)
 	char *delimiter = node->str;
 	while(1)
 	{
-		line = readline("heredoc > ");
+		line = readline("> ");
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
 			break;
 		line = ft_strjoin(line, "\n");
 		input = ft_strjoin(input, line);
 	}
 	node->str = input;
-	node->type = check_variable(input);
-	input = ft_strjoin(input, delimiter);
-	shell->input = ft_strjoin(shell->input, "\n");
-	shell->input = ft_strjoin(shell->input, input);
+	if (input)
+		node->type = check_variable(input);
 }
 
-void append_node(t_token **head, char *str, t_shell *shell)
+void append_node(t_token **head, char *str)
 {
 	t_token *new_node;
 	t_token *temp;
@@ -111,6 +107,6 @@ void append_node(t_token **head, char *str, t_shell *shell)
 		temp = temp->next;
 	temp->next = new_node;
 	new_node->prev = temp;
-	is_heredoc(new_node, shell);
+	is_heredoc(new_node);
 	return ;
 }
