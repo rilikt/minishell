@@ -7,3 +7,4 @@ a.out
 shell.h.gch
 src/executing/a.out.dSYM/
 src/executing/hallo.txt
+*.swp
