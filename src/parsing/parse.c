@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 16:37:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:12:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,8 @@ t_token *check_redir(t_cmd **command, t_token *tkn_temp)
 
 	type = tkn_temp->type;
 	tkn_temp = tkn_temp->next;
-
-	// while(tkn_temp && tkn_temp->str && (tkn_temp->type != PIPE && !is_redir(tkn_temp)))
-	// {
-	// 	if (tkn_temp->str[0] == '$')
-	// 		is_var = 1;
-	// 	filename = ft_strjoin(filename, tkn_temp->str); // what can be the valid input for a filename more than 1? sperated by space?
-	// 	tkn_temp = tkn_temp->next;
-	// }
+	if (tkn_temp->type == PIPE)
+		ft_error("redir syntax error", ERR_SYNTAX);
 
 	if(tkn_temp)
 	{
@@ -239,17 +233,28 @@ void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in 
 		is_var = 0;
 		append_cmd_node(&command);
 		start = temp;
+		
 		while(temp && (temp->type != PIPE && !is_redir(temp))) // make it check for all redir
 		{
 			if (temp->type == VARIABLE)
 				is_var++;
 			temp = temp->next;
 		}
+		if (temp->type == PIPE)
+		{
+			if (!temp->next)
+				ft_error("pipe syntax error", ERR_SYNTAX);
+			else if(temp->next->type == PIPE)
+				ft_error("pipe syntax error", ERR_SYNTAX);
+			else if (temp == shell->tokens)
+				ft_error("pipe syntax error", ERR_SYNTAX);
+		}
 		arr = create_array(start, temp);
+		
 		if (is_redir(temp))
 		{
 			temp = check_redir(&command, temp); // move to current / latest command / look for redir and append node if needed
-			print_arr(arr);
+			// print_arr(arr);
 			start = temp;
 			while(temp && (temp->type != PIPE && !is_redir(temp))) // make it check for all redir
 			{
@@ -257,13 +262,18 @@ void parse_tokens(t_shell *shell) // how to index env variables $$ ? no type in 
 					is_var++;
 				temp = temp->next;
 			}
+			if (temp->type == PIPE)
+			{
+				if (temp->next->type == PIPE || !temp->next)
+					ft_error("pipe syntax error", ERR_SYNTAX);
+			}
 			arr = append_array(arr, start, temp);
-			print_arr(arr);
+			// print_arr(arr);
 		}
+		
 		store_in_cmd(&command, arr, is_var);
 		if (temp)
 			temp = temp->next;
 	}
 	shell->commands = command;
 }
-

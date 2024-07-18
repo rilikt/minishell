@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/17 12:47:56 by timschmi         ###   ########.fr       */
+/*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
+/*   Updated: 2024/07/17 12:45:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-// void print_env(char **arg, t_shell *shell) // prints out env from extern char **environ we might have to create our own env don't know
-// {
-	// char **env = shell->envp;
+void ft_echo(char **args)
+{
+	int i = 1;
+	int n = 1;
 
-// 	if (arg[1])
-// 	{
-// 		write(2, "env : too many arguments\n", 25);
-// 		return;
-// 	}
-
-// 	while (*env != NULL)
-// 	{
-// 		printf("%s\n", *env);
-// 		env++;
-// 	}
-// 	return ;
-// }
+	if (!ft_strncmp(args[i], "-n", 3))
+	{
+		n = 0;
+		i++;
+	}
+	while(args[i])
+	{
+		printf("%s", args[i]); // use printf or write?
+		i++;
+	}
+	if (n)
+		printf("\n");
+}
