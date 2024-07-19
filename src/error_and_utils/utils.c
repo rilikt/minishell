@@ -6,11 +6,49 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 11:39:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:20:57 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
+
+
+void free_struct(t_shell *shell)
+{
+	t_shell *temp = shell;
+	t_token *temp_tkn;
+	t_cmd	*temp_cmd;
+	t_rdct	*temp_redir;
+
+	int cmd_i = 1;
+	int redir_i = 0;
+	int i = 0;
+
+	while(temp->tokens)
+	{
+		temp_tkn = temp->tokens;
+		temp->tokens = temp->tokens->next;
+		free(temp_tkn->str);
+		free(temp_tkn);
+	}
+	while (temp->commands)
+	{
+		temp_cmd = temp->commands;
+		temp->commands = temp->commands->next;
+		if (temp_cmd->reds)
+		{
+			while (temp_cmd->reds)
+			{
+				temp_redir = temp_cmd->reds;
+				temp_cmd->reds = temp_cmd->reds->next;
+				free(temp_redir);
+			}
+		}
+		free(temp_cmd->args);
+		free(temp_cmd);
+	}
+}
+
 
 // void clean_shell(char **str)
 // {

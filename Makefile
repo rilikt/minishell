@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/14 15:32:45 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/19 09:57:20 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ ERR_UTILS:=	error.c\
 EXECUTING:= # execute_commands.c
 EXPANDING:=
 MDE_SGNL :=	signals.c
-PARSING  :=	parse.c
+PARSING  :=	parse.c\
+			parse_redir.c
 TOKENIZER:=	read_input.c\
 			token_list.c\
 			tokenizer.c

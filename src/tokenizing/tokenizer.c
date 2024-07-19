@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 17:35:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:09:52 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,16 @@ int operator_check(char *str, int *input_i)
 	{
 		if (str[0] == operator[i])
 		{
-			if (operator[i] == '$')
-			{
-				if (!is_whitespace(str[1]))
-				{
-					*input_i += 1;
-					return(1);
-				}
-				else
-					return (0);
-			}
+			// if (operator[i] == '$')
+			// {
+			// 	if (!is_whitespace(str[1]))
+			// 	{
+			// 		*input_i += 1;
+			// 		return(1);
+			// 	}
+			// 	else
+			// 		return (0);
+			// }
 			*input_i += 1;
 			return(1);
 		}
