@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:21:47 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:43:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void print_arr(char **arr)
+void	print_arr(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (arr[i])
 	{
 		printf("%s\n", arr[i]);
@@ -22,17 +24,20 @@ void print_arr(char **arr)
 	}
 }
 
-void print_commands(t_shell *shell)
+void	print_commands(t_shell *shell)
 {
+	t_cmd	*temp;
+	t_rdct	*temp_redir;
+	int		cmd_i;
+	int		redir_i;
+	int		i;
+
 	// t_shell *temp = shell;
-	t_cmd *temp = shell->commands;
-	t_rdct *temp_redir;
-
-	int cmd_i = 1;
-	int redir_i = 0;
-	int i = 0;
-
-	while(temp)
+	temp = shell->commands;
+	cmd_i = 1;
+	redir_i = 0;
+	i = 0;
+	while (temp)
 	{
 		redir_i = 1;
 		i = 0;
@@ -47,9 +52,10 @@ void print_commands(t_shell *shell)
 		{
 			printf("redirections: ");
 			temp_redir = temp->reds;
-			while(temp_redir)
+			while (temp_redir)
 			{
-				printf("nr:%d type: %d filename: %s ", redir_i, temp->reds->type, temp->reds->filename);
+				printf("nr:%d type: %d filename: %s ", redir_i,
+					temp->reds->type, temp->reds->filename);
 				temp_redir = temp_redir->next;
 				redir_i++;
 			}

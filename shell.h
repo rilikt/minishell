@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:36:48 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:49:17 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,31 +136,51 @@ char	**split_and_arrange_cmd(char **args);
 void	signal_handle(int signum);
 
 /*		parser			*/
-void parse_tokens(t_shell *shell);
-void print_commands(t_shell *shell);
-int is_redir(t_token *token);
-void append_rdct_node(t_cmd **command, int type, char *filename, int is_var);
-t_token *check_redir(t_cmd **command, t_token *tkn_temp);
-void print_arr(char **arr);
-char **create_array(t_token *start, t_token *end);
-char **append_array(char **arr, t_token *start, t_token *end);
-void append_cmd_node(t_cmd **head);
-void store_in_cmd(t_cmd **head, char **arr, int is_var);
 
+//parse_nodes.c
+char	**create_array(t_token *start, t_token *end);
+char	**append_array(char **arr, t_token *start, t_token *end);
+void	append_cmd_node(t_cmd **head);
+void	store_in_cmd(t_cmd **head, char **arr, int is_var);
 
+//parse_redir.c
+t_token	*check_redir(t_cmd **command, t_token *tkn_temp);
+void	append_rdct_node(t_cmd **command, int type, char *filename, int is_var);
+int		is_redir(t_token *token);
+
+// parse_utils.c
+void	print_commands(t_shell *shell);
+void	print_arr(char **arr);
+
+//parse.c
+void	while_not_op(t_token **temp, int *is_var, t_token *start);
+void	parse_tokens(t_shell *shell);
 
 /*		general utils	*/
-void free_struct(t_shell *shell);
+void	free_struct(t_shell *shell);
 
 /*		tokenizer		*/
+
+//read_input.c
+int		check_whitespace(char *input);
 char	*read_input(void);
+
+//token_list.c
+int		check_variable(char *str);
+int		find_type(char *str);
+t_token	*create_node(char *str);
+void	is_heredoc(t_token *node);
+void	append_node(t_token **head, char *str);
+
+//tokenizer.c
+char	*rm_qoutes(char *str);
 void	tokenize(t_shell *shell);
-int		is_whitespace(char c);
+int		operator_check(char *str, int *input_i);
 int		is_operator(char *str, int *input_i);
 int		in_qoutes(char *str, int *input_i);
-void	append_node(t_token **head, char *str);
-int		operator_check(char *str, int *input_i);
+int		is_whitespace(char c);
 void	print_tokens(t_shell *shell);
-int		check_operators(char *arg);
+
+// int		check_operators(char *arg);
 
 #endif

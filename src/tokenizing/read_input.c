@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/15 14:45:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:45:24 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int check_whitespace(char *input) // checks if the string only contains whitespace
+// checks if the string only contains whitespace
+int	check_whitespace(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (input[i] && input[i] != '\n')
 	{
-		if (input[i] > 32) // ascii values below 32
+		if (input[i] > 32)
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-char *read_input(void)
+char	*read_input(void)
 {
-	char *input = NULL;
-	char path[1024];
-	char *rl_str;
+	char	*input;
+	char	path[1024];
+	char	*rl_str;
 
+	input = NULL;
 	getcwd(path, sizeof(path));
 	rl_str = ft_strjoin(path, " > ");
-	input = readline(rl_str); // readline returns 0 on EOF
+	input = readline(rl_str);
 	if (!input)
 	{
 		free(input);
@@ -46,8 +47,6 @@ char *read_input(void)
 		free(input);
 		input = read_input();
 	}
-	
 	add_history(input);
-	
 	return (input);
 }
