@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:49:17 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:59:16 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ typedef struct s_tokenlist {
 }	t_token;
 
 typedef struct s_command {
-	char	**args;
-	int		is_var;
-	t_rdct	*reds;
-	int		var_in_redir;
+	char				**args;
+	int					is_var;
+	t_rdct				*reds;
+	int					var_in_redir;
 	struct s_command	*next;
 }	t_cmd;
 
@@ -105,7 +105,7 @@ void	display_pwd(char **arg);
 void	print_env(char **arg);
 
 /*		error and utils	*/
-void	ft_fatal_error(char *msg, int errorcode);
+void	ft_error(char *msg, int errorcode);
 void	error_check(void *ptr, char *msg, int error_code);
 void	clean_shell(char **str);
 void	exit_shell(void);

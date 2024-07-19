@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 16:14:16 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:57:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	pipe_mode_check(t_pipe *pipes, int *mode, int i, int cmd_nb)
 	if (i == cmd_nb - 1)
 		*mode = END;
 	if (mode != END && pipe(&pipes->pipe) < 0)
-			ft_error("pipe filed", ERR_PIPE);
+		ft_error("pipe filed", ERR_PIPE);
 	return ;
 }
 
-int	wait_for_children(int  *pid, int nb)
+int	wait_for_children(int *pid, int nb)
 {
 	int	i;
 	int	*t;
@@ -46,7 +46,7 @@ void	execute_commandline(t_shell *shell)
 	t_pipe	pipes;
 	int		mode;
 	t_cmd	*tmp;
-	
+
 	tmp = shell->commands;
 	pid = allocate_pid(shell->cmd_nb - 1);
 	mode = START;

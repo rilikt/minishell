@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/17 12:03:58 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:56:54 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	ft_fatal_error(char *msg, int errorcode)
+void	ft_error(char *msg, int errorcode)
 {
 	if (msg)
 		write(STDERR_FILENO, msg, ft_strlen(msg));

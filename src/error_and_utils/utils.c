@@ -3,28 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/18 15:20:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:58:10 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-
-void free_struct(t_shell *shell)
+void	free_struct(t_shell *shell)
 {
-	t_shell *temp = shell;
-	t_token *temp_tkn;
+	t_shell	*temp;
+	t_token	*temp_tkn;
 	t_cmd	*temp_cmd;
 	t_rdct	*temp_redir;
+	int		cmd_i;
+	int		redir_i;
+	int		i;
 
-	int cmd_i = 1;
-	int redir_i = 0;
-	int i = 0;
-
-	while(temp->tokens)
+	temp = shell;
+	cmd_i = 1;
+	redir_i = 0;
+	i = 0;
+	while (temp->tokens)
 	{
 		temp_tkn = temp->tokens;
 		temp->tokens = temp->tokens->next;
@@ -49,7 +51,6 @@ void free_struct(t_shell *shell)
 	}
 }
 
-
 // void clean_shell(char **str)
 // {
 // 	int i;
@@ -69,7 +70,9 @@ void free_struct(t_shell *shell)
 
 // 	while (temp)
 // 	{
-// 		printf("operator: %s, command1: %s, argument1: %s, command2: %s, argument2: %s\n", temp->op, temp->cmd1, temp->arg1, temp->cmd2, temp->arg2);
+// 		printf("operator: %s, command1: %s, argument1: %s, command2: %s,
+			// argument2: %s\n", temp->op, temp->cmd1, temp->arg1, temp->cmd2,
+			// temp->arg2);
 // 		temp = temp->next;
 // 	}
 // }
@@ -127,7 +130,7 @@ void free_struct(t_shell *shell)
 // 	if (*head == NULL)
 // 	{
 // 		*head = new_node;
-// 		return;
+// 		return ;
 // 	}
 // 	temp = *head;
 // 	while (temp->next)
