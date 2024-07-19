@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 09:53:43 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:24:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ void print_commands(t_shell *shell);
 int is_redir(t_token *token);
 void append_rdct_node(t_cmd **command, int type, char *filename, int is_var);
 t_token *check_redir(t_cmd **command, t_token *tkn_temp);
+void print_arr(char **arr);
+char **create_array(t_token *start, t_token *end);
+char **append_array(char **arr, t_token *start, t_token *end);
+void append_cmd_node(t_cmd **head);
+void store_in_cmd(t_cmd **head, char **arr, int is_var);
 
 
 
