@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:59:16 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:06:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,18 @@ enum e_pipeends {
 	WRITE,
 } ;
 
+enum e_builtins {
+	NOT_SET,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+	EXTERN,
+} ;
+
 enum e_type {
 	WORD,
 	VARIABLE,
@@ -64,6 +76,8 @@ enum e_mode {
 typedef struct s_redirect {
 	int					type;
 	char				*filename;
+	int					in_fd;
+	int					out_fd;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -78,6 +92,7 @@ typedef struct s_tokenlist {
 typedef struct s_command {
 	char				**args;
 	int					is_var;
+	int					builtin_flag;
 	t_rdct				*reds;
 	int					var_in_redir;
 	struct s_command	*next;
@@ -113,6 +128,8 @@ void	exit_shell(void);
 /*		executer		*/
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
+void	check_builtins(t_cmd *cmd, char **envp);
+char *get_path(char *cmd);
 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
@@ -122,6 +139,11 @@ int		wait_for_children(int *pid, int nb);
 void	close_accordingly(t_pipe *pipes, int mode);
 int		*allocate_pid(int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
+
+//redirecting.c
+void	change_input_fd(t_rdct *reds);
+void	channge_output_fd_trunc(t_rdct *reds, int mode);
+void	redirect_accordingly(t_rdct *reds);
 
 /*		expander		*/
 
