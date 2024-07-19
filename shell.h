@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:26:28 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:36:48 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ typedef struct s_tokenlist {
 }	t_token;
 
 typedef struct s_command {
-	char				**args;
-	int					is_var;
-	t_rdct				*reds;
-	int					var_in_redir;
+	char	**args;
+	int		is_var;
+	t_rdct	*reds;
+	int		var_in_redir;
 	struct s_command	*next;
 }	t_cmd;
 
@@ -136,8 +136,21 @@ char	**split_and_arrange_cmd(char **args);
 void	signal_handle(int signum);
 
 /*		parser			*/
-void	parse_tokens(t_shell *shell);
-void	print_commands(t_shell *shell);
+void parse_tokens(t_shell *shell);
+void print_commands(t_shell *shell);
+int is_redir(t_token *token);
+void append_rdct_node(t_cmd **command, int type, char *filename, int is_var);
+t_token *check_redir(t_cmd **command, t_token *tkn_temp);
+void print_arr(char **arr);
+char **create_array(t_token *start, t_token *end);
+char **append_array(char **arr, t_token *start, t_token *end);
+void append_cmd_node(t_cmd **head);
+void store_in_cmd(t_cmd **head, char **arr, int is_var);
+
+
+
+/*		general utils	*/
+void free_struct(t_shell *shell);
 
 /*		tokenizer		*/
 char	*read_input(void);

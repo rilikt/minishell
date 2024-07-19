@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 17:37:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:38:12 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int find_type(char *str)
 		i++;
 	}
 	return (check_variable(str));
-	// return(WORD);
 }
 
 t_token *create_node(char *str)

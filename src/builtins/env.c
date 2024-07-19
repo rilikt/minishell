@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 15:59:36 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:47:56 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-// void print_env(char **arg) // prints out env from extern char **environ we might have to create our own env don't know
+// void print_env(char **arg, t_shell *shell) // prints out env from extern char **environ we might have to create our own env don't know
 // {
-	
+	// char **env = shell->envp;
 
 // 	if (arg[1])
 // 	{

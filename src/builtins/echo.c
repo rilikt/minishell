@@ -1,42 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:36:58 by timschmi         ###   ########.fr       */
+/*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
+/*   Updated: 2024/07/17 12:45:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../shell.h"
+#include "../../shell.h"
 
-int main(int argc, char **argv, char **envp)
+void ft_echo(char **args)
 {
-	t_shell	shell;
+	int i = 1;
+	int n = 1;
 
-	// setup_shell(&shell);
-	go_home(); //moves to "root" dir of the user
-	while(1)
+	if (!ft_strncmp(args[i], "-n", 3))
 	{
-		shell.input = read_input();
-	
-		tokenize(&shell);
-
-		print_tokens(&shell);
-
-		parse_tokens(&shell);
-
-		print_commands(&shell);
-		
-		// free_struct(&shell);
-
-		// expand_and_execute(&shell);
-
+		n = 0;
+		i++;
 	}
-
-	// clean_shell(&shell);
-
-	return (0);
+	while(args[i])
+	{
+		printf("%s", args[i]); // use printf or write?
+		i++;
+	}
+	if (n)
+		printf("\n");
 }
