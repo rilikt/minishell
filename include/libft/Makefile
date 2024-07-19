@@ -20,7 +20,7 @@ $(NAME): $(OBJFILES)
 	@ar -rcs $(NAME) $(OBJFILES)
 
 $(OBJFILES): $(CFILES)
-	@$(CC) -c $(CFLAGS) $(CFILES)
+	@$(CC) -c $(CFLAGS) $(CFILES) -g
 
 $(BONUSOBJ): $(BONUSCF)
 	@$(CC) -c $(CFLAGS) $(BONUSCF) -g

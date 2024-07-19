@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:27:03 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/03/11 17:19:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:12:41 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlcpy(char *dest, char *src, unsigned int size)
 	size_t	src_len;
 
 	src_len = 0;
+	if (!src)
+		return(0);
 	while (src[src_len])
 		++src_len;
 	while (size > 0 && *src)

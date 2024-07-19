@@ -6,26 +6,26 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/16 18:57:11 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/19 11:26:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHELL_H
 # define SHELL_H
 
-#include "include/libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <dirent.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/wait.h>
+# include "include/libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <dirent.h>
+# include <errno.h>
+# include <string.h>
+# include <sys/wait.h>
 
 enum e_errorcodes {
-	ERR_MALLOC = 1,
+	ERR_MALLOC = ENOMEM,
 	ERR_SYNTAX,
 	ERR_PIPE,
 	ERR_FORK,
@@ -62,11 +62,10 @@ enum e_mode {
 } ;
 
 typedef struct s_redirect {
-	int		type;
-	char	*filename;
+	int					type;
+	char				*filename;
 	struct s_redirect	*next;
-} t_rdct;
-
+}	t_rdct;
 
 typedef struct s_tokenlist {
 	int					type;
@@ -74,21 +73,20 @@ typedef struct s_tokenlist {
 	int					index;
 	struct s_tokenlist	*prev;
 	struct s_tokenlist	*next;
-} t_token;
-
+}	t_token;
 
 typedef struct s_command {
-	char	**args;
-	int		is_var;
-
-	int		var_in_redir;
+	char				**args;
+	int					is_var;
+	t_rdct				*reds;
+	int					var_in_redir;
 	struct s_command	*next;
-} t_cmd;
+}	t_cmd;
 
 typedef struct s_piping {
 	int		pipe[2];
 	int		last_pipe;
-} t_pipe;
+}	t_pipe;
 
 typedef struct s_shell {
 	int		mode;
@@ -98,9 +96,7 @@ typedef struct s_shell {
 	t_cmd	*commands;
 	int		cmd_nb;
 	int		exitstatus;
-	
-} t_shell;
-
+}	t_shell;
 
 /*		builtins		*/
 void	go_home(void);
@@ -108,12 +104,11 @@ void	change_directory(char **arg);
 void	display_pwd(char **arg);
 void	print_env(char **arg);
 
-
 /*		error and utils	*/
-void	ft_error(char *msg, int errorcode);
+void	ft_fatal_error(char *msg, int errorcode);
+void	error_check(void *ptr, char *msg, int error_code);
 void	clean_shell(char **str);
 void	exit_shell(void);
-
 
 /*		executer		*/
 //child.c
@@ -121,7 +116,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
-int		wait_for_children(int  *pid, int nb);
+int		wait_for_children(int *pid, int nb);
 
 //piping_utils.c
 void	close_accordingly(t_pipe *pipes, int mode);
@@ -129,19 +124,20 @@ int		*allocate_pid(int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
 
 /*		expander		*/
-//expanding.c
-void	expande(t_cmd *cmd, char **envp);
 
+//expanding.c
+void	expand_cmd(t_cmd *cmd, int exitstatus);
+
+//expanding_utils.c
+void	check_char_behind(char **pos, char **tmp);
+char	**split_and_arrange_cmd(char **args);
 
 /*		mode_nd_signals	*/
 void	signal_handle(int signum);
 
-
 /*		parser			*/
-void parse_tokens(t_shell *shell);
-void print_commands(t_shell *shell);
-
-
+void	parse_tokens(t_shell *shell);
+void	print_commands(t_shell *shell);
 
 /*		tokenizer		*/
 char	*read_input(void);

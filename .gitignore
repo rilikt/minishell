@@ -1,6 +1,6 @@
 .vscode
 minishell
-a.out
+*.out
 *.o
 *.a
 .DS_Store
@@ -9,3 +9,5 @@ src/executing/a.out.dSYM/
 src/executing/hallo.txt
 *.swp
 *.txt
+*.h.gch
+*.dSYM
