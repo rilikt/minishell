@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:30:45 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:06:46 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void parse_tokens(t_shell *shell)
 	t_token *temp = shell->tokens;
 	t_token *start;
 	t_cmd *command = NULL;
+	shell->cmd_nb = 0;
 	int is_var;
 	char **arr;
 
@@ -56,6 +57,7 @@ void parse_tokens(t_shell *shell)
 		store_in_cmd(&command, arr, is_var);
 		if (temp)
 			temp = temp->next;
+		shell->cmd_nb++;
 	}
 	shell->commands = command;
 }
