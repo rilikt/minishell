@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/19 18:06:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:34:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,19 @@ void	change_input_fd(t_rdct *reds)
 {
 	reds->in_fd = open(reds->filename, O_RDONLY);
 	if (reds->in_fd < 0)
-		error_return();
-	if (dup2(reds->in_fd, STDIN_FILENO) < 0)
-		ft_error("dup2 failed", ERR_DUP2);
-	close(reds->in_fd);
+		ft_error("couldnt open file", ERR_OPEN);
+	ft_dup2(reds->in_fd, STDIN_FILENO);
+	ft_close(reds->in_fd);
 	return ;
 }
 
-void	channge_output_fd_trunc(t_rdct *reds, int mode)
+void	change_output_fd(t_rdct *reds, int mode)
 {
 	reds->out_fd = open(reds->filename, O_WRONLY, mode);
 	if (reds->out_fd < 0)
-		error_return();
-	if (dup2(reds->out_fd, STDOUT_FILENO) < 0)
-		ft_error("dup2 failed", ERR_DUP2);
-	close(reds->out_fd);
+		ft_error("couldnt open file", ERR_OPEN);
+	ft_dup2(reds->out_fd, STDOUT_FILENO);
+	ft_close(reds->out_fd);
 	return ;
 }
 

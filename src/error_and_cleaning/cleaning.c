@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:58:10 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:24:09 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,19 @@ void	free_struct(t_shell *shell)
 	}
 }
 
-// void clean_shell(char **str)
-// {
-// 	int i;
 
-// 	i = 0;
-// 	while(str[i])
-// 	{
-// 		free(str[i]);
-// 		i++;
-// 	}
-// 	free(str);
-// }
+void free_string_array(char **str)
+{
+	int i;
+
+	i = 0;
+	while(str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
 
 // void print_list(t_cmd *head)
 // {

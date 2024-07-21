@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 18:06:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:34:38 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ enum e_errorcodes {
 	ERR_PIPE,
 	ERR_FORK,
 	ERR_DUP2,
+	ERR_OPEN,
 	ERR_READ,
 	ERR_CLOSE,
 	ERR_SPLIT,
+	ERR_PATH = 127,
 } ;
 
 enum e_forkmode {
@@ -47,7 +49,7 @@ enum e_pipeends {
 } ;
 
 enum e_builtins {
-	NOT_SET,
+	NOT_SET = -1,
 	ECHO,
 	CD,
 	PWD,
@@ -104,45 +106,64 @@ typedef struct s_piping {
 }	t_pipe;
 
 typedef struct s_shell {
-	int		mode;
-	char	**envp;
-	char	*input;
-	t_token	*tokens;
-	t_cmd	*commands;
-	int		cmd_nb;
-	int		exitstatus;
+	int					mode;
+	char				**envp;
+	char				*input;
+	t_token				*tokens;
+	t_cmd				*commands;
+	int					cmd_nb;
+	int					exitstatus;
+	struct sigaction	signals;
 }	t_shell;
 
+/*		main.c			*/
+void	setup_shell(t_shell *shell, char **envp);
+void	check_mode_handle_signals(t_shell *shell);
+void	signal_handle(int signal);
+
+
 /*		builtins		*/
+// builtin.c
+int		single_cmd_check(t_cmd *cmd, int exitstatus);
+void	check_and_exec_builtins(t_cmd *cmd, char **envp);
+void	check_builtins(t_cmd *cmd);
+void	echo(char **args);
+void	cd(char **arg);
+void	pwd(char **arg);
+void	env(char **arg, char **envp);
+
+
 void	go_home(void);
-void	change_directory(char **arg);
-void	display_pwd(char **arg);
-void	print_env(char **arg);
 
 /*		error and utils	*/
 void	ft_error(char *msg, int errorcode);
 void	error_check(void *ptr, char *msg, int error_code);
-void	clean_shell(char **str);
+
+// cleaning.c
+void	free_string_array(char **str);
 void	exit_shell(void);
 
 /*		executer		*/
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
-void	check_builtins(t_cmd *cmd, char **envp);
-char *get_path(char *cmd);
+char	*get_path(char *cmd);
+
 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
 int		wait_for_children(int *pid, int nb);
 
 //piping_utils.c
-void	close_accordingly(t_pipe *pipes, int mode);
+void	close_accordingly(t_pipe *pipes, int *mode);
 int		*allocate_pid(int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
+void	ft_close(int fd);
+void	ft_dup2(int new, int old);
+
 
 //redirecting.c
 void	change_input_fd(t_rdct *reds);
-void	channge_output_fd_trunc(t_rdct *reds, int mode);
+void	change_output_fd(t_rdct *reds, int mode);
 void	redirect_accordingly(t_rdct *reds);
 
 /*		expander		*/

@@ -11,3 +11,4 @@ src/executing/hallo.txt
 *.txt
 *.h.gch
 *.dSYM
+test.c

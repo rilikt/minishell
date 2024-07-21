@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/19 11:56:54 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:12:33 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	error_check(void *ptr, char *msg, int error_code)
 			err_msg = strerror(errno);
 		}
 		else
-			err_msg = NULL;
+			err_msg = strerror(error_code);
 		write(STDERR_FILENO, "minishell: ", ft_strlen("minishell: "));
 		if (msg)
 			write(STDERR_FILENO, msg, ft_strlen(msg));

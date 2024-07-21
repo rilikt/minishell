@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/13 15:59:26 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:58:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void go_home(void) //moves the current working dir to root
 	return;
 }
 
-void change_directory(char **arg)
+void cd(char **arg)
 {
 	char path[1024];
 	char *new_path;
@@ -56,7 +56,7 @@ void change_directory(char **arg)
 	return;
 }
 
-void display_pwd(char **arg)
+void pwd(char **arg)
 {
 	char path[1024];
 	

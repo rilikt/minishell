@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/19 11:24:52 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/21 14:37:47 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,11 +22,17 @@ OBJ_PATH := obj/
 INCLUDE_PATH := include/
 
 BUILTINS :=	directory.c\
+			builtin.c\
+			echo.c\
 			env.c
-ERR_UTILS:=	error.c\
-			utils.c
-EXECUTING:= # execute_commands.c
-EXPANDING:=
+ERR_CLEAN:=	error.c\
+			cleaning.c
+EXECUTING:= child.c\
+			execute_commands.c\
+			piping_utils.c\
+			redirecting.c
+EXPANDING:= expanding.c\
+			expanding_utils.c
 MDE_SGNL :=	signals.c
 PARSING  :=	parse.c\
 			parse_redir.c\
@@ -38,7 +44,7 @@ TOKENIZER:=	read_input.c\
 
 SOURCES = main.c\
 		$(addprefix builtins/,$(BUILTINS))\
-		$(addprefix error_and_utils/,$(ERR_UTILS))\
+		$(addprefix error_and_cleaning/,$(ERR_CLEAN))\
 		$(addprefix executing/,$(EXECUTING))\
 		$(addprefix expanding/,$(EXPANDING))\
 		$(addprefix mode_and_signals/,$(MDE_SGNL))\
