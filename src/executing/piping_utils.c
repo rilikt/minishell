@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/16 11:42:59 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:11:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	close_accordingly(t_pipe *pipes, int *mode)
 	}
 	if (*mode == END)
 	{
+
 		ft_close(pipes->last_pipe);
 	}
 	return ;
@@ -45,17 +46,25 @@ int	*allocate_pid(int nb)
 
 void ft_close(int fd)
 {
-	if (close(fd) < 0)
-		ft_error("oh shit close failed!", ERR_CLOSE);
+	if (fd >= 0)
+	{
+		if (close(fd) < 0)
+			ft_error("oh shit close failed!", ERR_CLOSE);
+	}
+	
 }
 void ft_dup2(int new, int old)
 {
+	if (new >= 0)
+	{
 	if (dup2(new, old) < 0)
 		ft_error("oh shit, dup2 failed!", ERR_DUP2);
+	}
 }
 
 void	change_std_fd(t_pipe *pipes, int mode)
 {
+
 	if (mode == START)
 	{
 		ft_close(pipes->pipe[READ]);
@@ -73,7 +82,8 @@ void	change_std_fd(t_pipe *pipes, int mode)
 	}
 	else if (mode == END)
 	{
-		dup2(pipes->last_pipe, STDIN_FILENO);
+	
+		ft_dup2(pipes->last_pipe, STDIN_FILENO);
 		ft_close(pipes->last_pipe);
 	}
 }

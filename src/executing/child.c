@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/21 14:26:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:21:04 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 	{
-		path_to_cmd = get_path(cmd->args[0]);
+		path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]));
 		error_check(path_to_cmd, cmd->args[0], ERR_PATH);
 	}
 	redirect_accordingly(cmd->reds);
@@ -37,12 +37,15 @@ char *get_path(char *cmd)
 {
 	int		i;
 	char	**path;
+	char	*path_string;
 	char	*tmp;
+	char	*tmp2;
 
 	i = 0;
-	*path = getenv("PATH");
+	error_check(cmd, "ft_strjoin", ERR_MALLOC);
+	path_string = getenv("PATH");
 	error_check(path, "PATH not valid env variable", ERR_PATH);
-	path = ft_split(*path, ':');
+	path = ft_split(path_string, ':');
 	error_check(path, "ft_split", ERR_MALLOC);
 	while(path[i])
 	{
@@ -56,6 +59,8 @@ char *get_path(char *cmd)
 		free(tmp);
 		i++;
 	}
+	free(cmd);
 	free_string_array(path);
 	return (NULL);
 }
+	// printf("hallo\n");

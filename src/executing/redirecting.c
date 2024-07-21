@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/21 14:34:40 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:48:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	change_output_fd(t_rdct *reds, int mode)
 
 void	redirect_accordingly(t_rdct *reds)
 {
+	if (!reds)
+		return ;
 	reds->in_fd = -1; 
 	reds->out_fd = -1;
 	if (!reds)

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 14:39:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:40:50 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,17 @@ int main(int argc, char **argv, char **envp)
 	go_home();
 	while(1)
 	{
-		shell.input = read_input();
+		shell.input = argv[1];//read_input();
 		tokenize(&shell);
-		print_tokens(&shell);
+		// print_tokens(&shell);
 		parse_tokens(&shell);
-		print_commands(&shell);
+		// print_commands(&shell);
 		if (shell.cmd_nb == 1 && single_cmd_check(shell.commands, shell.exitstatus))
 			check_and_exec_builtins(shell.commands, shell.envp);
 		else
 			execute_commandline(&shell);
 		// clean_shell(&shell);
+		break;
 	}
 
 
