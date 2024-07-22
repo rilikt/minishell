@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/21 14:37:47 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/07/22 16:06:43 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS)  $(LFLAGS) -o $@ $^
 	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
 	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
-	@$(MAKE) welcome
+	@$(MAKE) welcome 
 	
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
@@ -111,6 +111,7 @@ welcome:
 	@printf "$(MAGENTA)"
 	@cat $(ART)
 	@printf "$(RESET)\n\n\n"
+	
 
 re: fclean all
 

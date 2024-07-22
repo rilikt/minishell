@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 10:36:01 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:01:24 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*read_input(void)
 	rl_str = ft_strjoin(path, " > ");
 	tmp = ft_strdup((ft_strrchr(rl_str, '/') + 1));
 	free(rl_str);
-	
 	rl_str = ft_strjoin("🐚 ", tmp);
 	free(tmp);
 	input = readline(rl_str);
@@ -53,6 +52,7 @@ char	*read_input(void)
 		free(input);
 		input = read_input();
 	}
+	free (rl_str);
 	add_history(input);
 	return (input);
 }

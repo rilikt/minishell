@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 10:38:41 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:49:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ void echo(char **args)
 	}
 	if (n)
 		write(STDOUT_FILENO, "\n", 1);
+	return ;
 }

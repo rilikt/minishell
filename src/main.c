@@ -6,37 +6,27 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 11:56:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:00:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-// void	signal_handle(int signal)
-// {
-	
-// }
-// void	check_mode_handle_signals(t_shell *shell)
-// {
-// 	if (isatty(STDIN_FILENO) && isatty(STDERR_FILENO))
-// 		shell->mode = INTERACTIVE;
-// 	else
-// 		shell->mode = NON_INTERACTIVE;
-// 	shell->signals.sa_handler = &signal_handler;
-	
-// }
+int	sig = 0;
 
 void setup_shell(t_shell *shell, char **envp)
 {
 	char	*shlvl;
 	int		nb;
 
+	sig = 0;
 	shell->envp = envp;
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->commands = NULL;
 	shell->cmd_nb = 0;
 	shell->exitstatus = 0;
+	shell->err = 0;
 	shlvl = getenv("SHLVL");
 	if (shlvl)
 	{
@@ -50,22 +40,22 @@ int main(int argc, char **argv, char **envp)
 	t_shell	shell;
 
 	setup_shell(&shell, envp);
-	// check_mode_handle_signals(&shell);
-	// go_home();
-	while(1)
+	check_mode_handle_signals(&shell);
+	while(shell.err != ERR_EXIT)
 	{
 		shell.input = read_input();
-		tokenize(&shell);
-		// print_tokens(&shell);
-		parse_tokens(&shell);
+		if (!shell.err)
+			tokenize(&shell);
+		if (!shell.err)
+			parse_tokens(&shell);
 		// print_commands(&shell);
-		if (shell.cmd_nb == 1 && single_cmd_check(shell.commands, shell.exitstatus))
-			check_and_exec_builtins(shell.commands, shell.envp);
-		else
+		if (!shell.err && shell.cmd_nb == 1 &&
+			single_cmd_check(shell.commands, shell.exitstatus))
+			check_and_exec_builtins(shell.commands, shell.envp, &shell.err);	
+		else if (!shell.err)
 			execute_commandline(&shell);
 		// clean_shell(&shell);
 	}
-
-
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);
 	return (0);
 }

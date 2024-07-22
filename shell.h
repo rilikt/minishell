@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 11:45:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:36:16 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@
 # include "include/libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
+# include <signal.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <dirent.h>
 # include <errno.h>
+ #include <termios.h>
 # include <string.h>
 # include <sys/wait.h>
 
+# ifndef GLOBAL_H
+#  define GLOBAL_H
+	extern int sig;
+# endif 
+
 enum e_errorcodes {
+	ERR_EXIT = 1,
 	ERR_MALLOC = ENOMEM,
 	ERR_SYNTAX,
 	ERR_PIPE,
@@ -51,7 +59,7 @@ enum e_pipeends {
 
 enum e_builtins {
 	NOT_SET = -1,
-	ECHO,
+	FT_ECHO,
 	CD,
 	PWD,
 	EXPORT,
@@ -96,8 +104,10 @@ typedef struct s_command {
 	char				**args;
 	int					is_var;
 	int					builtin_flag;
+	int					stdout_fd;
 	t_rdct				*reds;
 	int					var_in_redir;
+	struct termios		term;
 	struct s_command	*next;
 }	t_cmd;
 
@@ -114,19 +124,20 @@ typedef struct s_shell {
 	t_cmd				*commands;
 	int					cmd_nb;
 	int					exitstatus;
+	int					err;
+	struct termios		term[2];
 	struct sigaction	signals;
 }	t_shell;
 
 /*		main.c			*/
 void	setup_shell(t_shell *shell, char **envp);
 void	check_mode_handle_signals(t_shell *shell);
-void	signal_handle(int signal);
 
 
 /*		builtins		*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus);
-void	check_and_exec_builtins(t_cmd *cmd, char **envp);
+void	check_and_exec_builtins(t_cmd *cmd, char **envp, int *err);
 void	check_builtins(t_cmd *cmd);
 void	echo(char **args);
 void	cd(char **arg);
@@ -177,7 +188,7 @@ void	check_char_behind(char **pos, char **tmp);
 char	**split_and_arrange_cmd(char **args);
 
 /*		mode_nd_signals	*/
-void	signal_handle(int signum);
+void	signal_handler(int signum);
 
 /*		parser			*/
 

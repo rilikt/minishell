@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/21 14:03:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:36:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 int	single_cmd_check(t_cmd *cmd, int exitstatus)
 {
+	cmd->stdout_fd = -1;
 	expand_cmd(cmd, exitstatus);
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 		return(0);
 	else
+	{
+		if (cmd->reds)
+			cmd->stdout_fd = dup(STDOUT_FILENO);
 		redirect_accordingly(cmd->reds);
+	}
 	return(1);
 }
 
-void	check_and_exec_builtins(t_cmd *cmd, char **envp)
+void	check_and_exec_builtins(t_cmd *cmd, char **envp, int *err)
 {
-	if (cmd->builtin_flag == ECHO)
+	if (cmd->builtin_flag == FT_ECHO)
 		echo(cmd->args);
 	else if (cmd->builtin_flag == CD)
 		cd(cmd->args);
@@ -40,7 +45,13 @@ void	check_and_exec_builtins(t_cmd *cmd, char **envp)
 	else if (cmd->builtin_flag == ENV)
 		env(cmd->args, envp);
 	else if (cmd->builtin_flag == EXIT)
-		exit(0);
+		*err = ERR_EXIT;
+	if (cmd->stdout_fd > 0)
+	{
+		ft_dup2(cmd->stdout_fd, STDOUT_FILENO);
+		ft_close(cmd->stdout_fd);
+	}	
+		
 	return ;
 }
 
