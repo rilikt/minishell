@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 16:43:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:45:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int main(int argc, char **argv, char **envp)
 		else
 			execute_commandline(&shell);
 		// clean_shell(&shell);
-		// print_arr(shel.envp);
 	}
 	return (0);
 }

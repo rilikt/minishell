@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 16:43:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:10:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ char **append_env(char *var, char **envp)
 	re[len] = var;
 	len++;
 	re[len] = NULL;
-	// if(envp)
 	free(envp);
 	return (re);
 }
@@ -63,7 +62,5 @@ void	export(char *args, char ***envp) //maybe rework qoutes for this
 		}
 		i++;
 	}
-	// return(append_env(args, *envp));
 	*envp = append_env(args, *envp);
-	// print_arr(*envp);
 }

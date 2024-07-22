@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/22 12:46:09 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/22 17:21:03 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ BUILTINS :=	directory.c\
 			builtin.c\
 			echo.c\
 			env.c\
-			export.c
+			export.c\
+			unset.c
 ERR_CLEAN:=	error.c\
 			cleaning.c
 EXECUTING:= child.c\
