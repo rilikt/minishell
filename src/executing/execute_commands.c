@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 16:08:17 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 09:57:22 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	pipe_mode_check(t_pipe *pipes, int *mode, int i, int cmd_nb)
 {
-	if (i == cmd_nb - 1)
-		*mode = END;
-	if (*mode != END && pipe(pipes->pipe) < 0)
-		ft_error("pipe filed", ERR_PIPE);
-	if (cmd_nb == 1)
+	if (i == 0)
 		{
 			pipes->pipe[0] = -1;
 			pipes->pipe[1] = -1;
 			pipes->last_pipe = -1;
 		}
+	if (i == cmd_nb - 1)
+		*mode = END;
+	if (*mode != END && pipe(pipes->pipe) < 0)
+		ft_error("pipe filed", ERR_PIPE);
 	return ;
 }
 

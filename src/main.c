@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 16:40:50 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:07:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // {
 	
 // }
-
 // void	check_mode_handle_signals(t_shell *shell)
 // {
 // 	if (isatty(STDIN_FILENO) && isatty(STDERR_FILENO))
@@ -42,10 +41,10 @@ int main(int argc, char **argv, char **envp)
 
 	setup_shell(&shell, envp);
 	// check_mode_handle_signals(&shell);
-	go_home();
+	// go_home();
 	while(1)
 	{
-		shell.input = argv[1];//read_input();
+		shell.input = read_input();
 		tokenize(&shell);
 		// print_tokens(&shell);
 		parse_tokens(&shell);
@@ -55,7 +54,6 @@ int main(int argc, char **argv, char **envp)
 		else
 			execute_commandline(&shell);
 		// clean_shell(&shell);
-		break;
 	}
 
 

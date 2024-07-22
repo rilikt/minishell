@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/21 16:11:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 09:53:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	close_accordingly(t_pipe *pipes, int *mode)
 		pipes->last_pipe = pipes->pipe[READ];
 		*mode = MIDDLE;
 	}
-	if (*mode == MIDDLE)
+	else if (*mode == MIDDLE)
 	{
 		ft_close(pipes->last_pipe);
 		ft_close(pipes->pipe[WRITE]);
 
 		pipes->last_pipe = pipes->pipe[READ];
 	}
-	if (*mode == END)
+	else if (*mode == END)
 	{
 
 		ft_close(pipes->last_pipe);

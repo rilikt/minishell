@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 13:58:23 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:16:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void pwd(char **arg)
 		write(2, "pwd : too many arguments\n", 25);
 		return;
 	}
-	
 	printf("%s\n", getcwd(path, sizeof(path)));
 	return;
 }

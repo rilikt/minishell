@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:45:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:36:01 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,16 @@ char	*read_input(void)
 	char	*input;
 	char	path[1024];
 	char	*rl_str;
+	char	*tmp;
 
 	input = NULL;
 	getcwd(path, sizeof(path));
 	rl_str = ft_strjoin(path, " > ");
+	tmp = ft_strdup((ft_strrchr(rl_str, '/') + 1));
+	free(rl_str);
+	
+	rl_str = ft_strjoin("🐚 ", tmp);
+	free(tmp);
 	input = readline(rl_str);
 	if (!input)
 	{
