@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/21 14:48:11 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:05:36 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	redirect_accordingly(t_rdct *reds)
 			change_output_fd(reds, O_TRUNC);
 		else if (reds->type == OUT_RED_APPEND && !access(reds->filename, W_OK))
 			change_output_fd(reds, O_APPEND);
+		else
+			error_check(NULL, NULL, 0);
 		reds = reds->next;
 	}
 	return ;

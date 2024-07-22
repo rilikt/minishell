@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 12:44:43 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/03/13 18:38:05 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:21:09 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*ft_strchr(const char *s, int c)
 
 	sp = (char *)s;
 	i = (unsigned char)c;
+	if (!sp)
+		return(NULL);
 	if (*sp == c)
 		return (sp);
 	while (*sp)

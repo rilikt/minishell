@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 10:07:32 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:56:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,22 @@
 
 void setup_shell(t_shell *shell, char **envp)
 {
+	char	*shlvl;
+	int		nb;
+
 	shell->envp = envp;
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->commands = NULL;
 	shell->cmd_nb = 0;
 	shell->exitstatus = 0;
+	shlvl = getenv("SHLVL");
+	if (shlvl)
+	{
+			nb = ft_atoi(shlvl);
+			nb += 1;
+			ft_itoa(nb);
+	}
 }
 int main(int argc, char **argv, char **envp)
 {
