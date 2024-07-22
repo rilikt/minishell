@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:10:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 17:24:42 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:26:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void unset(char **args, char ***envp) //needs to accept multiple argumens
 
 	if (!args[1])
 		return;
-	
 	while((*envp)[len])
 		len++;
 	while (args[i])
@@ -52,5 +51,4 @@ void unset(char **args, char ***envp) //needs to accept multiple argumens
 	}
 	re[i]=NULL;
 	*envp=re;
-
 }

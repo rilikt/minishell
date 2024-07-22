@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 17:11:20 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:29:31 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_and_exec_builtins(t_cmd *cmd, char ***envp)
 	else if (cmd->builtin_flag == PWD)
 		pwd(cmd->args);
 	else if (cmd->builtin_flag == EXPORT)
-		export(cmd->args[1], envp);
+		export(cmd->args, envp);
 	else if (cmd->builtin_flag == UNSET)
 		unset(cmd->args, envp);
 	else if (cmd->builtin_flag == ENV)

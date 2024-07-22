@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 17:12:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:29:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,8 @@ void	cd(char **arg);
 void	pwd(char **arg);
 void	env(char **arg, char **envp);
 char 	**copy_env(char **envp);
-void	export(char *args, char ***envp);
-void unset(char **args, char ***envp);
+void	export(char **args, char ***envp);
+void	unset(char **args, char ***envp);
 
 
 void	go_home(void);

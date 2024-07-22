@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 17:10:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:06:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,34 +33,57 @@ char **append_env(char *var, char **envp)
 	return (re);
 }
 
-void	export(char *args, char ***envp) //maybe rework qoutes for this
+int var_len(char *str)
+{
+	char	*var_name_end;
+
+	var_name_end = ft_strchr(str, '=');
+	if (!var_name_end)
+		return(0);
+
+	return (var_name_end - str);
+}
+
+void	export(char **args, char ***envp) //maybe rework qoutes for this
 {
 	int		i;
+	int		j;
+	int		set;
+	int		len;
 	char	*var_name;
-	char	*var_name_end;
 	char	*var_value;
 
 	i = 0;
+	j = 1;
 	if (!(*envp))
 		ft_error("envp error", ERR_EXPORT);
-	if (!args)
-		ft_error("no arguments", ERR_EXPORT);
-	if (ft_isdigit(args[0]))
-		ft_error("export error, empty value", ERR_EXPORT);
-	var_name_end = ft_strchr(args, '=');
-	if (!var_name_end)
-		ft_error("export error, empty value", ERR_EXPORT);
-
-	int len = var_name_end - args;
+	if (!args[1])
+		// export_print()
+		;
 	
-	while ((*envp)[i])
+	while(args[j])
 	{
-		if (!ft_strncmp((*envp)[i], args, len))
-		{
-			(*envp)[i] = ft_strdup(args);
-			return;
-		}
-		i++;
+		if (ft_isdigit(args[j][0]))
+			ft_error("starting with digit", ERR_EXPORT);
+		j++;
 	}
-	*envp = append_env(args, *envp);
+	j = 1;
+	while(args[j])
+	{
+		len = var_len(args[j]);
+		i = 0;
+		set = 0;
+		while ((*envp)[i] && len != 0 && set != 1)
+		{
+			if (!ft_strncmp((*envp)[i], args[j], len+1))
+			{
+				(*envp)[i] = ft_strdup(args[j]);
+				set = 1;
+			}
+			i++;
+		}
+		if (set != 1 && len != 0)
+			*envp = append_env(args[j], *envp);
+		j++;
+	}
 }
