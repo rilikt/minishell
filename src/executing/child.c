@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 10:06:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:41:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	}
 	redirect_accordingly(cmd->reds);
 	if (cmd->builtin_flag != EXTERN)
-		check_and_exec_builtins(cmd, shell->envp);
+		check_and_exec_builtins(cmd, &shell->envp);
 	execve(path_to_cmd, cmd->args, shell->envp);
 	// error_check
 	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));

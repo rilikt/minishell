@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 11:56:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:43:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void setup_shell(t_shell *shell, char **envp)
 	char	*shlvl;
 	int		nb;
 
-	shell->envp = envp;
+	shell->envp = copy_env(envp);
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->commands = NULL;
@@ -56,16 +56,15 @@ int main(int argc, char **argv, char **envp)
 	{
 		shell.input = read_input();
 		tokenize(&shell);
-		// print_tokens(&shell);
+		print_tokens(&shell);
 		parse_tokens(&shell);
-		// print_commands(&shell);
+		print_commands(&shell);
 		if (shell.cmd_nb == 1 && single_cmd_check(shell.commands, shell.exitstatus))
-			check_and_exec_builtins(shell.commands, shell.envp);
+			check_and_exec_builtins(shell.commands, &shell.envp);
 		else
 			execute_commandline(&shell);
 		// clean_shell(&shell);
+		// print_arr(shel.envp);
 	}
-
-
 	return (0);
 }

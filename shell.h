@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 11:45:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:39:59 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,14 @@ void	signal_handle(int signal);
 /*		builtins		*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus);
-void	check_and_exec_builtins(t_cmd *cmd, char **envp);
+void	check_and_exec_builtins(t_cmd *cmd, char ***envp);
 void	check_builtins(t_cmd *cmd);
 void	echo(char **args);
 void	cd(char **arg);
 void	pwd(char **arg);
 void	env(char **arg, char **envp);
+char 	**copy_env(char **envp);
+void	export(char *args, char ***envp);
 
 
 void	go_home(void);
