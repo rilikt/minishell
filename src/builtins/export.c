@@ -6,21 +6,22 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/23 16:47:34 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:47:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char **append_env(char *var, char **envp)
+char	**append_env(char *var, char **envp)
 {
-	int len = 0;
-	char **re;
+	int		len;
+	char	**re;
 
+	len = 0;
 	while (envp[len])
 		len++;
 	re = (char **)malloc((len + 2) * sizeof(char *));
-	len  = 0;
+	len = 0;
 	while (envp[len])
 	{
 		re[len] = envp[len];
@@ -33,115 +34,136 @@ char **append_env(char *var, char **envp)
 	return (re);
 }
 
-int var_len(char *str)
+int	var_len(char *str, char *str2)
 {
 	char	*var_name_end;
+	int		len1;
+	int		len2;
 
-	var_name_end = ft_strchr(str, '=');
-	if (!var_name_end)
-		return(0);
-
-	return (var_name_end - str);
+	if (!str2)
+	{
+		var_name_end = ft_strchr(str, '=');
+		if (!var_name_end)
+			return (0);
+		return (var_name_end - str);
+	}
+	else
+	{
+		len1 = var_len(str, NULL);
+		len2 = var_len(str2, NULL);
+		if (len1 > len2)
+			len1 = len2;
+		return (len1);
+	}
 }
 
-void add_qoutes(char **envp)
+void	add_qoutes(char **envp)
 {
-	int i = 0;
-	int j;
-	int len;
+	int	i;
+	int	j;
+	int	len;
 
+	i = 0;
 	while (envp[i])
 	{
 		j = 0;
-		len = var_len(envp[i]);
+		len = var_len(envp[i], NULL);
 		printf("declare -x ");
-		while(j <= len)
+		while (j <= len)
 		{
 			printf("%c", envp[i][j]);
 			j++;
 		}
-		printf("\"%s\"\n", envp[i]+len+1);
+		printf("\"%s\"\n", envp[i] + len + 1);
 		i++;
 	}
+	free(envp);
 }
 
-
-void export_print(char **envp)
+int	copy_envp(char ***local_envp, char **envp)
 {
-	char *temp;
-	int i = 0;
-	int j;
-	int len = 0;
-	char **local_envp;
-	int len_var;
-	int len_var2;
-	
-	while(envp[len])
-		len++;
+	int	len;
 
-	local_envp = (char **)malloc(len+1 * sizeof(char *));
-	len=0;
-	while(envp[len])
+	len = 0;
+	while (envp[len])
+		len++;
+	(*local_envp) = (char **)malloc(len + 1 * sizeof(char *));
+	len = 0;
+	while (envp[len])
 	{
-		local_envp[len] = envp[len];
+		(*local_envp)[len] = envp[len];
 		len++;
 	}
-	local_envp[len] = NULL;
-	while (i < len -1)
+	(*local_envp)[len] = NULL;
+	return (len);
+}
+
+void	export_print(char **envp)
+{
+	char	*temp;
+	int		j;
+	int		len;
+	char	**local_envp;
+	int		len_var;
+
+	len = copy_envp(&local_envp, envp);
+	while (len - 1)
 	{
 		j = 0;
-		while (j < len - i -1)
-		{	
-			if((len_var = var_len(local_envp[j])) > (len_var2 = var_len(local_envp[j+1])))
-				len_var = len_var2;
-			if (ft_strncmp(local_envp[j], local_envp[j+1], len_var+1) > 0)
+		while (j < len - 1)
+		{
+			len_var = var_len(local_envp[j], local_envp[j + 1]);
+			if (ft_strncmp(local_envp[j], local_envp[j + 1], len_var + 1) > 0)
 			{
 				temp = local_envp[j];
-				local_envp[j] = local_envp[j+1];
-				local_envp[j+1] = temp;
+				local_envp[j] = local_envp[j + 1];
+				local_envp[j + 1] = temp;
 			}
 			j++;
 		}
-		i++;
+		len--;
 	}
 	add_qoutes(local_envp);
-	// print_arr(envp);
 }
 
-void	export(char **args, char ***envp) //maybe rework qoutes for this
+int	check_and_print(char **args, char ***envp)
 {
-	int		i;
-	int		j;
-	int		set;
-	int		len;
-	char	*var_name;
-	char	*var_value;
+	int	j;
 
-	i = 0;
-	j = 1;
+	j = 0;
 	if (!(*envp))
 		ft_error("envp error", ERR_EXPORT);
 	if (!args[1])
 	{
 		export_print(*envp);
-		return;
+		return (0);
 	}
-	
-	while(args[j])
+	while (args[j])
 	{
 		if (ft_isdigit(args[j][0]))
 			ft_error("starting with digit", ERR_EXPORT);
 		j++;
 	}
-	j = 1;
-	while(args[j])
+	return (1);
+}
+
+void	export(char **args, char ***envp) // maybe rework qoutes for this
+{
+	int i;
+	int j;
+	int set;
+	int len;
+
+	if (!(j = check_and_print(args, envp)))
+		return ;
+	while (args[j])
 	{
-		len = var_len(args[j]);
+		len = var_len(args[j], NULL);
 		i = 0;
 		set = 0;
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
-			if (!ft_strncmp((*envp)[i], args[j], len+1))
+			if (!ft_strncmp((*envp)[i], args[j], len + 1))
 			{
 				(*envp)[i] = ft_strdup(args[j]);
 				set = 1;
