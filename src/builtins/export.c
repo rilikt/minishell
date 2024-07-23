@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 18:06:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:47:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,70 @@ int var_len(char *str)
 	return (var_name_end - str);
 }
 
+void add_qoutes(char **envp)
+{
+	int i = 0;
+	int j;
+	int len;
+
+	while (envp[i])
+	{
+		j = 0;
+		len = var_len(envp[i]);
+		printf("declare -x ");
+		while(j <= len)
+		{
+			printf("%c", envp[i][j]);
+			j++;
+		}
+		printf("\"%s\"\n", envp[i]+len+1);
+		i++;
+	}
+}
+
+
+void export_print(char **envp)
+{
+	char *temp;
+	int i = 0;
+	int j;
+	int len = 0;
+	char **local_envp;
+	int len_var;
+	int len_var2;
+	
+	while(envp[len])
+		len++;
+
+	local_envp = (char **)malloc(len+1 * sizeof(char *));
+	len=0;
+	while(envp[len])
+	{
+		local_envp[len] = envp[len];
+		len++;
+	}
+	local_envp[len] = NULL;
+	while (i < len -1)
+	{
+		j = 0;
+		while (j < len - i -1)
+		{	
+			if((len_var = var_len(local_envp[j])) > (len_var2 = var_len(local_envp[j+1])))
+				len_var = len_var2;
+			if (ft_strncmp(local_envp[j], local_envp[j+1], len_var+1) > 0)
+			{
+				temp = local_envp[j];
+				local_envp[j] = local_envp[j+1];
+				local_envp[j+1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	add_qoutes(local_envp);
+	// print_arr(envp);
+}
+
 void	export(char **args, char ***envp) //maybe rework qoutes for this
 {
 	int		i;
@@ -58,8 +122,10 @@ void	export(char **args, char ***envp) //maybe rework qoutes for this
 	if (!(*envp))
 		ft_error("envp error", ERR_EXPORT);
 	if (!args[1])
-		// export_print()
-		;
+	{
+		export_print(*envp);
+		return;
+	}
 	
 	while(args[j])
 	{
