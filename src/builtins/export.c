@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/23 17:47:24 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:46:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,17 @@ void	add_qoutes(char **envp)
 		j = 0;
 		len = var_len(envp[i], NULL);
 		printf("declare -x ");
-		while (j <= len)
+		if (len == 0)
+			printf("%s\n", envp[i]);
+		else
 		{
-			printf("%c", envp[i][j]);
-			j++;
+			while (j <= len)
+			{
+				printf("%c", envp[i][j]);
+				j++;
+			}
+			printf("\"%s\"\n", envp[i] + len + 1);
 		}
-		printf("\"%s\"\n", envp[i] + len + 1);
 		i++;
 	}
 	free(envp);
@@ -123,6 +128,7 @@ void	export_print(char **envp)
 		}
 		len--;
 	}
+	// print_arr(local_envp);
 	add_qoutes(local_envp);
 }
 
@@ -163,15 +169,15 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		set = 0;
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
-			if (!ft_strncmp((*envp)[i], args[j], len + 1))
+			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
 				(*envp)[i] = ft_strdup(args[j]);
 				set = 1;
 			}
 			i++;
 		}
-		if (set != 1 && len != 0)
-			*envp = append_env(args[j], *envp);
+		if (set != 1)
+			(*envp) = append_env(args[j], *envp);
 		j++;
 	}
 }
