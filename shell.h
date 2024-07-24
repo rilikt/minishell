@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 15:12:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:49:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char 	**copy_env(char **envp);
 void	export(char **args, char ***envp);
 void	unset(char **args, char ***envp);
 int		var_len(char *str, char *str2);
-char *ft_getenv(char *find, char **env);
+char	*ft_getenv(char *find, char **env);
 
 
 void	go_home(void);
