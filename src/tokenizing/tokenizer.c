@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 16:39:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:11:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	tokenize(t_shell *shell)
 		start = i;
 		while (str[i] && !is_whitespace(str[i]))
 		{
-			// if (in_qoutes(str, &i))
-			// 	break ;
+			if (in_qoutes(str, &i))
+				break ;
 			if (is_operator(str, &i))
 				break ;
 			else if (operator_check(&str[i + 1], &i))
@@ -132,9 +132,10 @@ void	tokenize(t_shell *shell)
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
+		printf("%s\n", token_str);
 		token_str = check_qoutes(token_str, &q_flag);
 		// token_str = rm_qoutes(token_str);
-		append_node(&token, token_str);
+		append_node(&token, token_str, q_flag);
 	}
 	shell->tokens = token;
 }

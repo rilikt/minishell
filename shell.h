@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 15:49:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:20:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ enum e_type {
 	OUT_REDIRECT,
 	OUT_RED_APPEND,
 	PIPE,
+	IN_QUOTES,
 } ;
 
 enum e_mode {
@@ -215,11 +216,11 @@ int		check_whitespace(char *input);
 char	*read_input(void);
 
 //token_list.c
-int		check_variable(char *str);
-int		find_type(char *str);
-t_token	*create_node(char *str);
+int		check_variable(char *str, int q_flag);
+int		find_type(char *str, int q_flag);
+t_token	*create_node(char *str, int q_flag);
 void	is_heredoc(t_token *node);
-void	append_node(t_token **head, char *str);
+void	append_node(t_token **head, char *str, int q_flag);
 
 //tokenizer.c
 char	*rm_qoutes(char *str);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:46:02 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:17:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int	check_variable(char *str)
+int	check_variable(char *str, int q_flag)
 {
 	int	i;
 
@@ -23,10 +23,12 @@ int	check_variable(char *str)
 			return (VARIABLE);
 		i++;
 	}
+	if (q_flag)
+		return(IN_QUOTES);
 	return (WORD);
 }
 
-int	find_type(char *str)
+int	find_type(char *str, int q_flag)
 {
 	int	i;
 	int	len;
@@ -34,7 +36,7 @@ int	find_type(char *str)
 	char *operator= "|<>$";
 	i = 0;
 	len = ft_strlen(str);
-	while (operator[i])
+	while (operator[i] && !q_flag)
 	{
 		if (str[0] == operator[i])
 		{
@@ -54,10 +56,10 @@ int	find_type(char *str)
 		}
 		i++;
 	}
-	return (check_variable(str));
+	return (check_variable(str, q_flag));
 }
 
-t_token	*create_node(char *str)
+t_token	*create_node(char *str, int q_flag)
 {
 	t_token	*new_node;
 
@@ -67,7 +69,7 @@ t_token	*create_node(char *str)
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->str = str;
-	new_node->type = find_type(str);
+	new_node->type = find_type(str, q_flag);
 	return (new_node);
 }
 
@@ -92,15 +94,15 @@ void	is_heredoc(t_token *node)
 	}
 	node->str = input;
 	if (input)
-		node->type = check_variable(input);
+		node->type = check_variable(input, 0);
 }
 
-void	append_node(t_token **head, char *str)
+void	append_node(t_token **head, char *str, int q_flag)
 {
 	t_token	*new_node;
 	t_token	*temp;
 
-	new_node = create_node(str);
+	new_node = create_node(str, q_flag);
 	if (*head == NULL)
 	{
 		*head = new_node;
