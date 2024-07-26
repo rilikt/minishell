@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 17:36:16 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:01:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ enum e_type {
 	OUT_REDIRECT,
 	OUT_RED_APPEND,
 	PIPE,
+	IN_QUOTES,
 } ;
 
 enum e_mode {
@@ -122,6 +123,7 @@ typedef struct s_shell {
 	char				*input;
 	t_token				*tokens;
 	t_cmd				*commands;
+	char				*vars;
 	int					cmd_nb;
 	int					exitstatus;
 	int					err;
@@ -137,12 +139,17 @@ void	check_mode_handle_signals(t_shell *shell);
 /*		builtins		*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus);
-void	check_and_exec_builtins(t_cmd *cmd, char **envp, int *err);
+void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
 void	check_builtins(t_cmd *cmd);
 void	echo(char **args);
 void	cd(char **arg);
 void	pwd(char **arg);
 void	env(char **arg, char **envp);
+char 	**copy_env(char **envp);
+void	export(char **args, char ***envp);
+void	unset(char **args, char ***envp);
+int		var_len(char *str, char *str2);
+char	*ft_getenv(char *find, char **env);
 
 
 void	go_home(void);
@@ -221,11 +228,11 @@ int		check_whitespace(char *input);
 char	*read_input(void);
 
 //token_list.c
-int		check_variable(char *str);
-int		find_type(char *str);
-t_token	*create_node(char *str);
+int		check_variable(char *str, int q_flag);
+int		find_type(char *str, int q_flag);
+t_token	*create_node(char *str, int q_flag);
 void	is_heredoc(t_token *node);
-void	append_node(t_token **head, char *str);
+void	append_node(t_token **head, char *str, int q_flag);
 
 //tokenizer.c
 char	*rm_qoutes(char *str);

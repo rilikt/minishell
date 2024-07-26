@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 17:36:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:01:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	single_cmd_check(t_cmd *cmd, int exitstatus)
 	return(1);
 }
 
-void	check_and_exec_builtins(t_cmd *cmd, char **envp, int *err)
+void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 {
 	if (cmd->builtin_flag == FT_ECHO)
 		echo(cmd->args);
@@ -37,13 +37,11 @@ void	check_and_exec_builtins(t_cmd *cmd, char **envp, int *err)
 	else if (cmd->builtin_flag == PWD)
 		pwd(cmd->args);
 	else if (cmd->builtin_flag == EXPORT)
-		//export(cmd->args)
-		;
+		export(cmd->args, envp);
 	else if (cmd->builtin_flag == UNSET)
-		// unset(cmd->args)
-		;
+		unset(cmd->args, envp);
 	else if (cmd->builtin_flag == ENV)
-		env(cmd->args, envp);
+		env(cmd->args, *envp);
 	else if (cmd->builtin_flag == EXIT)
 		*err = ERR_EXIT;
 	if (cmd->stdout_fd > 0)

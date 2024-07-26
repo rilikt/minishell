@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 19:00:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:59:31 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void setup_shell(t_shell *shell, char **envp)
 	int		nb;
 
 	sig = 0;
-	shell->envp = envp;
+	shell->envp = copy_env(envp);
 	shell->input = NULL;
 	shell->tokens = NULL;
 	shell->commands = NULL;
@@ -51,7 +51,7 @@ int main(int argc, char **argv, char **envp)
 		// print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus))
-			check_and_exec_builtins(shell.commands, shell.envp, &shell.err);	
+			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);	
 		else if (!shell.err)
 			execute_commandline(&shell);
 		// clean_shell(&shell);

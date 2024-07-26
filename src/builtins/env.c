@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 14:36:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:34:46 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,43 @@
 
 void env(char **arg, char **envp) // prints out env from extern char **environ we might have to create our own env don't know
 {
-	int	i;
+	int i;
+	int len;
 
+	i = 0;
 	if (arg[1])
 	{
 		write(2, "env : too many arguments\n", 25);
 		return;
 	}
-	i = 0;
-	while (envp[i] != NULL)
+	while(envp[i])
 	{
-		printf("%s\n", envp[i]);
+		if (var_len(envp[i], NULL))
+			printf("%s\n", envp[i]);
 		i++;
 	}
+
 	return ;
+}
+
+
+char **copy_env(char **envp)
+{
+	int len = 0;
+	char **re;
+
+	while(envp[len])
+		len++;
+	re = (char **)malloc((len + 1) * sizeof(char *));
+	len = 0;
+	while (envp[len])
+	{
+		if (!ft_strncmp("OLDPWD", envp[len], 6))
+			re[len] = ft_strdup("OLDPWD");
+		else
+			re[len] = ft_strdup(envp[len]);
+		len++;
+	}
+	re[len] = NULL;
+	return(re);
 }

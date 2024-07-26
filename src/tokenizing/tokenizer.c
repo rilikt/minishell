@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:49:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:59:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,73 @@ char	*rm_qoutes(char *str)
 	return (re);
 }
 
+
+char *check_qoutes(char *str, int *q_flag)
+{
+	int	i;
+	int k;
+	int start;
+	int q_count;
+	char *re;
+	i = 0;
+	q_count = 0;
+	
+	while (str[i])
+	{
+		if (str[i] == 34 || str[i] == 39)
+		{
+			start = i;
+			i++;
+			while(str[i])
+			{
+				if (str[i] == str[start])
+				{
+					q_count += 2;
+					break;
+				}
+				i++;
+			}
+			if (str[i] != str[start])
+				ft_error("qoutes not closed", ERR_SYNTAX);
+		}
+		if (str[i])
+			i++;
+	}
+	if (!q_count)
+		return(str);
+
+	re = (char *)malloc(ft_strlen(str) + 1 - q_count);
+	i = 0;
+	k = 0;
+	while (str[i])
+	{
+		if (str[i] != 34 && str[i] != 39)
+		{
+			re[k] = str[i];
+			k++;
+		}
+		else
+		{
+			start = i;
+			i++;
+			while(str[i] && str[i] != str[start])
+			{
+				re[k] = str[i];
+				k++;
+				i++;
+			}
+		}
+		if (str[i])
+			i++;
+	}
+	re[k] = '\0';
+	*q_flag = 1;
+	// printf("%d\n", *q_flag);
+	// printf("%s\n", re);
+	return(re);
+}
+
+
 void	tokenize(t_shell *shell)
 {
 	char	*str;
@@ -40,13 +107,15 @@ void	tokenize(t_shell *shell)
 	t_token	*token;
 	int		i;
 	int		start;
+	int		q_flag;
 
 	str = shell->input;
 	token = NULL;
 	i = 0;
 	start = 0;
 	while (str[i])
-	{
+	{	
+		q_flag = 0;
 		while (is_whitespace(str[i]))
 			i++;
 		if (!str[i])
@@ -56,15 +125,16 @@ void	tokenize(t_shell *shell)
 		{
 			if (in_qoutes(str, &i))
 				break ;
-			else if (is_operator(str, &i))
+			if (is_operator(str, &i))
 				break ;
 			else if (operator_check(&str[i + 1], &i))
 				break ;
 			i++;
 		}
 		token_str = ft_substr(str, start, i - start);
-		token_str = rm_qoutes(token_str);
-		append_node(&token, token_str);
+		token_str = check_qoutes(token_str, &q_flag);
+		// token_str = rm_qoutes(token_str);
+		append_node(&token, token_str, q_flag);
 	}
 	shell->tokens = token;
 }
@@ -136,7 +206,7 @@ int	in_qoutes(char *str, int *input_i)
 		// need to check with which quotes it started to know which ones have to close
 		ft_error("qoutes not closed", ERR_SYNTAX); // error handle, exit shell
 	*input_i = i + 1;                              // to move behind the quote
-	return (1);
+	return (in_qoutes(str, input_i));
 }
 
 int	is_whitespace(char c)

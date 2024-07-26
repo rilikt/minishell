@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/22 16:06:43 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/07/26 15:57:29 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,10 @@ INCLUDE_PATH := include/
 BUILTINS :=	directory.c\
 			builtin.c\
 			echo.c\
-			env.c
+			env.c\
+			export.c\
+			export_2.c\
+			unset.c
 ERR_CLEAN:=	error.c\
 			cleaning.c
 EXECUTING:= child.c\
