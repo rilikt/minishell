@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 17:33:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:30:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_variable(char *str, int q_flag)
 {
-	printf("hello %d\n", q_flag);
+	// printf("hello %d\n", q_flag);
 	int	i;
 
 	i = 0;
