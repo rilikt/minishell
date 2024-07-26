@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 16:02:29 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:27:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void parse_tokens(t_shell *shell)
 		store_in_cmd(&command, arr, is_var);
 		if (temp)
 			temp = temp->next;
-		shell->cmd_nb++;
+		shell->cmd_nb += 1;
 	}
 	shell->commands = command;
 }

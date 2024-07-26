@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/26 14:22:20 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:13:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**append_env(char *var, char **envp)
 	len = 0;
 	while (envp[len])
 	{
-		if (!ft_strncmp(envp[len], var, var_len(envp[len], var)))
+		if (!ft_strncmp(envp[len], var, var_len(envp[len], var)+1))
 			return (envp);
 		len++;
 	}
@@ -28,12 +28,12 @@ char	**append_env(char *var, char **envp)
 	len = 0;
 	while (envp[len])
 	{
-		re[len] = envp[len];
+		re[len] = ft_strdup(envp[len]);
 		len++;
 	}
-	re[len] = var;
+	re[len] = ft_strdup(var);
 	re[len +1] = NULL;
-	free(envp);
+	free_string_array(envp);
 	return (re);
 }
 
@@ -87,7 +87,6 @@ void	add_qoutes(char **envp)
 		}
 		i++;
 	}
-	free(envp);
 }
 
 int	copy_envp(char ***local_envp, char **envp)
@@ -97,11 +96,11 @@ int	copy_envp(char ***local_envp, char **envp)
 	len = 0;
 	while (envp[len])
 		len++;
-	(*local_envp) = (char **)malloc(len + 1 * sizeof(char *));
+	(*local_envp) = (char **)malloc((len + 1) * sizeof(char *));
 	len = 0;
 	while (envp[len])
 	{
-		(*local_envp)[len] = envp[len];
+		(*local_envp)[len] = ft_strdup(envp[len]);
 		len++;
 	}
 	(*local_envp)[len] = NULL;
@@ -135,6 +134,7 @@ void	export_print(char **envp)
 	}
 	// print_arr(local_envp);
 	add_qoutes(local_envp);
+	free_string_array(local_envp);
 }
 
 int	check_and_print(char **args, char ***envp)
@@ -176,7 +176,7 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		{
 			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
-				free((*envp)[i]);
+				// free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);
 				set = 1;
 			}

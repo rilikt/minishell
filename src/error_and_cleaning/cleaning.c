@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 14:24:09 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:00:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,30 @@ void	free_struct(t_shell *shell)
 	int		i;
 
 	temp = shell;
-	cmd_i = 1;
-	redir_i = 0;
-	i = 0;
-	while (temp->tokens)
+	while (shell->tokens)
 	{
+		// print_tokens(shell);
 		temp_tkn = temp->tokens;
-		temp->tokens = temp->tokens->next;
-		free(temp_tkn->str);
+		shell->tokens = shell->tokens->next;
+		if (temp_tkn->str)
+			free(temp_tkn->str);
 		free(temp_tkn);
 	}
-	while (temp->commands)
+	while (shell->commands)
 	{
-		temp_cmd = temp->commands;
-		temp->commands = temp->commands->next;
-		if (temp_cmd->reds)
+		// print_commands(shell);
+		temp_cmd = shell->commands;
+		shell->commands = shell->commands->next;
+		while (temp_cmd->reds)
 		{
-			while (temp_cmd->reds)
-			{
-				temp_redir = temp_cmd->reds;
-				temp_cmd->reds = temp_cmd->reds->next;
-				free(temp_redir);
-			}
+			temp_redir = temp_cmd->reds;
+			temp_cmd->reds = temp_cmd->reds->next;
+			free(temp_redir);
 		}
 		free(temp_cmd->args);
 		free(temp_cmd);
 	}
 }
-
 
 void free_string_array(char **str)
 {
@@ -59,7 +55,8 @@ void free_string_array(char **str)
 	i = 0;
 	while(str[i])
 	{
-		free(str[i]);
+		if (str[i])
+			free(str[i]);
 		i++;
 	}
 	free(str);

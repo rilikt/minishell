@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/26 16:01:51 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:16:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 		ft_dup2(cmd->stdout_fd, STDOUT_FILENO);
 		ft_close(cmd->stdout_fd);
 	}	
-		
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 12:07:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:26:18 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_commands(t_shell *shell)
 	cmd_i = 1;
 	redir_i = 0;
 	i = 0;
-	printf("Commands:%d\n", shell->cmd_nb);
+	printf("Commands: %d\n", shell->cmd_nb);
 	while (temp)
 	{
 		redir_i = 1;
