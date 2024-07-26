@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 15:22:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:27:09 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void create_var_list(t_shell *shell)
 {
 	char *vars = NULL;
 	int i = 0;
-	char *flag = "1";
+	char *flag;
 	int start;
 	while (shell->input[i])
 	{
+		flag = "1";
 		if (shell->input[i] == 34 || shell->input[i] == 39)
 		{
 			start = i;
