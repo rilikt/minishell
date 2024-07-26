@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/24 15:46:17 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:22:20 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ char	**append_env(char *var, char **envp)
 
 	len = 0;
 	while (envp[len])
+	{
+		if (!ft_strncmp(envp[len], var, var_len(envp[len], var)))
+			return (envp);
 		len++;
+	}
 	re = (char **)malloc((len + 2) * sizeof(char *));
 	len = 0;
 	while (envp[len])
@@ -28,8 +32,7 @@ char	**append_env(char *var, char **envp)
 		len++;
 	}
 	re[len] = var;
-	len++;
-	re[len] = NULL;
+	re[len +1] = NULL;
 	free(envp);
 	return (re);
 }
@@ -49,8 +52,10 @@ int	var_len(char *str, char *str2)
 	}
 	else
 	{
-		len1 = var_len(str, NULL);
-		len2 = var_len(str2, NULL);
+		if(!(len1 = var_len(str, NULL)))
+			len1 = ft_strlen(str);
+		if(!(len2 = var_len(str2, NULL)))
+			len2 = ft_strlen(str2);
 		if (len1 > len2)
 			len1 = len2;
 		return (len1);
@@ -171,6 +176,7 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		{
 			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
+				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);
 				set = 1;
 			}
