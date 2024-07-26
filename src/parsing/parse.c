@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 12:06:46 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:22:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,35 @@ void while_not_op(t_token **temp, int *is_var, t_token *start)
 	}
 }
 
+
+void create_var_list(t_shell *shell)
+{
+	char *vars = NULL;
+	int i = 0;
+	char *flag = "1";
+	int start;
+	while (shell->input[i])
+	{
+		if (shell->input[i] == 34 || shell->input[i] == 39)
+		{
+			start = i;
+			if (shell->input[i] == 39)
+				flag = "0";
+			while(shell->input[i] != shell->input[start])
+			{
+				if (shell->input[i] == '$')
+					vars = ft_strjoin(vars, flag);
+				i++;
+			}
+		}
+		else if (shell->input[i] == '$')
+			vars = ft_strjoin(vars, flag);
+		i++;
+	}
+	printf("%s\n", vars);
+}
+
+
 void parse_tokens(t_shell *shell)
 {
 	t_token *temp = shell->tokens;
@@ -40,6 +69,7 @@ void parse_tokens(t_shell *shell)
 	int is_var;
 	char **arr;
 
+	create_var_list(shell);
 	while(temp)
 	{
 		is_var = 0;

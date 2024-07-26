@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 17:26:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:59:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ char *check_qoutes(char *str, int *q_flag)
 	}
 	re[k] = '\0';
 	*q_flag = 1;
-	printf("%d\n", *q_flag);
-	printf("%s\n", re);
+	// printf("%d\n", *q_flag);
+	// printf("%s\n", re);
 	return(re);
 }
 
@@ -206,7 +206,7 @@ int	in_qoutes(char *str, int *input_i)
 		// need to check with which quotes it started to know which ones have to close
 		ft_error("qoutes not closed", ERR_SYNTAX); // error handle, exit shell
 	*input_i = i + 1;                              // to move behind the quote
-	return (1);
+	return (in_qoutes(str, input_i));
 }
 
 int	is_whitespace(char c)

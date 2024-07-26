@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 17:20:29 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:11:10 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_shell {
 	char				*input;
 	t_token				*tokens;
 	t_cmd				*commands;
+	char				*vars;
 	int					cmd_nb;
 	int					exitstatus;
 	struct sigaction	signals;
