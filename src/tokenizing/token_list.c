@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 13:30:00 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:10:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,42 @@
 
 int	check_variable(char *str, int q_flag)
 {
-	// printf("hello %d\n", q_flag);
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 39) // need a way to check for single quotes, myb via flag
+		if (str[i] == 39)
 			return (IN_QUOTES);
 		if (str[i] == '$' && (!is_whitespace(str[i + 1]) && str[i + 1]))
 			return (VARIABLE);
 		i++;
 	}
 	if (q_flag)
-		return(IN_QUOTES);
+		return (IN_QUOTES);
 	return (WORD);
 }
 
 int	find_type(char *str, int q_flag)
 {
 	int	i;
-	int	len;
-
 	char *operator= "|<>$";
+	
 	i = 0;
-	len = ft_strlen(str);
 	while (operator[i] && !q_flag)
 	{
 		if (str[0] == operator[i])
 		{
 			if (str[0] == '|')
 				return (PIPE);
-			else if (str[0] == '$' && len != 1)
+			else if (str[0] == '$' && str[1])
 				return (VARIABLE);
-			else if (str[0] == '<' && len == 1)
+			else if (str[0] == '<' && !str[1])
 				return (IN_REDIRECT);
-			else if (str[0] == '>' && len == 1)
+			else if (str[0] == '>' && !str[1])
 				return (OUT_REDIRECT);
 			else if (str[0] == '<')
 				return (IN_HEREDOC);
-					// maybe set a flag and dont check everytime
 			else if (str[0] == '>')
 				return (OUT_RED_APPEND);
 		}

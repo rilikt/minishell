@@ -6,31 +6,33 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 15:11:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:49:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char **create_array(t_token *start, t_token *end)
+char	**create_array(t_token *start, t_token *end)
 {
-	t_token *temp_start = start;
-	int str_count = 0;
-	int i = 0;
-	char **arr;
+	t_token	*temp_start;
+	int		str_count;
+	int		i;
+	char	**arr;
 
+	temp_start = start;
+	str_count = 0;
+	i = 0;
 	while (temp_start != end)
 	{
 		str_count++;
 		temp_start = temp_start->next;
 	}
-	arr = (char **)malloc((str_count+1) * (sizeof(char*)));
+	arr = (char **)malloc((str_count + 1) * (sizeof(char *)));
 	if (!arr)
 		ft_error("malloc error", ERR_MALLOC);
 	while (i < str_count)
 	{
-		// copy_string(&arr[i], start->str);
-		// arr[i] = strdup(start->str); 
+		// arr[i] = strdup(start->str);
 		arr[i] = start->str;
 		start = start->next;
 		i++;
@@ -39,16 +41,15 @@ char **create_array(t_token *start, t_token *end)
 	return (arr);
 }
 
-char **append_array(char **arr, t_token *start, t_token *end)
+int	size_to_allocate(char **arr, t_token *start, t_token *end)
 {
-	t_token *temp_start = start;
-	int str_count = 0;
-	int i = 0;
-	int len = 0;
-	char **re;
+	t_token	*temp_start;
+	int		len;
+	int		str_count;
 
-	if (start == end)
-		return (arr);
+	temp_start = start;
+	len = 0;
+	str_count = 0;
 	while (temp_start != end)
 	{
 		str_count++;
@@ -56,10 +57,21 @@ char **append_array(char **arr, t_token *start, t_token *end)
 	}
 	while (arr[len])
 		len++;
-	re = (char **)malloc((str_count+len+1) * (sizeof(char *)));
+	return (str_count + len + 1);
+}
+
+char	**append_array(char **arr, t_token *start, t_token *end)
+{
+	int		i;
+	char	**re;
+
+	i = 0;
+	if (start == end)
+		return (arr);
+	re = (char **)malloc(size_to_allocate(arr, start, end) * (sizeof(char *)));
 	if (!re)
 		ft_error("malloc error", ERR_MALLOC);
-	while (i < len)
+	while (arr[i])
 	{
 		re[i] = arr[i];
 		i++;
@@ -74,14 +86,14 @@ char **append_array(char **arr, t_token *start, t_token *end)
 	return (free(arr), re);
 }
 
-void append_cmd_node(t_cmd **head)
+void	append_cmd_node(t_cmd **head)
 {
-	t_cmd *new_node;
-	t_cmd *temp;
+	t_cmd	*new_node;
+	t_cmd	*temp;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
-			ft_error("malloc error", ERR_MALLOC);
+		ft_error("malloc error", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->reds = NULL;
 	new_node->args = NULL;
@@ -90,7 +102,7 @@ void append_cmd_node(t_cmd **head)
 	if (*head == NULL)
 	{
 		*head = new_node;
-		return;
+		return ;
 	}
 	temp = *head;
 	while (temp->next)
@@ -98,12 +110,11 @@ void append_cmd_node(t_cmd **head)
 	temp->next = new_node;
 }
 
-void store_in_cmd(t_cmd **head, char **arr, int is_var)
+void	store_in_cmd(t_cmd **head, char **arr, int is_var)
 {
 	t_cmd *temp = *head;
 	while (temp->next)
 		temp = temp->next;
-	
 	temp->args = arr;
 	temp->is_var = is_var;
 }

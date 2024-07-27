@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/21 17:16:32 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:48:07 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ void cd(char **arg)
 		write(2, "cd : too many arguments\n", 25);
 		return;
 	}
-
 	getcwd(path, sizeof(path)); // get the current dir and append onto it
-	
 	if (!ft_strchr(move_to, '/')) // for relative path containing 
 	{
 		if (path[ft_strlen(path)-1] != '/')
@@ -52,7 +50,6 @@ void cd(char **arg)
 	{
 		fprintf(stderr, "cd : %s %s\n", strerror(errno), input);
 	}
-
 	return;
 }
 

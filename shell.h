@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 16:01:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:07:30 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,18 +141,32 @@ void	check_mode_handle_signals(t_shell *shell);
 int		single_cmd_check(t_cmd *cmd, int exitstatus);
 void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
 void	check_builtins(t_cmd *cmd);
-void	echo(char **args);
-void	cd(char **arg);
+
+// directory.c
 void	pwd(char **arg);
+void	cd(char **arg);
+void	go_home(void);
+
+// echo.c
+void	echo(char **args);
+
+// env.c
 void	env(char **arg, char **envp);
 char 	**copy_env(char **envp);
+
+// export.c export_2.c
 void	export(char **args, char ***envp);
-void	unset(char **args, char ***envp);
-int		var_len(char *str, char *str2);
 char	*ft_getenv(char *find, char **env);
+int		var_len(char *str, char *str2);
+char	**append_env(char *var, char **envp);
+void	add_qoutes(char **envp);
+int		copy_envp(char ***local_envp, char **envp);
+void	export_print(char **envp);
+int		check_and_print(char **args, char ***envp);
 
-
-void	go_home(void);
+// unset.c
+void	unset(char **args, char ***envp);
+int		compare_to_envp(char **args, char *envp);
 
 /*		error and utils	*/
 void	ft_error(char *msg, int errorcode);
@@ -166,7 +180,6 @@ void	exit_shell(void);
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
 char	*get_path(char *cmd);
-
 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
@@ -235,13 +248,18 @@ void	is_heredoc(t_token *node);
 void	append_node(t_token **head, char *str, int q_flag);
 
 //tokenizer.c
-char	*rm_qoutes(char *str);
 void	tokenize(t_shell *shell);
 int		operator_check(char *str, int *input_i);
 int		is_operator(char *str, int *input_i);
-int		in_qoutes(char *str, int *input_i);
 int		is_whitespace(char c);
 void	print_tokens(t_shell *shell);
+
+// quotes.c
+char	*check_qoutes(char *str, int *q_flag);
+char	*rm_qoutes(char *str);
+int		in_qoutes(char *str, int *input_i);
+int		is_closed(char *str, int i, int q_count, int start);
+char	*create_string(char *str, char *re, int i, int k, int start);
 
 // int		check_operators(char *arg);
 

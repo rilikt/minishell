@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 15:34:46 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:48:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 			printf("%s\n", envp[i]);
 		i++;
 	}
-
 	return ;
 }
 

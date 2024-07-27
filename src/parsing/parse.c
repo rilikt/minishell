@@ -6,15 +6,15 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 16:27:34 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:11:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void while_not_op(t_token **temp, int *is_var, t_token *start)
+void	while_not_op(t_token **temp, int *is_var, t_token *start)
 {
-	while((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
+	while ((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
 	{
 		if ((*temp)->type == VARIABLE)
 			(*is_var)++;
@@ -24,20 +24,22 @@ void while_not_op(t_token **temp, int *is_var, t_token *start)
 	{
 		if (!(*temp)->next)
 			ft_error("pipe syntax error", ERR_SYNTAX);
-		else if((*temp)->next->type == PIPE)
+		else if ((*temp)->next->type == PIPE)
 			ft_error("pipe syntax error", ERR_SYNTAX);
 		else if ((*temp) == start)
 			ft_error("pipe syntax error", ERR_SYNTAX);
 	}
 }
 
-
-void create_var_list(t_shell *shell)
+void	create_var_list(t_shell *shell)
 {
-	char *vars = NULL;
-	int i = 0;
-	char *flag;
-	int start;
+	char	*vars;
+	int		i;
+	char	*flag;
+	int		start;
+
+	vars = NULL;
+	i = 0;
 	while (shell->input[i])
 	{
 		flag = "1";
@@ -46,7 +48,7 @@ void create_var_list(t_shell *shell)
 			start = i;
 			if (shell->input[i] == 39)
 				flag = "0";
-			while(shell->input[i] != shell->input[start])
+			while (shell->input[i] != shell->input[start])
 			{
 				if (shell->input[i] == '$')
 					vars = ft_strjoin(vars, flag);
@@ -57,21 +59,14 @@ void create_var_list(t_shell *shell)
 			vars = ft_strjoin(vars, flag);
 		i++;
 	}
-	// printf("%s\n", vars);
 }
 
-
-void parse_tokens(t_shell *shell)
+t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 {
-	t_token *temp = shell->tokens;
-	t_token *start;
-	t_cmd *command = NULL;
-	shell->cmd_nb = 0;
-	int is_var;
-	char **arr;
+	int		is_var;
+	t_token	*start;
 
-	create_var_list(shell);
-	while(temp)
+	while (temp)
 	{
 		is_var = 0;
 		start = temp;
@@ -88,7 +83,28 @@ void parse_tokens(t_shell *shell)
 		store_in_cmd(&command, arr, is_var);
 		if (temp)
 			temp = temp->next;
-		shell->cmd_nb += 1;
 	}
-	shell->commands = command;
+	return (command);
+}
+
+void	parse_tokens(t_shell *shell)
+{
+	t_token	*temp;
+	t_token	*start;
+	t_cmd	*command;
+	int		is_var;
+	char	**arr;
+
+	shell->cmd_nb = 0;
+	temp = shell->tokens;
+	command = NULL;
+	arr = NULL;
+	create_var_list(shell);
+	shell->commands = parse_loop(temp, command, shell, arr);
+	command = shell->commands;
+	while (command)
+	{
+		shell->cmd_nb += 1;
+		command = command->next;
+	}
 }

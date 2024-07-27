@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/26 15:57:29 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/27 15:53:03 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ PARSING  :=	parse.c\
 			parse_arr_and_nodes.c
 TOKENIZER:=	read_input.c\
 			token_list.c\
-			tokenizer.c
+			tokenizer.c\
+			quotes.c
 
 SOURCES = main.c\
 		$(addprefix builtins/,$(BUILTINS))\
