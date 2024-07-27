@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 17:04:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:39:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void setup_shell(t_shell *shell, char **envp)
 			ft_itoa(nb);
 	}
 }
+
 int main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -56,6 +57,7 @@ int main(int argc, char **argv, char **envp)
 			execute_commandline(&shell);
 		free_struct(&shell);
 	}
+	//free_env(shell.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);
 	return (0);
 }

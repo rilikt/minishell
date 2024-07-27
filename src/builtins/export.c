@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/26 17:13:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/27 14:41:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ void	export_print(char **envp)
 		}
 		len--;
 	}
-	// print_arr(local_envp);
 	add_qoutes(local_envp);
 	free_string_array(local_envp);
 }
