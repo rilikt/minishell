@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/27 14:41:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:32:20 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@ char	**append_env(char *var, char **envp)
 		len++;
 	}
 	re = (char **)malloc((len + 2) * sizeof(char *));
+	error_check(re, "append_env", ERR_MALLOC);
 	len = 0;
 	while (envp[len])
 	{
 		re[len] = ft_strdup(envp[len]);
+		error_check(re[len], "ft_strdup in append_env", ERR_MALLOC);
 		len++;
 	}
 	re[len] = ft_strdup(var);
+	error_check(re[len], "ft_strdup in append_env", ERR_MALLOC);
 	re[len +1] = NULL;
 	free_string_array(envp);
 	return (re);
@@ -97,10 +100,12 @@ int	copy_envp(char ***local_envp, char **envp)
 	while (envp[len])
 		len++;
 	(*local_envp) = (char **)malloc((len + 1) * sizeof(char *));
+	error_check((*local_envp), "copy_envp", ERR_MALLOC);
 	len = 0;
 	while (envp[len])
 	{
 		(*local_envp)[len] = ft_strdup(envp[len]);
+		error_check((*local_envp)[len], "copy_envp", ERR_MALLOC);
 		len++;
 	}
 	(*local_envp)[len] = NULL;
@@ -142,7 +147,7 @@ int	check_and_print(char **args, char ***envp)
 
 	j = 0;
 	if (!(*envp))
-		ft_error("envp error", ERR_EXPORT);
+		return (0);
 	if (!args[1])
 	{
 		export_print(*envp);
@@ -151,7 +156,10 @@ int	check_and_print(char **args, char ***envp)
 	while (args[j])
 	{
 		if (ft_isdigit(args[j][0]))
-			ft_error("starting with digit", ERR_EXPORT);
+		{
+			error_check(NULL, "false var declaration", ERR_SYNTAX);
+			return(0);
+		}
 		j++;
 	}
 	return (1);
@@ -175,8 +183,9 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		{
 			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
-				// free((*envp)[i]);
+				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);
+				error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
 				set = 1;
 			}
 			i++;

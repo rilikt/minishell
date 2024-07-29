@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 16:40:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:38:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void update_env(char ***envp) // maybe use ft_getenv for all of this instead of 
 	old[0] = "export";
 	new[0] = "export";
 	old[1] = ft_strjoin("OLDPWD=", ft_getenv("PWD", *envp));
+	error_check(old[1], "ft_strjoin in update_env", ERR_MALLOC);
 	new[1] = ft_strjoin("PWD=", path);
+	error_check(new[1], "ft_strjoin in update_env", ERR_MALLOC);
 	old[2] = NULL;
 	new[2] = NULL;
 	export(old, envp);
@@ -45,7 +47,6 @@ void update_env(char ***envp) // maybe use ft_getenv for all of this instead of 
 	free(old[1]);
 	free(new[1]);
 }
-
 
 void cd(char **arg, char ***envp)
 {
@@ -59,19 +60,20 @@ void cd(char **arg, char ***envp)
 		write(2, "cd : too many arguments\n", 25);
 		return;
 	}
-	getcwd(path, sizeof(path)); // get the current dir and append onto it
-	if (!ft_strchr(move_to, '/')) // for relative path containing 
+	getcwd(path, sizeof(path));
+	if (!ft_strchr(move_to, '/')) // need to check if this is needed or chdir takes care of this
 	{
 		if (path[ft_strlen(path)-1] != '/')
 		move_to = ft_strjoin("/", move_to);
+		error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
 		move_to = ft_strjoin(path, move_to);
+		error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
 	}
 	if (chdir(move_to) == -1)
 	{
-		fprintf(stderr, "cd : %s %s\n", strerror(errno), input);
+		fprintf(stderr, "cd : %s %s\n", strerror(errno), input); // fprint not allowed find alternative
 	}
 	update_env(envp);
-	return;
 }
 
 void pwd(char **arg)
