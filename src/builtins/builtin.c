@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/26 16:16:23 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:26:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 	if (cmd->builtin_flag == FT_ECHO)
 		echo(cmd->args);
 	else if (cmd->builtin_flag == CD)
-		cd(cmd->args);
+		cd(cmd->args, envp);
 	else if (cmd->builtin_flag == PWD)
 		pwd(cmd->args);
 	else if (cmd->builtin_flag == EXPORT)

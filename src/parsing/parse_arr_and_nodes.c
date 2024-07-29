@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 15:49:17 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:49:06 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ char	**create_array(t_token *start, t_token *end)
 		temp_start = temp_start->next;
 	}
 	arr = (char **)malloc((str_count + 1) * (sizeof(char *)));
-	if (!arr)
-		ft_error("malloc error", ERR_MALLOC);
+	error_check(arr, "create_array", ERR_MALLOC);
 	while (i < str_count)
 	{
 		// arr[i] = strdup(start->str);
@@ -69,8 +68,7 @@ char	**append_array(char **arr, t_token *start, t_token *end)
 	if (start == end)
 		return (arr);
 	re = (char **)malloc(size_to_allocate(arr, start, end) * (sizeof(char *)));
-	if (!re)
-		ft_error("malloc error", ERR_MALLOC);
+	error_check(re, "append_array", ERR_MALLOC);
 	while (arr[i])
 	{
 		re[i] = arr[i];
@@ -92,8 +90,7 @@ void	append_cmd_node(t_cmd **head)
 	t_cmd	*temp;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
-	if (!new_node)
-		ft_error("malloc error", ERR_MALLOC);
+	error_check(new_node, "append_cmd_node", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->reds = NULL;
 	new_node->args = NULL;

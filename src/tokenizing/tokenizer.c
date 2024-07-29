@@ -6,17 +6,17 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 15:52:30 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:02:20 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int token_loop(int i, char *str)
+int token_loop(int i, char *str, t_shell *shell)
 {
 	while (str[i] && !is_whitespace(str[i]))
 	{
-		if (in_qoutes(str, &i))
+		if (in_qoutes(str, &i, shell))
 			break ;
 		if (is_operator(str, &i))
 			break ;
@@ -47,9 +47,9 @@ void	tokenize(t_shell *shell)
 		if (!str[i])
 			break ;
 		start = i;
-		i = token_loop(i, str);
+		i = token_loop(i, str, shell);
 		token_str = ft_substr(str, start, i - start);
-		token_str = check_qoutes(token_str, &q_flag);
+		token_str = check_qoutes(token_str, &q_flag, shell);
 		append_node(&token, token_str, q_flag);
 	}
 	shell->tokens = token;

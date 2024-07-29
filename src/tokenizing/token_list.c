@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 16:10:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:46:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ t_token	*create_node(char *str, int q_flag)
 	t_token	*new_node;
 
 	new_node = (t_token *)malloc(sizeof(t_token));
-	if (!new_node)
-		ft_error("malloc error", ERR_MALLOC);
+	error_check(new_node, "token node allocation", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->str = str;
@@ -89,7 +88,9 @@ void	is_heredoc(t_token *node)
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
 			break ;
 		line = ft_strjoin(line, "\n");
+		error_check(line, "ft_strjoin", ERR_MALLOC);
 		input = ft_strjoin(input, line);
+		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
 	node->str = input;
 	if (input)

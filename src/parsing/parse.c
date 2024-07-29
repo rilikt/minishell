@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 15:11:38 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:53:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	while_not_op(t_token **temp, int *is_var, t_token *start)
+void	while_not_op(t_token **temp, int *is_var, t_shell *shell)
 {
 	while ((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
 	{
@@ -23,11 +23,11 @@ void	while_not_op(t_token **temp, int *is_var, t_token *start)
 	if ((*temp) && (*temp)->type == PIPE)
 	{
 		if (!(*temp)->next)
-			ft_error("pipe syntax error", ERR_SYNTAX);
+			shell->err = ERR_SYNTAX;
 		else if ((*temp)->next->type == PIPE)
-			ft_error("pipe syntax error", ERR_SYNTAX);
-		else if ((*temp) == start)
-			ft_error("pipe syntax error", ERR_SYNTAX);
+			shell->err = ERR_SYNTAX;
+		else if ((*temp) == shell->tokens)
+			shell->err = ERR_SYNTAX;
 	}
 }
 
@@ -71,13 +71,13 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 		is_var = 0;
 		start = temp;
 		append_cmd_node(&command);
-		while_not_op(&temp, &is_var, shell->tokens);
+		while_not_op(&temp, &is_var, shell);
 		arr = create_array(start, temp);
 		if (is_redir(temp))
 		{
 			temp = check_redir(&command, temp);
 			start = temp;
-			while_not_op(&temp, &is_var, shell->tokens);
+			while_not_op(&temp, &is_var, shell);
 			arr = append_array(arr, start, temp);
 		}
 		store_in_cmd(&command, arr, is_var);
