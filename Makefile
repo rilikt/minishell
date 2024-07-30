@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/30 14:21:10 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/30 16:06:40 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ $(LIBFT):
 $(NAME): $(OBJS)
 	@$(MAKE) print
 	@$(MAKE) $(LIBFT)
-	@$(CC) $(CFLAGS)  $(LFLAGS) -o $@ $^
+	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
 	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
 	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
 	@$(MAKE) welcome 
