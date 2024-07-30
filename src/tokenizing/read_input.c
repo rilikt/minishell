@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 19:01:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:31:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-// checks if the string only contains whitespace
 int	check_whitespace(char *input)
 {
 	int	i;
@@ -52,7 +51,7 @@ char	*read_input(void)
 		free(input);
 		input = read_input();
 	}
-	free (rl_str);
+	free(rl_str);
 	add_history(input);
 	return (input);
 }

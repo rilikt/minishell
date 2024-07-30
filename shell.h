@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:02:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:33:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int		operator_check(char *str, int *input_i);
 int		is_operator(char *str, int *input_i);
 int		is_whitespace(char c);
 void	print_tokens(t_shell *shell);
-int token_loop(int i, char *str, t_shell *shell);
+int		token_loop(int i, char *str, t_shell *shell);
 
 // quotes.c
 char	*check_qoutes(char *str, int *q_flag, t_shell *shell);

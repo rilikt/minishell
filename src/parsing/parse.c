@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 16:53:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:38:57 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ void	create_var_list(t_shell *shell)
 			start = i;
 			if (shell->input[i] == 39)
 				flag = "0";
+			i++;
 			while (shell->input[i] != shell->input[start])
 			{
-				if (shell->input[i] == '$')
+				if (shell->input[i] == '$') // myb check for whitespace after and set flag accordingly
 					vars = ft_strjoin(vars, flag);
 				i++;
 			}
@@ -59,6 +60,7 @@ void	create_var_list(t_shell *shell)
 			vars = ft_strjoin(vars, flag);
 		i++;
 	}
+	shell->vars = vars;
 }
 
 t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)

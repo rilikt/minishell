@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 16:46:55 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:30:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	check_variable(char *str, int q_flag)
 int	find_type(char *str, int q_flag)
 {
 	int	i;
+
 	char *operator= "|<>$";
-	
 	i = 0;
 	while (operator[i] && !q_flag)
 	{
@@ -114,5 +114,4 @@ void	append_node(t_token **head, char *str, int q_flag)
 	temp->next = new_node;
 	new_node->prev = temp;
 	is_heredoc(new_node);
-	return ;
 }

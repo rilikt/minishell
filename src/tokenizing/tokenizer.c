@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:02:20 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:30:04 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int token_loop(int i, char *str, t_shell *shell)
+int	token_loop(int i, char *str, t_shell *shell)
 {
 	while (str[i] && !is_whitespace(str[i]))
 	{
@@ -24,7 +24,7 @@ int token_loop(int i, char *str, t_shell *shell)
 			break ;
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
 void	tokenize(t_shell *shell)
@@ -40,7 +40,7 @@ void	tokenize(t_shell *shell)
 	token = NULL;
 	i = 0;
 	while (str[i])
-	{	
+	{
 		q_flag = 0;
 		while (is_whitespace(str[i]))
 			i++;

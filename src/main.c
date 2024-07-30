@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:33:43 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:33:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void setup_shell(t_shell *shell, char **envp)
 	shlvl = getenv("SHLVL");
 	if (shlvl)
 	{
-			nb = ft_atoi(shlvl);
-			nb += 1;
-			ft_itoa(nb);
+		nb = ft_atoi(shlvl);
+		nb += 1;
+		ft_itoa(nb);
 	}
 }
 
@@ -49,14 +49,13 @@ int main(int argc, char **argv, char **envp)
 			tokenize(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);
-		// printf("%d\n", shell.err); // maybe use error code in a function to print message
-		// print_commands(&shell);
+		print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus))
 			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);	
 		else if (!shell.err)
 			execute_commandline(&shell);
-		free_struct(&shell);
+		// free_struct(&shell);
 	}
 	free_string_array(shell.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);

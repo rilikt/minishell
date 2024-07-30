@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:02:50 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:32:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,24 +98,3 @@ char *check_qoutes(char *str, int *q_flag, t_shell *shell)
 	*q_flag = 1;
 	return(create_string(str, re, 0, 0, 0));
 }
-
-// char	*rm_qoutes(char *str)
-// {
-// 	int		i;
-// 	int		len;
-// 	char	*re;
-
-// 	i = 0;
-// 	if (str[i] != 34 && str[i] != 39)
-// 		return (str);
-// 	len = ft_strlen(str) - 2;
-// 	re = (char *)malloc(len);
-// 	re[len] = '\0';
-// 	while (i < len)
-// 	{
-// 		re[i] = str[i + 1];
-// 		i++;
-// 	}
-// 	free(str);
-// 	return (re);
-// }
