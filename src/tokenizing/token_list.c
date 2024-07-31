@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 14:30:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:41:54 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,32 @@ int	find_type(char *str, int q_flag)
 	return (check_variable(str, q_flag));
 }
 
-t_token	*create_node(char *str, int q_flag)
+
+char	*set_vars(char *str, char *vars)
+{
+	static int i = 0;
+	int j;
+	int count;
+	char *re;
+
+	j = 0;
+	count = 0;
+	while (str[j])
+	{
+		if (str[j] == '$')
+			count++;
+		j++;
+	}
+	if (count == 0)
+		return (NULL);
+	re = ft_substr(vars, i, count);
+	i = count;
+	if (!vars[i])
+		i = 0;
+	return (re);
+}
+
+t_token	*create_node(char *str, int q_flag, char *vars)
 {
 	t_token	*new_node;
 
@@ -68,6 +93,7 @@ t_token	*create_node(char *str, int q_flag)
 	new_node->prev = NULL;
 	new_node->str = str;
 	new_node->type = find_type(str, q_flag);
+	new_node->vars = set_vars(str, vars);
 	return (new_node);
 }
 
@@ -97,12 +123,12 @@ void	is_heredoc(t_token *node)
 		node->type = check_variable(input, 0);
 }
 
-void	append_node(t_token **head, char *str, int q_flag)
+void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 {
 	t_token	*new_node;
 	t_token	*temp;
 
-	new_node = create_node(str, q_flag);
+	new_node = create_node(str, q_flag, shell->vars);
 	if (*head == NULL)
 	{
 		*head = new_node;

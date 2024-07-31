@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 11:30:55 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:44:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 	char	*filename;
 	int		type;
 	int		is_var;
+	char	*vars;
 
 	filename = NULL;
 	is_var = 0;
+	vars = NULL;
 	if (!is_redir(tkn_temp))
 		return (tkn_temp);
 	type = tkn_temp->type;
@@ -30,15 +32,18 @@ t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 	{
 		filename = tkn_temp->str;
 		if (tkn_temp->type == VARIABLE)
+		{
 			is_var = 1;
+			vars = ft_strjoin(vars, tkn_temp->vars);
+		}
 		tkn_temp = tkn_temp->next;
 	}
-	append_rdct_node(command, type, filename, is_var);
+	append_rdct_node(command, type, filename, is_var, vars);
 	tkn_temp = check_redir(command, tkn_temp);
 	return (tkn_temp);
 }
 
-void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var)
+void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var, char *vars)
 {
 	t_rdct	*new_node;
 	t_rdct	*temp;
@@ -52,6 +57,7 @@ void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var)
 	new_node->next = NULL;
 	new_node->type = type;
 	new_node->filename = filename;
+	new_node->vars = vars;
 	if (is_var)
 		command->var_in_redir++;
 	if (command->reds == NULL)

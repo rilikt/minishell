@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 14:30:04 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:27:12 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	tokenize(t_shell *shell)
 	str = shell->input;
 	token = NULL;
 	i = 0;
+	create_var_list(shell);
 	while (str[i])
 	{
 		q_flag = 0;
@@ -50,7 +51,7 @@ void	tokenize(t_shell *shell)
 		i = token_loop(i, str, shell);
 		token_str = ft_substr(str, start, i - start);
 		token_str = check_qoutes(token_str, &q_flag, shell);
-		append_node(&token, token_str, q_flag);
+		append_node(&token, token_str, q_flag, shell);
 	}
 	shell->tokens = token;
 }
@@ -121,7 +122,7 @@ void	print_tokens(t_shell *shell)
 	temp = shell->tokens;
 	while (temp)
 	{
-		printf("-token%d- str: %s, type: %d\n", i, temp->str, temp->type);
+		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str, temp->type, temp->vars);
 		temp = temp->next;
 		i++;
 	}

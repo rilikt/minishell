@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 14:33:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:45:12 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ enum e_mode {
 typedef struct s_redirect {
 	int					type;
 	char				*filename;
+	char				*vars;
 	int					in_fd;
 	int					out_fd;
 	struct s_redirect	*next;
@@ -96,6 +97,7 @@ typedef struct s_redirect {
 typedef struct s_tokenlist {
 	int					type;
 	char				*str;
+	char				*vars;
 	int					index;
 	struct s_tokenlist	*prev;
 	struct s_tokenlist	*next;
@@ -104,6 +106,7 @@ typedef struct s_tokenlist {
 typedef struct s_command {
 	char				**args;
 	int					is_var;
+	char				*vars;
 	int					builtin_flag;
 	int					stdout_fd;
 	t_rdct				*reds;
@@ -217,11 +220,11 @@ void	signal_handler(int signum);
 char	**create_array(t_token *start, t_token *end);
 char	**append_array(char **arr, t_token *start, t_token *end);
 void	append_cmd_node(t_cmd **head);
-void	store_in_cmd(t_cmd **head, char **arr, int is_var);
+void	store_in_cmd(t_cmd **head, char **arr, int is_var, char *vars);
 
 //parse_redir.c
 t_token	*check_redir(t_cmd **command, t_token *tkn_temp);
-void	append_rdct_node(t_cmd **command, int type, char *filename, int is_var);
+void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var, char *vars);
 int		is_redir(t_token *token);
 
 // parse_utils.c
@@ -229,8 +232,9 @@ void	print_commands(t_shell *shell);
 void	print_arr(char **arr);
 
 //parse.c
-void	while_not_op(t_token **temp, int *is_var, t_shell *shell);
+void	while_not_op(t_token **temp, int *is_var, t_shell *shell, char **vars);
 void	parse_tokens(t_shell *shell);
+void	create_var_list(t_shell *shell);
 
 /*		general utils	*/
 void	free_struct(t_shell *shell);
@@ -244,9 +248,11 @@ char	*read_input(void);
 //token_list.c
 int		check_variable(char *str, int q_flag);
 int		find_type(char *str, int q_flag);
-t_token	*create_node(char *str, int q_flag);
+t_token	*create_node(char *str, int q_flag, char *vars);
 void	is_heredoc(t_token *node);
-void	append_node(t_token **head, char *str, int q_flag);
+void	append_node(t_token **head, char *str, int q_flag, t_shell *shell);
+char	*set_vars(char *str, char *vars);
+
 
 //tokenizer.c
 void	tokenize(t_shell *shell);

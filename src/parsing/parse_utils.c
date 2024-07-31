@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 15:35:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:46:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	print_commands(t_shell *shell)
 	cmd_i = 1;
 	redir_i = 0;
 	i = 0;
-	printf("EnvVars:%s\n", shell->vars);
 	printf("Commands: %d\n", shell->cmd_nb);
 	while (temp)
 	{
@@ -49,15 +48,15 @@ void	print_commands(t_shell *shell)
 			printf("%s ", temp->args[i]);
 			i++;
 		}
-		printf("is var: %d var in redir:%d ", temp->is_var, temp->var_in_redir);
+		printf("is var: %d var in redir: %d vars %s", temp->is_var, temp->var_in_redir, temp->vars);
 		if (temp->reds)
 		{
 			printf("redirections: ");
 			temp_redir = temp->reds;
 			while (temp_redir)
 			{
-				printf("nr:%d type: %d filename: %s ", redir_i,
-					temp->reds->type, temp->reds->filename);
+				printf("nr:%d type: %d filename: %s vars %s", redir_i,
+					temp->reds->type, temp->reds->filename, temp->reds->vars);
 				temp_redir = temp_redir->next;
 				redir_i++;
 			}

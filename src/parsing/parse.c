@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 11:26:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:40:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,15 @@ void	create_var_list(t_shell *shell)
 	shell->vars = vars;
 }
 
-void	while_not_op(t_token **temp, int *is_var, t_shell *shell)
+void	while_not_op(t_token **temp, int *is_var, t_shell *shell, char **vars)
 {
 	while ((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
 	{
 		if ((*temp)->type == VARIABLE)
+		{
 			(*is_var)++;
+			*vars = ft_strjoin(*vars, (*temp)->vars);
+		}
 		(*temp) = (*temp)->next;
 	}
 	if ((*temp) && (*temp)->type == PIPE)
@@ -70,22 +73,24 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 {
 	int		is_var;
 	t_token	*start;
+	char	*vars;
 
 	while (temp)
 	{
+		vars = NULL;
 		is_var = 0;
 		start = temp;
 		append_cmd_node(&command);
-		while_not_op(&temp, &is_var, shell);
+		while_not_op(&temp, &is_var, shell, &vars);
 		arr = create_array(start, temp);
 		if (is_redir(temp))
 		{
 			temp = check_redir(&command, temp);
 			start = temp;
-			while_not_op(&temp, &is_var, shell);
+			while_not_op(&temp, &is_var, shell, NULL);
 			arr = append_array(arr, start, temp);
 		}
-		store_in_cmd(&command, arr, is_var);
+		store_in_cmd(&command, arr, is_var, vars);
 		if (temp)
 			temp = temp->next;
 	}
@@ -104,7 +109,6 @@ void	parse_tokens(t_shell *shell)
 	temp = shell->tokens;
 	command = NULL;
 	arr = NULL;
-	create_var_list(shell);
 	shell->commands = parse_loop(temp, command, shell, arr);
 	command = shell->commands;
 	while (command)
