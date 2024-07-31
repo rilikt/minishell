@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:41:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:48:40 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,50 @@ t_token	*create_node(char *str, int q_flag, char *vars)
 	return (new_node);
 }
 
+
+int count_quotes(char *str, int q_count, int start)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == 34 || str[i] == 39)
+		{
+			start = i;
+			i++;
+			while(str[i])
+			{
+				if (str[i] == str[start])
+				{
+					q_count += 2;
+					break;
+				}
+				i++;
+			}
+			if (str[i] != str[start])
+				return (-1);
+		}
+		if (str[i])
+			i++;
+	}
+	return(q_count);
+}
+
+
+char *check_and_rm_quotes(char *str)
+{
+	char	*re;
+	int count;
+
+	count = count_quotes(str, 0, 0);
+	if (count == -1)
+		return("\0");
+	re = (char *)malloc(ft_strlen(str) + 1 - count);
+	error_check(re, "check_and_rm_quotes", ERR_MALLOC);
+	return(create_string(str, re, 0, 0, 0));
+}
+
 void	is_heredoc(t_token *node)
 {
 	char	*line;
@@ -107,11 +151,13 @@ void	is_heredoc(t_token *node)
 		return ;
 	line = NULL;
 	input = NULL;
-	delimiter = node->str;
+	delimiter = check_and_rm_quotes(node->str);
 	while (1)
 	{
 		line = readline("> ");
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)))
+		if (!line)
+			break;
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && delimiter[0] != '\0')
 			break ;
 		line = ft_strjoin(line, "\n");
 		error_check(line, "ft_strjoin", ERR_MALLOC);

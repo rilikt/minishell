@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/26 16:00:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:40:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	path_to_cmd = NULL;
 	// printf("[0]:%d, [1]:%d, last:%d\n", pipes->pipe[0], pipes->pipe[1], pipes->last_pipe);
 	change_std_fd(pipes, mode);
-	expand_cmd(cmd, shell->exitstatus);
+	expand_cmd(cmd, shell->exitstatus, shell->envp);
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 	{

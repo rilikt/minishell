@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:45:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:35:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	check_mode_handle_signals(t_shell *shell);
 
 /*		builtins		*/
 // builtin.c
-int		single_cmd_check(t_cmd *cmd, int exitstatus);
+int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
 void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
 void	check_builtins(t_cmd *cmd);
 
@@ -205,10 +205,10 @@ void	redirect_accordingly(t_rdct *reds);
 /*		expander		*/
 
 //expanding.c
-void	expand_cmd(t_cmd *cmd, int exitstatus);
+void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
-void	check_char_behind(char **pos, char **tmp);
+void	check_char_behind(char **pos, char **str, int *tmp);
 char	**split_and_arrange_cmd(char **args);
 
 /*		mode_nd_signals	*/
@@ -266,7 +266,7 @@ int		token_loop(int i, char *str, t_shell *shell);
 char	*check_qoutes(char *str, int *q_flag, t_shell *shell);
 char	*rm_qoutes(char *str);
 int		in_qoutes(char *str, int *input_i, t_shell *shell);
-int		is_closed(char *str, int i, int q_count, int start, t_shell *shell);
+int		is_closed(char *str, int q_count, int start, t_shell *shell);
 char	*create_string(char *str, char *re, int i, int k, int start);
 
 // int		check_operators(char *arg);

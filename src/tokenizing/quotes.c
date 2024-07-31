@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 14:32:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:29:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ int	in_qoutes(char *str, int *input_i, t_shell *shell)
 	return (in_qoutes(str, input_i, shell));
 }
 
-int is_closed(char *str, int i, int q_count, int start, t_shell *shell)
+int is_closed(char *str, int q_count, int start, t_shell *shell)
 {
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == 34 || str[i] == 39)
@@ -89,7 +92,7 @@ char *check_qoutes(char *str, int *q_flag, t_shell *shell)
 	int q_count;
 	char *re;
 
-	q_count = is_closed(str, 0, 0, 0, shell);
+	q_count = is_closed(str, 0, 0, shell);
 	if (!q_count)
 		return(str);
 
