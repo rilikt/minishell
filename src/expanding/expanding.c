@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 13:01:23 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:34:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,70 +111,70 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	}
 	return ;
 }
-int main(int argc, char **argv, char **envp)
-{
-	t_cmd cmd;
-	t_rdct	*tmp;
-	char *f = "$SHLVL";
-	char *s ="$LOGNAME";
-	char *d = "ste$?hen$LS";
-	char *f1 = "1";
-	char *s1 = "1";
-	char *d1 = "01";
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_cmd cmd;
+// 	t_rdct	*tmp;
+// 	char *f = "$SHLVL";
+// 	char *s ="$LOGNAME";
+// 	char *d = "ste$?hen$LS";
+// 	char *f1 = "1";
+// 	char *s1 = "1";
+// 	char *d1 = "01";
 
-	cmd.args = ft_split("Hallo&$$$$LOGNAME $? &hier&ist&philipp&aka$LS", '&');
-	cmd.is_var = 1;
-	cmd.vars = "111";
-	tmp = (t_rdct *)malloc(sizeof(t_rdct));
-	cmd.reds = tmp;
-	tmp->filename = (char *)malloc(sizeof(f));
-	tmp-> vars = (char *)malloc(sizeof(f1));
-	ft_memmove(tmp->vars, f1, ft_strlen(f));
-	ft_memmove(tmp->filename, f, ft_strlen(f));
-	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
-	tmp = tmp->next;
+// 	cmd.args = ft_split("Hallo&$$$$LOGNAME $? &hier&ist&philipp&aka$LS", '&');
+// 	cmd.is_var = 1;
+// 	cmd.vars = "111";
+// 	tmp = (t_rdct *)malloc(sizeof(t_rdct));
+// 	cmd.reds = tmp;
+// 	tmp->filename = (char *)malloc(sizeof(f));
+// 	tmp-> vars = (char *)malloc(sizeof(f1));
+// 	ft_memmove(tmp->vars, f1, ft_strlen(f));
+// 	ft_memmove(tmp->filename, f, ft_strlen(f));
+// 	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
+// 	tmp = tmp->next;
 	
-	tmp->filename = (char *)malloc(sizeof(s));
-	tmp-> vars = (char *)malloc(sizeof(s1));
-	ft_memmove(tmp->vars, s1, ft_strlen(s1));
-	ft_memmove(tmp->filename, s, ft_strlen(s));
-	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
-	tmp = tmp->next;
+// 	tmp->filename = (char *)malloc(sizeof(s));
+// 	tmp-> vars = (char *)malloc(sizeof(s1));
+// 	ft_memmove(tmp->vars, s1, ft_strlen(s1));
+// 	ft_memmove(tmp->filename, s, ft_strlen(s));
+// 	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
+// 	tmp = tmp->next;
 	
-	tmp->filename = (char *)malloc(sizeof(d));
-	tmp-> vars = (char *)malloc(sizeof(d1));
-	ft_memmove(tmp->vars, d1, ft_strlen(d1));
-	ft_memmove(tmp->filename, d, ft_strlen(d));
-	tmp->next = NULL;
+// 	tmp->filename = (char *)malloc(sizeof(d));
+// 	tmp-> vars = (char *)malloc(sizeof(d1));
+// 	ft_memmove(tmp->vars, d1, ft_strlen(d1));
+// 	ft_memmove(tmp->filename, d, ft_strlen(d));
+// 	tmp->next = NULL;
 	
-	cmd.var_in_redir = 1;
-	expand_cmd(&cmd, 15, envp);
-	int i = 0;
-	printf("---final output---\n");
-	while (cmd.args[i])
-	{
-		if (cmd.args[i + 1])
-			printf("%s\n", cmd.args[i]);
-		else
-			printf("%s\n", cmd.args[i]);
-		free(cmd.args[i]);
-		i++;
-	}
-	free(cmd.args);
-	printf("------reds---------\n");
-	while (1)
-	{
-		tmp = cmd.reds;
-		printf("%s\n", cmd.reds->filename);
-		free(cmd.reds->filename);
-		cmd.reds = cmd.reds->next;
-		free(tmp);
-		if(!cmd.reds)
-			break ;
-	}
+// 	cmd.var_in_redir = 1;
+// 	expand_cmd(&cmd, 15, envp);
+// 	int i = 0;
+// 	printf("---final output---\n");
+// 	while (cmd.args[i])
+// 	{
+// 		if (cmd.args[i + 1])
+// 			printf("%s\n", cmd.args[i]);
+// 		else
+// 			printf("%s\n", cmd.args[i]);
+// 		free(cmd.args[i]);
+// 		i++;
+// 	}
+// 	free(cmd.args);
+// 	printf("------reds---------\n");
+// 	while (1)
+// 	{
+// 		tmp = cmd.reds;
+// 		printf("%s\n", cmd.reds->filename);
+// 		free(cmd.reds->filename);
+// 		cmd.reds = cmd.reds->next;
+// 		free(tmp);
+// 		if(!cmd.reds)
+// 			break ;
+// 	}
 
-	// system("leaks a.out");
-	return 0;
-}
+// 	// system("leaks a.out");
+// 	return 0;
+// }
 // cc -Wall -Wextra -Werror -lreadline ../../include/libft/libft.a 
 // expanding.c ../error_and_utils/error.c -g
