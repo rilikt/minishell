@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:45:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:27:47 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_redirect {
 	char				*vars;
 	int					in_fd;
 	int					out_fd;
+	char				*vars;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -106,6 +107,7 @@ typedef struct s_tokenlist {
 typedef struct s_command {
 	char				**args;
 	int					is_var;
+	char				*vars;
 	char				*vars;
 	int					builtin_flag;
 	int					stdout_fd;
@@ -205,10 +207,10 @@ void	redirect_accordingly(t_rdct *reds);
 /*		expander		*/
 
 //expanding.c
-void	expand_cmd(t_cmd *cmd, int exitstatus);
+void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
-void	check_char_behind(char **pos, char **tmp);
+void	check_char_behind(char **pos, char **str, int *tmp);
 char	**split_and_arrange_cmd(char **args);
 
 /*		mode_nd_signals	*/

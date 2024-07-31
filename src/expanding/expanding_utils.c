@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/19 11:27:02 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:38:29 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	check_char_behind(char **pos, char **tmp)
+void	check_char_behind(char **pos, char **str, int *tmp)
 {
 	while (*pos && (*(*pos + 1) == '\0' || *(*pos + 1) == '$' || *(*pos
 				+ 1) == ' '))
@@ -22,8 +22,8 @@ void	check_char_behind(char **pos, char **tmp)
 		else if (*(*pos + 1) == '$')
 			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else if (*(*pos + 1) == ' ')
-			*tmp = *pos + 1;
-		*pos = ft_strchr(*tmp, '$');
+			(*tmp)++;
+		*pos = ft_strchr(&str[0][*tmp], '$');
 	}
 	return ;
 }
