@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 14:31:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:12:55 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_whitespace(char *input)
 	return (1);
 }
 
-char	*read_input(void)
+char	*read_input(int mode)
 {
 	char	*input;
 	char	path[1024];
@@ -40,16 +40,22 @@ char	*read_input(void)
 	free(rl_str);
 	rl_str = ft_strjoin("🐚 ", tmp);
 	free(tmp);
-	input = readline(rl_str);
+	if (mode == INTERACTIVE)
+		input = readline(rl_str);
+	else
+	{
+		char *tmp = get_next_line(fileno(stdin));
+		input = ft_strtrim(tmp, "\n");
+		free(tmp);
+	}
 	if (!input)
 	{
-		free(input);
 		exit(EXIT_FAILURE);
 	}
 	if (check_whitespace(input))
 	{
 		free(input);
-		input = read_input();
+		input = read_input(mode);
 	}
 	free(rl_str);
 	add_history(input);

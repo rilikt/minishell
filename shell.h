@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 16:14:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:52:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SHELL_H
 
 # include "include/libft/libft.h"
+# include "include/get_next_line/get_next_line.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <signal.h>
@@ -22,7 +23,7 @@
 # include <readline/history.h>
 # include <dirent.h>
 # include <errno.h>
- #include <termios.h>
+# include <termios.h>
 # include <string.h>
 # include <sys/wait.h>
 
@@ -249,7 +250,7 @@ void	free_struct(t_shell *shell);
 
 //read_input.c
 int		check_whitespace(char *input);
-char	*read_input(void);
+char	*read_input(int mode);
 
 //token_list.c
 int		check_variable(char *str, int q_flag);

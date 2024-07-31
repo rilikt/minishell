@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/31 16:05:40 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/07/31 16:46:30 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,16 +62,19 @@ SRC =	$(addprefix $(SRC_PATH),$(SOURCES))
 OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
 NAME := minishell
 LIB := $(INCLUDE_PATH)libft
-LIBFT := $(INCLUDE_PATH)libft/libft.a
+LIBG := $(INCLUDE_PATH)get_next_line
+LIBFT :=	$(INCLUDE_PATH)libft/libft.a\
+			$(INCLUDE_PATH)get_next_line/get_next_line.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
 CFLAGS = # -Wall -Wextra -Werror
-LFLAGS = -L$(LIB) -lft -lreadline
+LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 all: $(NAME)
 $(LIBFT):
 
+	@$(MAKE) -C $(LIBG)
 	@printf "$(CYAN)Building libraries$(RESET)"
 	@$(MAKE) -C $(LIB) & PID=$$!; \
 	while kill -0 $$PID 2>/dev/null; do \
@@ -81,7 +84,7 @@ $(LIBFT):
 	wait $$PID;
 	@printf "$(GREEN)\nBuild complete.$(RESET)\n\n"
 	@sleep 1
-	@printf " $(YELLOW)Compiling $(NAME)$(RESET)\n\n"
+	@printf "$(YELLOW)Compiling $(NAME)$(RESET)\n\n"
 	
 $(NAME): $(OBJS)
 	@$(MAKE) print
@@ -105,6 +108,7 @@ clean:
 fclean: clean
 	@printf "$(BLUE)"
 	@$(MAKE) -C $(LIB)/ fclean
+	@$(MAKE) -C $(LIBG)/ fclean
 	@printf "$(BLUE)REMOVING EXECUTABLE$(RESET)\n\n"
 	@rm -rf $(NAME)
 

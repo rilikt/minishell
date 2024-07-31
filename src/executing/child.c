@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 14:40:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:44:59 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 	{
-		path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]));
-		error_check(path_to_cmd, cmd->args[0], ERR_PATH);
+		if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
+		{
+			path_to_cmd = ft_strdup(cmd->args[0]);
+			cmd->args[0] = ft_strdup(ft_strrchr(cmd->args[0], '/'));
+		}
+		else
+		{
+			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]));
+			error_check(path_to_cmd, cmd->args[0], ERR_PATH);
+		}
 	}
 	redirect_accordingly(cmd->reds);
 	if (cmd->builtin_flag != EXTERN)

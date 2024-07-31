@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:40:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:24:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	create_var_list(t_shell *shell)
 			if (shell->input[i] == 39)
 				flag = "0";
 			i++;
-			while (shell->input[i] != shell->input[start])
+			while (shell->input[i] && (shell->input[i] != shell->input[start]))
 			{
 				if (shell->input[i] == '$') // myb check for whitespace after and set flag accordingly
 					vars = ft_strjoin(vars, flag);

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 12:32:31 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:44:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	redirect_accordingly(t_rdct *reds)
 			change_input_fd(reds);
 		else if (reds->type == IN_HEREDOC)
 			;
-		else if (reds->type == OUT_REDIRECT && access(reds->filename, F_OK))
+		else if (reds->type == OUT_REDIRECT && !access(reds->filename, F_OK))
 			change_output_fd(reds, O_CREAT);
-		else if (reds->type == OUT_RED_APPEND && access(reds->filename, F_OK))
+		else if (reds->type == OUT_RED_APPEND && !access(reds->filename, F_OK))
 			change_output_fd(reds, O_CREAT);
 		else if (reds->type == OUT_REDIRECT && !access(reds->filename, W_OK))
 			change_output_fd(reds, O_TRUNC);
