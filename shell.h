@@ -120,6 +120,12 @@ typedef struct s_piping {
 	int		last_pipe;
 }	t_pipe;
 
+typedef struct s_expand_help {
+	char	**envp;
+	char	*vars;
+	int		exit;
+} t_exp_help ;
+
 typedef struct s_shell {
 	int					mode;
 	char				**envp;
