@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 14:38:56 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:47:36 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,12 @@ typedef struct s_piping {
 	int		pipe[2];
 	int		last_pipe;
 }	t_pipe;
+
+typedef struct s_expand_help {
+	char	**envp;
+	char	*vars;
+	int		exit;
+} t_exp_help ;
 
 typedef struct s_shell {
 	int					mode;

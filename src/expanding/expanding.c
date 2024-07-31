@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 14:49:41 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:11:05 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char	*get_var(char *pos, char **var_name, int exitstatus, char **envp)
+char	*get_var(char *pos, char **var_name, t_exp_help utils)
 {
 	char	*tmp;
 	char	*var_value;
@@ -21,19 +21,19 @@ char	*get_var(char *pos, char **var_name, int exitstatus, char **envp)
 	tmp = pos + 1;
 	if (*tmp == '?')
 	{
-		var_value = ft_itoa(exitstatus);
+		var_value = ft_itoa(utils.exit);
 		tmp++;
 	}
 	else
 	{
-		while (*tmp && (*tmp != ' ') && (*tmp != '$'))
+		while (*tmp && (*tmp != ' ') && (*tmp != '$') && (*tmp != '\''))
 		tmp++;
 	}
 	*var_name = (char *)malloc(sizeof(char) * (tmp - pos));
 	error_check(*var_name, "malloc failed", ERR_MALLOC);
 	ft_strlcpy(*var_name, pos + 1, tmp - pos);
 	if (!var_value)
-		var_value = ft_getenv(*var_name, envp);
+		var_value = ft_getenv(*var_name, utils.envp);
 	return (var_value);
 }
 
@@ -58,7 +58,7 @@ void	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return ;
 }
 
-void	expand_string(char **str, int exitstatus, char *vars, int *exp_count, char **envp)
+void	expand_string(char **str, int *exp_count, t_exp_help utils)
 {
 	int		tmp;
 	char	*pos;
@@ -71,11 +71,11 @@ void	expand_string(char **str, int exitstatus, char *vars, int *exp_count, char 
 	{
 		tmp = pos - *str;
 		check_char_behind(&pos, str, &tmp);
-		value = get_var(pos, &name, exitstatus, envp);
-		if (pos && vars && vars[(*exp_count)++] == '1')
+		value = get_var(pos, &name, utils);
+		if (pos && utils.vars && utils.vars[(*exp_count)++] == '1')
 		{
 			if (!value)
-				ft_memmove(pos, pos + ft_strlen(name) + 1, ft_strlen(name) + 1);
+				ft_memmove(pos, pos + ft_strlen(name) + 1, ft_strlen(pos + ft_strlen(name)) + 1);
 			else
 				insert_var(str, pos, value, name);
 			tmp += ft_strlen(value);
@@ -89,24 +89,29 @@ void	expand_string(char **str, int exitstatus, char *vars, int *exp_count, char 
 
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
-	int		i;
-	int		exp_count;
-	t_rdct	*tmp;
+	int				i;
+	int				exp_count;
+	t_rdct			*tmp;
+	t_exp_help	utils;
 
 	i = 0;
 	exp_count = 0;
+	utils.envp = envp;
+	utils.vars = cmd->vars;
+	utils.exit = exitstatus;
 	while (cmd->vars && cmd->args[i])
 	{
-		expand_string(&cmd->args[i], exitstatus, cmd->vars, &exp_count, envp);
+		expand_string(&cmd->args[i], &exp_count, utils);
 		if (i == 0 && ft_strchr(cmd->args[0], ' '))
 			cmd->args = split_and_arrange_cmd(cmd->args);
 		i++;
 	}
 	tmp = cmd->reds;
-	while (cmd->vars > 0 && tmp)
+	while (tmp && tmp->vars)
 	{
+		utils.vars = tmp->vars;
 		exp_count = 0;
-		expand_string(&tmp->filename, exitstatus, tmp->vars, &exp_count, envp);
+		expand_string(&tmp->filename, &exp_count, utils);
 		tmp = tmp->next;
 	}
 	return ;
@@ -122,9 +127,9 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 // 	char *s1 = "1";
 // 	char *d1 = "01";
 
-// 	cmd.args = ft_split("Hallo&$$$$LOGNAME $? &hier&ist&philipp&aka$LS", '&');
+// 	cmd.args = ft_split("echo $LS'$HOME'", ' ');
 // 	cmd.is_var = 1;
-// 	cmd.vars = "111";
+// 	cmd.vars = "11";
 // 	tmp = (t_rdct *)malloc(sizeof(t_rdct));
 // 	cmd.reds = tmp;
 // 	tmp->filename = (char *)malloc(sizeof(f));
@@ -150,7 +155,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 // 	cmd.var_in_redir = 1;
 // 	expand_cmd(&cmd, 15, envp);
 // 	int i = 0;
-// 	printf("---final output---\n");
+// 	printf("---final output---\n\n");
 // 	while (cmd.args[i])
 // 	{
 // 		if (cmd.args[i + 1])
@@ -161,7 +166,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 // 		i++;
 // 	}
 // 	free(cmd.args);
-// 	printf("------reds---------\n");
+// 	printf("\n------reds---------\n\n");
 // 	while (1)
 // 	{
 // 		tmp = cmd.reds;
@@ -172,7 +177,8 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 // 		if(!cmd.reds)
 // 			break ;
 // 	}
-
+// 	printf("\n");
+	
 // 	// system("leaks a.out");
 // 	return 0;
 // }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/07/30 16:06:40 by timschmi         ###   ########.fr        #
+#    Updated: 2024/07/31 16:05:40 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,14 +86,14 @@ $(LIBFT):
 $(NAME): $(OBJS)
 	@$(MAKE) print
 	@$(MAKE) $(LIBFT)
-	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
+	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS) -O0 -g
 	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
 	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
 	@$(MAKE) welcome 
 	
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -o $@ -c $^ -g
+	@$(CC) $(CFLAGS) -o $@ -c $^ -O0 -g
 	@printf "$(GREEN)█ $(RESET)"
 
 clean:
