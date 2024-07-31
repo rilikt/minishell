@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:24:38 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:24:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int main(int argc, char **argv, char **envp)
 			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);	
 		else if (!shell.err)
 			execute_commandline(&shell);
-		// free_struct(&shell);
+		free_struct(&shell);
 	}
 	free_string_array(shell.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);

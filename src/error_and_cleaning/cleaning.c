@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/26 17:00:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:28:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	free_struct(t_shell *shell)
 			temp_cmd->reds = temp_cmd->reds->next;
 			free(temp_redir);
 		}
-		free(temp_cmd->args);
+		if (temp_cmd->args)
+			free(temp_cmd->args);
 		free(temp_cmd);
 	}
 }

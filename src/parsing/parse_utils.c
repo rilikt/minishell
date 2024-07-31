@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:46:19 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:29:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	print_commands(t_shell *shell)
 			printf("%s ", temp->args[i]);
 			i++;
 		}
-		printf("is var: %d var in redir: %d vars %s", temp->is_var, temp->var_in_redir, temp->vars);
+		printf("vars %s ", temp->vars);
 		if (temp->reds)
 		{
 			printf("redirections: ");
