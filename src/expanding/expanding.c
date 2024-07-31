@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 14:34:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:49:41 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char	*get_var(char *pos, char **var_name, int exitstatus)
+char	*get_var(char *pos, char **var_name, int exitstatus, char **envp)
 {
 	char	*tmp;
 	char	*var_value;
@@ -33,7 +33,7 @@ char	*get_var(char *pos, char **var_name, int exitstatus)
 	error_check(*var_name, "malloc failed", ERR_MALLOC);
 	ft_strlcpy(*var_name, pos + 1, tmp - pos);
 	if (!var_value)
-		var_value = getenv(*var_name);
+		var_value = ft_getenv(*var_name, envp);
 	return (var_value);
 }
 
@@ -58,7 +58,7 @@ void	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return ;
 }
 
-void	expand_string(char **str, int exitstatus, char *vars, int *exp_count)
+void	expand_string(char **str, int exitstatus, char *vars, int *exp_count, char **envp)
 {
 	int		tmp;
 	char	*pos;
@@ -71,7 +71,7 @@ void	expand_string(char **str, int exitstatus, char *vars, int *exp_count)
 	{
 		tmp = pos - *str;
 		check_char_behind(&pos, str, &tmp);
-		value = get_var(pos, &name, exitstatus);
+		value = get_var(pos, &name, exitstatus, envp);
 		if (pos && vars && vars[(*exp_count)++] == '1')
 		{
 			if (!value)
@@ -97,7 +97,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	exp_count = 0;
 	while (cmd->vars && cmd->args[i])
 	{
-		expand_string(&cmd->args[i], exitstatus, cmd->vars, &exp_count);
+		expand_string(&cmd->args[i], exitstatus, cmd->vars, &exp_count, envp);
 		if (i == 0 && ft_strchr(cmd->args[0], ' '))
 			cmd->args = split_and_arrange_cmd(cmd->args);
 		i++;
@@ -106,7 +106,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	while (cmd->vars > 0 && tmp)
 	{
 		exp_count = 0;
-		expand_string(&tmp->filename, exitstatus, tmp->vars, &exp_count);
+		expand_string(&tmp->filename, exitstatus, tmp->vars, &exp_count, envp);
 		tmp = tmp->next;
 	}
 	return ;

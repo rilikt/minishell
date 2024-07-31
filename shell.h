@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 14:27:47 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:38:56 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_redirect {
 	char				*vars;
 	int					in_fd;
 	int					out_fd;
-	char				*vars;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -107,7 +106,6 @@ typedef struct s_tokenlist {
 typedef struct s_command {
 	char				**args;
 	int					is_var;
-	char				*vars;
 	char				*vars;
 	int					builtin_flag;
 	int					stdout_fd;
@@ -143,7 +141,7 @@ void	check_mode_handle_signals(t_shell *shell);
 
 /*		builtins		*/
 // builtin.c
-int		single_cmd_check(t_cmd *cmd, int exitstatus);
+int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
 void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
 void	check_builtins(t_cmd *cmd);
 

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/29 16:26:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:38:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int	single_cmd_check(t_cmd *cmd, int exitstatus)
+int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
 {
 	cmd->stdout_fd = -1;
-	expand_cmd(cmd, exitstatus);
+	expand_cmd(cmd, exitstatus, envp);
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 		return(0);
