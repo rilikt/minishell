@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/19 11:42:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:30:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 {
-	t_cmd	*cmd_temp;
 	char	*filename;
 	int		type;
 	int		is_var;
 
-	cmd_temp = *command;
 	filename = NULL;
 	is_var = 0;
 	if (!is_redir(tkn_temp))
 		return (tkn_temp);
-	while (cmd_temp->next)
-		cmd_temp = cmd_temp->next;
 	type = tkn_temp->type;
 	tkn_temp = tkn_temp->next;
 	if (tkn_temp->type == PIPE)
@@ -37,30 +33,33 @@ t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 			is_var = 1;
 		tkn_temp = tkn_temp->next;
 	}
-	append_rdct_node(&cmd_temp, type, filename, is_var);
+	append_rdct_node(command, type, filename, is_var);
 	tkn_temp = check_redir(command, tkn_temp);
 	return (tkn_temp);
 }
 
-void	append_rdct_node(t_cmd **command, int type, char *filename, int is_var)
+void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var)
 {
 	t_rdct	*new_node;
 	t_rdct	*temp;
+	t_cmd	*command;
 
+	command = *head;
+	while (command->next)
+		command = command->next;
 	new_node = (t_rdct *)malloc(sizeof(t_rdct));
-	if (!new_node)
-		ft_error("malloc error", ERR_MALLOC);
+	error_check(new_node, "append_rdct_node", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->type = type;
 	new_node->filename = filename;
 	if (is_var)
-		(*command)->var_in_redir++;
-	if ((*command)->reds == NULL)
+		command->var_in_redir++;
+	if (command->reds == NULL)
 	{
-		(*command)->reds = new_node;
+		command->reds = new_node;
 		return ;
 	}
-	temp = (*command)->reds;
+	temp = command->reds;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_node;

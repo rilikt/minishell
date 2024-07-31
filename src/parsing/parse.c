@@ -6,30 +6,12 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/30 15:38:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:26:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	while_not_op(t_token **temp, int *is_var, t_shell *shell)
-{
-	while ((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
-	{
-		if ((*temp)->type == VARIABLE)
-			(*is_var)++;
-		(*temp) = (*temp)->next;
-	}
-	if ((*temp) && (*temp)->type == PIPE)
-	{
-		if (!(*temp)->next)
-			shell->err = ERR_SYNTAX;
-		else if ((*temp)->next->type == PIPE)
-			shell->err = ERR_SYNTAX;
-		else if ((*temp) == shell->tokens)
-			shell->err = ERR_SYNTAX;
-	}
-}
 
 void	create_var_list(t_shell *shell)
 {
@@ -61,6 +43,27 @@ void	create_var_list(t_shell *shell)
 		i++;
 	}
 	shell->vars = vars;
+}
+
+void	while_not_op(t_token **temp, int *is_var, t_shell *shell)
+{
+	while ((*temp) && ((*temp)->type != PIPE && !is_redir((*temp))))
+	{
+		if ((*temp)->type == VARIABLE)
+			(*is_var)++;
+		(*temp) = (*temp)->next;
+	}
+	if ((*temp) && (*temp)->type == PIPE)
+	{
+		if (!(*temp)->next)
+			shell->err = ERR_SYNTAX;
+		else if ((*temp)->next->type == PIPE)
+			shell->err = ERR_SYNTAX;
+		else if ((*temp) == shell->tokens)
+			shell->err = ERR_SYNTAX;
+		else if (is_redir((*temp)->prev))
+			shell->err = ERR_SYNTAX;
+	}
 }
 
 t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
