@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 12:40:25 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:29:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	find_type(char *str, int q_flag)
 		{
 			if (str[0] == '|')
 				return (PIPE);
-			else if (str[0] == '$' && str[1])
+			else if (str[0] == '$')
 				return (VARIABLE);
 			else if (str[0] == '<' && !str[1])
 				return (IN_REDIRECT);
