@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 15:48:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:40:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	check_variable(char *str, int q_flag)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == 39)
-			return (IN_QUOTES);
 		if (str[i] == '$' && (!is_whitespace(str[i + 1]) && str[i + 1]))
 			return (VARIABLE);
 		i++;
