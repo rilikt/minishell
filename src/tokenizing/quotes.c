@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 15:29:51 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:50:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	in_qoutes(char *str, int *input_i, t_shell *shell)
 		i++;
 	if (str[i] != str[start])
 		shell->err = ERR_SYNTAX;
-	*input_i = i + 1;
-	return (in_qoutes(str, input_i, shell));
+	*input_i = i +1;
+	// return (in_qoutes(str, input_i, shell));
+	return(1);
 }
 
 int is_closed(char *str, int q_count, int start, t_shell *shell)

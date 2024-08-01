@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 16:24:52 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:25:22 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,13 @@ void	create_var_list(t_shell *shell)
 			}
 		}
 		else if (shell->input[i] == '$')
-			vars = ft_strjoin(vars, flag);
+		{
+			if ((shell->input[i+1] == 39 || shell->input[i+1] == 34))
+				vars = ft_strjoin(vars, "0");
+			else
+				vars = ft_strjoin(vars, "1");
+		}
+		
 		i++;
 	}
 	shell->vars = vars;

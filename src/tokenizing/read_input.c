@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 17:12:55 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:54:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ char	*read_input(int mode)
 		input = readline(rl_str);
 	else
 	{
-		char *tmp = get_next_line(fileno(stdin));
-		input = ft_strtrim(tmp, "\n");
-		free(tmp);
+		input = get_next_line(fileno(stdin));
+		// input = ft_strtrim(tmp, "\n");
+		// free(tmp);
 	}
 	if (!input)
 	{
