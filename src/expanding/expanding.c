@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/01 12:10:36 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:18:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*get_var(char *pos, char **var_name, t_exp_help utils)
 	else
 	{
 		while (*tmp && (*tmp != ' ') && (*tmp != '$') && (*tmp != '\'')
-				&& (*tmp != '/'))
+				&& (*tmp != '/') && (*tmp != '\\') && (*tmp != '"')
+				&& (*tmp != '|'))
 		tmp++;
 	}
 	*var_name = (char *)malloc(sizeof(char) * (tmp - pos));
