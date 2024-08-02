@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 09:24:08 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:03:22 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
 	if (u->vars[u->count] == '2')
 	{
 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
+		u->count++;
+		*pos = ft_strchr(&str[0][*tmp], '$');
+	}
+	if (u->vars[u->count] == '0')
+	{
+		(*tmp)++;
 		u->count++;
 		*pos = ft_strchr(&str[0][*tmp], '$');
 	}

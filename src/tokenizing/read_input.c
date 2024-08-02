@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 12:03:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:53:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ char	*read_input(int mode)
 		input = readline(rl_str);
 	else
 	{
-		input = get_next_line(fileno(stdin));
-		// input = ft_strtrim(tmp, "\n");
-		// free(tmp);
+		tmp = get_next_line(fileno(stdin));
+		if (tmp)
+			input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+		free(tmp);
 	}
 	if (!input)
 	{

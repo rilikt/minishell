@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 11:04:18 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 14:40:17 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ enum e_builtins {
 	ENV,
 	EXIT,
 	EXTERN,
+	NO_CMD,
 } ;
 
 enum e_type {

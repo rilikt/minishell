@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 17:05:01 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:15:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	create_var_list(t_shell *shell)
 	while (shell->input[i])
 	{
 		flag = "1";
+		char c = shell->input[i];
 		if (shell->input[i] == 34 || shell->input[i] == 39)
 		{
 			start = i;

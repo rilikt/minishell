@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 16:29:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 12:23:41 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*set_vars(char *str, char *vars)
 	if (count == 0)
 		return (NULL);
 	re = ft_substr(vars, i, count);
-	i = count;
+	i += count;
 	if (!vars[i])
 		i = 0;
 	return (re);
