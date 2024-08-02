@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/01 15:18:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 10:31:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_var(char *pos, char **var_name, t_exp_help utils)
 	char	*var_value;
 
 	var_value = NULL;
+	if (!pos)
+		return (NULL);
 	tmp = pos + 1;
 	if (*tmp == '?')
 	{
@@ -60,7 +62,7 @@ void	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return ;
 }
 
-void	expand_string(char **str, int *exp_count, t_exp_help utils)
+void	expand_string(char **str, t_exp_help *utils)
 {
 	int		tmp;
 	char	*pos;
@@ -72,9 +74,10 @@ void	expand_string(char **str, int *exp_count, t_exp_help utils)
 	while (pos)
 	{
 		tmp = pos - *str;
-		check_char_behind(&pos, str, &tmp);
-		value = get_var(pos, &name, utils);
-		if (pos && utils.vars && utils.vars[(*exp_count)++] == '1')
+		check_char_behind(&pos, 
+		str, &tmp, utils);
+		value = get_var(pos, &name, *utils);
+		if (pos && utils->vars && utils->vars[(utils->count)++] == '1')
 		{
 			if (!value)
 				ft_memmove(pos, pos + ft_strlen(name) + 1, ft_strlen(pos + ft_strlen(name)) + 1);
@@ -82,28 +85,27 @@ void	expand_string(char **str, int *exp_count, t_exp_help utils)
 				insert_var(str, pos, value, name);
 			tmp += ft_strlen(value);
 		}
-		else
+		else if (pos)
 			tmp += ft_strlen(name);
-		char *c = &str[0][tmp];
-		pos = ft_strchr(&str[0][tmp], '$');
+		if (pos)
+			pos = ft_strchr(&str[0][tmp], '$');
 	}
 }
 
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
 	int				i;
-	int				exp_count;
 	t_rdct			*tmp;
 	t_exp_help	utils;
 
 	i = 0;
-	exp_count = 0;
+	utils.count = 0;
 	utils.envp = envp;
 	utils.vars = cmd->vars;
 	utils.exit = exitstatus;
 	while (cmd->vars && cmd->args[i])
 	{
-		expand_string(&cmd->args[i], &exp_count, utils);
+		expand_string(&cmd->args[i], &utils);
 		if (i == 0 && ft_strchr(cmd->args[0], ' '))
 			cmd->args = split_and_arrange_cmd(cmd->args);
 		i++;
@@ -112,10 +114,11 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	while (tmp && tmp->vars)
 	{
 		utils.vars = tmp->vars;
-		exp_count = 0;
-		expand_string(&tmp->filename, &exp_count, utils);
+		utils.count = 0;
+		expand_string(&tmp->filename, &utils);
 		tmp = tmp->next;
 	}
+	// print_arr(cmd->args);
 	return ;
 }
 // int main(int argc, char **argv, char **envp)

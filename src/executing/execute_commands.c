@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 12:05:55 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:06:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pipe_mode_check(t_pipe *pipes, int *mode, int i, int cmd_nb)
 	if (i == cmd_nb - 1)
 		*mode = END;
 	if (*mode != END && pipe(pipes->pipe) < 0)
-		ft_error("pipe filed", ERR_PIPE);
+		ft_error(NULL, "pipe filed", ERR_PIPE);
 	return ;
 }
 
@@ -34,7 +34,7 @@ int	wait_for_children(int *pid, int nb)
 
 	t = (int *)malloc(sizeof(int) * nb);
 	if (!t)
-		ft_error("malloc failed", ERR_MALLOC);
+		ft_error(NULL, "malloc failed", ERR_MALLOC);
 	i = -1;
 	while (++i < nb)
 	{
@@ -62,9 +62,9 @@ void	execute_commandline(t_shell *shell)
 		pipe_mode_check(&pipes, &mode, i, shell->cmd_nb);
 		pid[i] = fork();
 		if (pid[i] == 0)
-			run_childprocess(shell->commands, &pipes, shell, mode);
+			run_childprocess(tmp, &pipes, shell, mode);
 		else if (pid[i] < 0)
-			ft_error("fork failed", ERR_FORK);
+			ft_error(NULL, "fork failed", ERR_FORK);
 		if (tmp->next)
 			tmp = tmp->next;
 		close_accordingly(&pipes, &mode);

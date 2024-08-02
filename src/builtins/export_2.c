@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:04:03 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/24 15:14:38 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:48:37 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char *ft_getenv(char *find, char **env)
 
 	len_find = ft_strlen(find);
 	i = 0;
+	if (!find || !*find)
+		return(NULL);
 	while(env[i])
 	{
 		len_var = var_len(env[i], NULL);
