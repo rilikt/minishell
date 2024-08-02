@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 12:44:55 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:39:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 	type = tkn_temp->type;
 	tkn_temp = tkn_temp->next;
 	if (tkn_temp->type == PIPE)
-		ft_error("redir syntax error", ERR_SYNTAX);
+		ft_error(NULL, "redir syntax error", ERR_SYNTAX);
 	if (tkn_temp)
 	{
 		filename = tkn_temp->str;
