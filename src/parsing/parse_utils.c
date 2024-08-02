@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 14:29:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:01:57 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	print_commands(t_shell *shell)
 		redir_i = 1;
 		i = 0;
 		printf("-command%d- :", cmd_i);
-		while (temp->args[i])
+		while (temp->args && temp->args[i])
 		{
 			printf("%s ", temp->args[i]);
 			i++;

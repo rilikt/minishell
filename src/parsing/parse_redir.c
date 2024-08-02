@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 15:16:55 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 16:40:56 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
+int check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 {
 	char	*filename;
 	int		type;
@@ -22,25 +22,25 @@ t_token	*check_redir(t_cmd **command, t_token *tkn_temp)
 	filename = NULL;
 	is_var = 0;
 	vars = NULL;
-	if (!is_redir(tkn_temp))
-		return (tkn_temp);
-	type = tkn_temp->type;
-	tkn_temp = tkn_temp->next;
-	if (!tkn_temp || tkn_temp->type == PIPE)
-		ft_error(NULL, "redir syntax error", ERR_SYNTAX);
-	if (tkn_temp)
+	if (!is_redir(*tkn_temp))
+		return (0);
+	type = (*tkn_temp)->type;
+	*tkn_temp = (*tkn_temp)->next;
+	if (!(*tkn_temp) || ((*tkn_temp)->type == PIPE) && is_redir((*tkn_temp)))
+		return(ft_sytax_error(err, *tkn_temp), ERR_SYNTAX);
+	if (*tkn_temp)
 	{
-		filename = tkn_temp->str;
-		if (tkn_temp->type == VARIABLE)
+		filename = (*tkn_temp)->str;
+		if ((*tkn_temp)->type == VARIABLE)
 		{
 			is_var = 1;
-			vars = ft_strjoin(vars, tkn_temp->vars);
+			vars = ft_strjoin(vars, (*tkn_temp)->vars);
 		}
-		tkn_temp = tkn_temp->next;
+		*tkn_temp = (*tkn_temp)->next;
 	}
 	append_rdct_node(command, type, filename, is_var, vars);
-	tkn_temp = check_redir(command, tkn_temp);
-	return (tkn_temp);
+	check_redir(command, tkn_temp, err);
+	return (0);
 }
 
 void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var, char *vars)

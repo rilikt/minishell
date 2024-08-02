@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 11:09:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:48:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	change_input_fd(t_rdct *reds)
 {
 	reds->in_fd = open(reds->filename, O_RDONLY);
 	if (reds->in_fd < 0)
-		ft_error(reds->filename, "couldnt open file\n", ERR_OPEN);
+		ft_error(reds->filename, "couldnt open file\n", ERR_EXIT);
 	ft_dup2(reds->in_fd, STDIN_FILENO);
 	ft_close(reds->in_fd);
 	return ;
@@ -26,7 +26,7 @@ void	change_output_fd(t_rdct *reds, int mode)
 {
 	reds->out_fd = open(reds->filename, O_WRONLY | mode);
 	if (reds->out_fd < 0)
-		ft_error(reds->filename, strerror(errno), ERR_OPEN);
+		ft_error(reds->filename, strerror(errno), ERR_EXIT);
 	ft_dup2(reds->out_fd, STDOUT_FILENO);
 	ft_close(reds->out_fd);
 	return ;
@@ -61,3 +61,6 @@ void	redirect_accordingly(t_rdct *reds)
 	return ;
 }
 // /bin/echo hi >./outfiles/outfile01 | /bin/echo bye
+// >> "$H"OM"E"
+// cat OME
+// /bin/rm -f OME
