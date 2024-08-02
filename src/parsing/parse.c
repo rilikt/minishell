@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 17:05:01 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:37:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,18 @@ void	create_var_list(t_shell *shell)
 {
 	char	*vars;
 	int		i;
-	char	*flag;
-	int		start;
 
 	vars = NULL;
 	i = 0;
 	while (shell->input[i])
 	{
-		flag = "1";
-		if (shell->input[i] == 34 || shell->input[i] == 39)
+		if (shell->input[i] == 39)
 		{
-			start = i;
-			if (shell->input[i] == 39)
-				flag = "0";
 			i++;
-			while (shell->input[i] && (shell->input[i] != shell->input[start]))
+			while (shell->input[i] && (shell->input[i] != 39))
 			{
 				if (shell->input[i] == '$') // myb check for whitespace after and set flag accordingly
-					vars = ft_strjoin(vars, flag);
+					vars = ft_strjoin(vars, "0");
 				i++;
 			}
 		}
