@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 14:28:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:25:18 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	free_struct(t_shell *shell)
 			free(temp_cmd->args);
 		free(temp_cmd);
 	}
+	free(shell->input);
+	shell->input = NULL;
 }
 
 void free_string_array(char **str)

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 14:44:52 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:24:24 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 enum e_errorcodes {
 	ERR_EXIT = 1,
 	ERR_MALLOC = ENOMEM,
+	ERR_FILE = 2,
 	ERR_SYNTAX,
 	ERR_PIPE,
 	ERR_FORK,
@@ -43,6 +44,7 @@ enum e_errorcodes {
 	ERR_READ,
 	ERR_CLOSE,
 	ERR_SPLIT,
+	ERR_PERMISSION = 13,
 	ERR_PATH = 127,
 	ERR_EXPORT,
 } ;
@@ -142,13 +144,13 @@ typedef struct s_shell {
 	struct termios		term[2];
 	struct sigaction	signals;
 }	t_shell;
+/*========================================================*/
+/*==				main.c								==*/
+/*========================================================*/
 
-/*		main.c			*/
-void	setup_shell(t_shell *shell, char **envp);
-void	check_mode_handle_signals(t_shell *shell);
-
-
-/*		builtins		*/
+/*========================================================*/
+/*==				builtins							==*/
+/*========================================================*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
 int		check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
@@ -181,7 +183,9 @@ int		check_and_print(char **args, char ***envp);
 void	unset(char **args, char ***envp);
 int		compare_to_envp(char **args, char *envp);
 
-/*		error and utils	*/
+/*========================================================*/
+/*==				error and utils						==*/
+/*========================================================*/
 void	ft_error(char *arg, char *msg, int errorcode);
 void	ft_sytax_error(int *err, t_token *tkn);
 void	error_check(void *ptr, char *msg, int error_code);
@@ -190,7 +194,9 @@ void	error_check(void *ptr, char *msg, int error_code);
 void	free_string_array(char **str);
 void	exit_shell(void);
 
-/*		executer		*/
+/*========================================================*/
+/*==				executer							==*/
+/*========================================================*/
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
 char	*get_path(char *cmd, char **envp);
@@ -212,8 +218,9 @@ void	change_input_fd(t_rdct *reds);
 void	change_output_fd(t_rdct *reds, int mode);
 void	redirect_accordingly(t_rdct *reds);
 
-/*		expander		*/
-
+/*========================================================*/
+/*==					expander						==*/
+/*========================================================*/
 //expanding.c
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
@@ -221,8 +228,14 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
 char	**split_and_arrange_cmd(char **args);
 
-/*		mode_nd_signals	*/
+/*=		mode_nd_signals	=*/
+//initialize.c
+void	setup_shell(t_shell *shell, char **envp, int argc, char **argv);
+char	*put_input(int argc, char **argv);
+
+//signals.c
 void	signal_handler(int signum);
+void	check_mode_handle_signals(t_shell *shell);
 
 /*		parser			*/
 

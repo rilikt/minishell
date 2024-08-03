@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 19:53:42 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:06:01 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,10 @@ void	error_check(void *ptr, char *msg, int error_code)
 
 	if (!ptr)
 	{
-		// printf("------------error input----------\n");
-		// printf("%s\nerror code: %d\n\n-------------\n", msg, error_code);
 		if (error_code == 127)
 			err_msg = "command not found";
 		else if (errno != 0)
 		{
-			// error_code = errno;
 			err_msg = strerror(errno);
 		}
 		else
