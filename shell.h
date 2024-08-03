@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 18:27:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:44:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,8 @@ void	exit_shell(void);
 /*		executer		*/
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
-char	*get_path(char *cmd);
-
+char	*get_path(char *cmd, char **envp);
+ 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
 int		wait_for_children(int *pid, int nb);

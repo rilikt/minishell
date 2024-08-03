@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 19:25:32 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:44:58 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		}
 		else
 		{
-			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]));
+			// if (ft_str)
+			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]), shell->envp);
 			error_check(path_to_cmd, cmd->args[0], ERR_PATH);
 		}
 	}
@@ -48,7 +49,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));
 }
 
-char *get_path(char *cmd)
+char *get_path(char *cmd, char **envp)
 {
 	int		i;
 	char	**path;
@@ -58,7 +59,7 @@ char *get_path(char *cmd)
 
 	i = 0;
 	error_check(cmd, "ft_strjoin", ERR_MALLOC);
-	path_string = getenv("PATH");
+	path_string = ft_getenv("PATH", envp);
 	error_check(path, "PATH not valid env variable", ERR_PATH);
 	path = ft_split(path_string, ':');
 	error_check(path, "ft_split", ERR_MALLOC);
@@ -68,6 +69,7 @@ char *get_path(char *cmd)
 		error_check(tmp, "ft_strjoin", ERR_MALLOC);
 		if (access(tmp, X_OK) == 0)
 		{
+			printf("%s\n", tmp);
 			free_string_array(path);
 			return(tmp);
 		}
