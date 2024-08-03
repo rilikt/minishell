@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 15:09:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:27:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,38 @@ char	*set_vars(char *str, char *vars)
 	if (count == 0)
 		return (NULL);
 	re = ft_substr(vars, i, count);
+	error_check(re , "set_vars", ERR_MALLOC);
 	i += count;
 	if (!vars[i])
 		i = 0;
 	return (re);
 }
 
-t_token	*create_node(char *str, int q_flag, char *vars)
+
+int	*set_int_vars(int *arr, char *str, char *vars)
+{
+	static int i = 0;
+	int len;
+	int *re;
+	int j;
+
+	j = 0;
+	len = ft_strlen(str);
+	re = (int *)malloc(len * sizeof(int));
+	error_check(re , "set_int_vars", ERR_MALLOC);
+	len += i;
+	while(i < len)
+	{
+		re[j] = arr[i];
+		j++;
+		i++;
+	}
+	if(!vars[i])
+		i = 0;
+	return (re);
+}
+
+t_token	*create_node(char *str, int q_flag, t_shell *shell)
 {
 	t_token	*new_node;
 
@@ -91,7 +116,9 @@ t_token	*create_node(char *str, int q_flag, char *vars)
 	new_node->prev = NULL;
 	new_node->str = str;
 	new_node->type = find_type(str, q_flag);
-	new_node->vars = set_vars(str, vars);
+	new_node->char_vars = set_vars(str, shell->char_vars);
+	if(new_node->char_vars)
+		new_node->int_vars = set_int_vars(shell->int_vars, new_node->char_vars, shell->char_vars);
 	return (new_node);
 }
 
@@ -172,7 +199,7 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 	t_token	*new_node;
 	t_token	*temp;
 
-	new_node = create_node(str, q_flag, shell->vars);
+	new_node = create_node(str, q_flag, shell);
 	if (*head == NULL)
 	{
 		*head = new_node;

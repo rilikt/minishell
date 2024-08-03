@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 15:08:08 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:24:50 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void setup_shell(t_shell *shell, char **envp)
 	shell->envp = copy_env(envp);
 	shell->input = NULL;
 	shell->tokens = NULL;
-	shell->vars = NULL;
+	shell->char_vars = NULL;
 	shell->commands = NULL;
 	shell->cmd_nb = 0;
 	shell->exitstatus = 0;
@@ -50,7 +50,7 @@ int main(int argc, char **argv, char **envp)
 			tokenize(&shell);
 		// printf("%d\n", shell.exitstatus);
 		
-		// print_tokens(&shell);
+		print_tokens(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);		
 		print_commands(&shell);

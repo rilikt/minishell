@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 16:01:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:52:18 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,17 @@ void	print_commands(t_shell *shell)
 			printf("%s ", temp->args[i]);
 			i++;
 		}
-		printf("vars %s ", temp->vars);
+		printf("vars %s ", temp->char_vars);
+		if (temp->char_vars)
+		{
+			int j = 0;
+			printf("int_vars:");
+			while (j < ft_strlen(temp->char_vars))
+			{
+				printf("%d ", temp->int_vars[j]);
+				j++;
+			}
+		}
 		if (temp->reds)
 		{
 			printf("redirections: ");
