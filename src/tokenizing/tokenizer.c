@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 17:05:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:01:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	tokenize(t_shell *shell)
 	str = shell->input;
 	token = NULL;
 	i = 0;
-	create_var_list(shell);
+	var_lists(shell);
 	while (str[i])
 	{
 		q_flag = 0;
@@ -118,13 +118,25 @@ int	is_whitespace(char c)
 void	print_tokens(t_shell *shell)
 {
 	int		i;
+	int j;
 	t_token	*temp;
 
 	i = 1;
 	temp = shell->tokens;
 	while (temp)
 	{
-		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str, temp->type, temp->vars);
+		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str, temp->type, temp->char_vars);
+		if (temp->char_vars)
+		{
+			j = 0;
+			printf("int_vars:");
+			while (j < ft_strlen(temp->char_vars))
+			{
+				printf("%d ", temp->int_vars[j]);
+				j++;
+			}
+			printf("\n");
+		}
 		temp = temp->next;
 		i++;
 	}

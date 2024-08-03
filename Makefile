@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/03 17:16:08 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/03 18:37:09 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ PARSING  :=	parse.c\
 TOKENIZER:=	read_input.c\
 			token_list.c\
 			tokenizer.c\
-			quotes.c
+			quotes.c\
+			expander_flags.c
 
 SOURCES = main.c\
 		$(addprefix builtins/,$(BUILTINS))\

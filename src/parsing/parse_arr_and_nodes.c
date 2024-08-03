@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 15:20:47 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:50:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	append_cmd_node(t_cmd **head)
 	new_node->reds = NULL;
 	new_node->args = NULL;
 	new_node->is_var = 0;
-	new_node->vars = NULL;
+	new_node->char_vars = NULL;
 	new_node->var_in_redir = 0;
 	if (*head == NULL)
 	{
@@ -108,12 +108,12 @@ void	append_cmd_node(t_cmd **head)
 	temp->next = new_node;
 }
 
-void	store_in_cmd(t_cmd **head, char **arr, int is_var, char *vars)
+void	store_in_cmd(t_cmd **head, char **arr, char *vars, int *int_vars)
 {
 	t_cmd *temp = *head;
 	while (temp->next)
 		temp = temp->next;
 	temp->args = arr;
-	temp->is_var = is_var;
-	temp->vars = vars;
+	temp->int_vars = int_vars;
+	temp->char_vars = vars;
 }
