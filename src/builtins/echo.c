@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 14:54:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/02 19:26:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void echo(char **args)
+void	echo(char **args)
 {
 	int i = 1;
 	int n = 1;
 
 	if (!args[1])
-		return;
+		return ;
 	if (!ft_strncmp(args[i], "-n", 3))
 	{
 		n = 0;

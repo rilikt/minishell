@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/22 09:53:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:39:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	*allocate_pid(int nb)
 
 	pid = (int *)malloc(sizeof(int) * nb);
 	if (!pid)
-		ft_error("malloc pid_arr", ERR_MALLOC);
+		ft_error(NULL, "malloc pid_arr", ERR_MALLOC);
 	return (pid);
 }
 
@@ -49,7 +49,7 @@ void ft_close(int fd)
 	if (fd >= 0)
 	{
 		if (close(fd) < 0)
-			ft_error("oh shit close failed!", ERR_CLOSE);
+			ft_error(NULL, "oh shit close failed!", ERR_CLOSE);
 	}
 	
 }
@@ -58,7 +58,7 @@ void ft_dup2(int new, int old)
 	if (new >= 0)
 	{
 	if (dup2(new, old) < 0)
-		ft_error("oh shit, dup2 failed!", ERR_DUP2);
+		ft_error(NULL, "oh shit, dup2 failed!", ERR_DUP2);
 	}
 }
 

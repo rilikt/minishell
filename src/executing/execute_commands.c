@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 11:06:32 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:18:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,17 @@ void	pipe_mode_check(t_pipe *pipes, int *mode, int i, int cmd_nb)
 int	wait_for_children(int *pid, int nb)
 {
 	int	i;
-	int	*t;
+	int	t;
 
-	t = (int *)malloc(sizeof(int) * nb);
-	if (!t)
-		ft_error(NULL, "malloc failed", ERR_MALLOC);
 	i = -1;
 	while (++i < nb)
-	{
-		waitpid(pid[i], &t[i], 0);
+	{	
+		waitpid(pid[i], &t, 0);
+		t = WEXITSTATUS(t);
 	}
 	free(pid);
 	pid = NULL;
-	return (t[nb - 1]);
+	return (t);
 }
 
 void	execute_commandline(t_shell *shell)
@@ -54,7 +52,7 @@ void	execute_commandline(t_shell *shell)
 	t_cmd	*tmp;
 
 	tmp = shell->commands;
-	pid = allocate_pid(shell->cmd_nb - 1);
+	pid = allocate_pid(shell->cmd_nb);
 	mode = START;
 	i = -1;
 	while (++i < shell->cmd_nb)
@@ -62,7 +60,9 @@ void	execute_commandline(t_shell *shell)
 		pipe_mode_check(&pipes, &mode, i, shell->cmd_nb);
 		pid[i] = fork();
 		if (pid[i] == 0)
+		{
 			run_childprocess(tmp, &pipes, shell, mode);
+		}	
 		else if (pid[i] < 0)
 			ft_error(NULL, "fork failed", ERR_FORK);
 		if (tmp->next)

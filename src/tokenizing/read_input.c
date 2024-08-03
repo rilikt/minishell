@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 17:27:46 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:09:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ char	*read_input(int mode)
 		input = readline(rl_str);
 	else
 	{
-		char *tmp = get_next_line(fileno(stdin));
-		input = ft_substr(tmp, 0, ft_strlen(tmp)-1);
+		tmp = get_next_line(fileno(stdin));
+		if (tmp)
+			input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
 		free(tmp);
 	}
 	if (!input)

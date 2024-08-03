@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 14:38:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 18:26:42 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
 	return(1);
 }
 
-void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
+int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 {
 	if (cmd->builtin_flag == FT_ECHO)
 		echo(cmd->args);
@@ -49,7 +49,7 @@ void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 		ft_dup2(cmd->stdout_fd, STDOUT_FILENO);
 		ft_close(cmd->stdout_fd);
 	}	
-	return ;
+	return (0);
 }
 
 void	check_builtins(t_cmd *cmd)
@@ -69,7 +69,10 @@ void	check_builtins(t_cmd *cmd)
 	arr[7] = NULL;
 	while (i < 7)
 	{
-		if (!ft_strncmp(cmd->args[0], arr[i], ft_strlen(arr[i]) + 1))
+		if (!cmd->args)
+			cmd->builtin_flag = NO_CMD;
+		if (cmd->args && cmd->args[0] && !ft_strncmp(cmd->args[0],
+			arr[i], ft_strlen(arr[i]) + 1))
 			cmd->builtin_flag = i;
 		i++;
 	}

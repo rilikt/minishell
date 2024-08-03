@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 11:04:18 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:44:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ enum e_builtins {
 	ENV,
 	EXIT,
 	EXTERN,
+	NO_CMD,
 } ;
 
 enum e_type {
@@ -150,7 +151,7 @@ void	check_mode_handle_signals(t_shell *shell);
 /*		builtins		*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
-void	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
+int		check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
 void	check_builtins(t_cmd *cmd);
 
 // directory.c
@@ -182,6 +183,7 @@ int		compare_to_envp(char **args, char *envp);
 
 /*		error and utils	*/
 void	ft_error(char *arg, char *msg, int errorcode);
+void	ft_sytax_error(int *err, t_token *tkn);
 void	error_check(void *ptr, char *msg, int error_code);
 
 // cleaning.c
@@ -191,8 +193,8 @@ void	exit_shell(void);
 /*		executer		*/
 //child.c
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode);
-char	*get_path(char *cmd);
-
+char	*get_path(char *cmd, char **envp);
+ 
 //execute_commandline.c
 void	execute_commandline(t_shell *shell);
 int		wait_for_children(int *pid, int nb);
@@ -231,7 +233,7 @@ void	append_cmd_node(t_cmd **head);
 void	store_in_cmd(t_cmd **head, char **arr, int is_var, char *vars);
 
 //parse_redir.c
-t_token	*check_redir(t_cmd **command, t_token *tkn_temp);
+int		check_redir(t_cmd **command, t_token **tkn_temp, int *err);
 void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var, char *vars);
 int		is_redir(t_token *token);
 

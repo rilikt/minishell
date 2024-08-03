@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 11:29:53 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 19:53:42 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,18 @@ void	ft_error(char *arg, char *msg, int errorcode)
 	exit (errorcode);
 }
 
-// ft_non_fatal_error();
+void	ft_sytax_error(int *err, t_token *tkn)
+{
+	*err = ERR_SYNTAX;
+	write(STDERR_FILENO, "minishell: syntax error near unexpected token ", 47);
+	if (!tkn)
+		write(STDERR_FILENO, "'newline'", 10);
+	else
+		write (STDERR_FILENO, tkn->str, ft_strlen(tkn->str));
+	write(STDERR_FILENO, "\n", 1);
+	return ;
+}
+
 
 void	error_check(void *ptr, char *msg, int error_code)
 {
@@ -41,7 +52,7 @@ void	error_check(void *ptr, char *msg, int error_code)
 			err_msg = "command not found";
 		else if (errno != 0)
 		{
-			error_code = errno;
+			// error_code = errno;
 			err_msg = strerror(errno);
 		}
 		else

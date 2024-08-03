@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/02 11:39:01 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:08:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,23 @@ int main(int argc, char **argv, char **envp)
 		shell.input = read_input(shell.mode);
 		if (!shell.err)
 			tokenize(&shell);
-		print_tokens(&shell);
+		// printf("%d\n", shell.exitstatus);
+		
+		// print_tokens(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);		
 		print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus, shell.envp))
-			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);
+	{		check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);
+		// printf("%d\n", shell.exitstatus);
+	}
 		else if (!shell.err)
 			execute_commandline(&shell);
 		// free_struct(&shell);
+		// printf("%d\n", shell.exitstatus);
 	}
 	free_string_array(shell.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);
-	return (0);
+	return (shell.exitstatus);
 }

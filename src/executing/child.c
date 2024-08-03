@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 11:06:06 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:44:58 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,36 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	// print_arr(cmd->args);
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
+	{
 		expand_cmd(cmd, shell->exitstatus, shell->envp);
-	check_builtins(cmd);
-	if (cmd->builtin_flag == EXTERN)
+		check_builtins(cmd);
+	}
+	redirect_accordingly(cmd->reds);
+	if (cmd->builtin_flag == EXTERN && cmd->args && cmd->args[0])
 	{
 		if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 		{
+
 			path_to_cmd = ft_strdup(cmd->args[0]);
 			cmd->args[0] = ft_strdup(ft_strrchr(cmd->args[0], '/'));
 		}
 		else
 		{
-			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]));
+			// if (ft_str)
+			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]), shell->envp);
 			error_check(path_to_cmd, cmd->args[0], ERR_PATH);
 		}
 	}
-	redirect_accordingly(cmd->reds);
 	if (cmd->builtin_flag != EXTERN)
-		check_and_exec_builtins(cmd, &shell->envp, &shell->err);
+		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err));
+	if (!cmd->args || !cmd->args[0])
+		exit(0);
 	execve(path_to_cmd, cmd->args, shell->envp);
 	// error_check
 	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));
 }
 
-char *get_path(char *cmd)
+char *get_path(char *cmd, char **envp)
 {
 	int		i;
 	char	**path;
@@ -53,7 +59,7 @@ char *get_path(char *cmd)
 
 	i = 0;
 	error_check(cmd, "ft_strjoin", ERR_MALLOC);
-	path_string = getenv("PATH");
+	path_string = ft_getenv("PATH", envp);
 	error_check(path, "PATH not valid env variable", ERR_PATH);
 	path = ft_split(path_string, ':');
 	error_check(path, "ft_split", ERR_MALLOC);
@@ -63,6 +69,7 @@ char *get_path(char *cmd)
 		error_check(tmp, "ft_strjoin", ERR_MALLOC);
 		if (access(tmp, X_OK) == 0)
 		{
+			printf("%s\n", tmp);
 			free_string_array(path);
 			return(tmp);
 		}
