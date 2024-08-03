@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 17:44:59 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:06:06 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	char	*path_to_cmd;
 
 	path_to_cmd = NULL;
-	// printf("[0]:%d, [1]:%d, last:%d\n", pipes->pipe[0], pipes->pipe[1], pipes->last_pipe);
+	// print_arr(cmd->args);
 	change_std_fd(pipes, mode);
-	expand_cmd(cmd, shell->exitstatus, shell->envp);
+	if (shell->cmd_nb > 1)
+		expand_cmd(cmd, shell->exitstatus, shell->envp);
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
 	{

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/31 16:52:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:04:18 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_piping {
 typedef struct s_expand_help {
 	char	**envp;
 	char	*vars;
+	int		count;
 	int		exit;
 } t_exp_help ;
 
@@ -180,7 +181,7 @@ void	unset(char **args, char ***envp);
 int		compare_to_envp(char **args, char *envp);
 
 /*		error and utils	*/
-void	ft_error(char *msg, int errorcode);
+void	ft_error(char *arg, char *msg, int errorcode);
 void	error_check(void *ptr, char *msg, int error_code);
 
 // cleaning.c
@@ -215,7 +216,7 @@ void	redirect_accordingly(t_rdct *reds);
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
-void	check_char_behind(char **pos, char **str, int *tmp);
+void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
 char	**split_and_arrange_cmd(char **args);
 
 /*		mode_nd_signals	*/

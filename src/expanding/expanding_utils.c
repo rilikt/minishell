@@ -6,23 +6,36 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/07/31 12:38:29 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:24:08 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	check_char_behind(char **pos, char **str, int *tmp)
+void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
 {
+	if (u->vars[u->count] == '2')
+	{
+		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
+		u->count++;
+		*pos = ft_strchr(&str[0][*tmp], '$');
+	}
 	while (*pos && (*(*pos + 1) == '\0' || *(*pos + 1) == '$' || *(*pos
 				+ 1) == ' '))
 	{
 		if (*(*pos + 1) == '\0')
+		{
+			(*tmp)++;
+			*pos = NULL;
 			return ;
-		else if (*(*pos + 1) == '$')
+		}
+		else if (*(*pos + 1) == '$' && u->vars[u->count] == '1')
 			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else if (*(*pos + 1) == ' ')
 			(*tmp)++;
+		else
+			(*tmp)++;
+		u->count++;
 		*pos = ft_strchr(&str[0][*tmp], '$');
 	}
 	return ;
