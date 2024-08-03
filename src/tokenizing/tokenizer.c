@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:23:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:01:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	is_whitespace(char c)
 void	print_tokens(t_shell *shell)
 {
 	int		i;
+	int j;
 	t_token	*temp;
 
 	i = 1;
@@ -127,7 +128,7 @@ void	print_tokens(t_shell *shell)
 		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str, temp->type, temp->char_vars);
 		if (temp->char_vars)
 		{
-			int j = 0;
+			j = 0;
 			printf("int_vars:");
 			while (j < ft_strlen(temp->char_vars))
 			{

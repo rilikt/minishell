@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:48:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:17:10 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 	while (temp)
 	{
 		vars = NULL;
-		*int_vars = 0;
+		int_vars = NULL;
 		start = temp;
 		append_cmd_node(&command);
 		while_not_op(&temp, shell, &vars, &int_vars);
@@ -85,7 +85,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 			if(check_redir(&command, &temp, &shell->err))
 				return(command);
 			start = temp;
-			while_not_op(&temp, shell, NULL, 0);
+			while_not_op(&temp, shell, &vars, &int_vars);
 			arr = append_array(arr, start, temp);
 		}
 		store_in_cmd(&command, arr, vars, int_vars);

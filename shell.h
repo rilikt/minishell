@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:50:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:59:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ enum e_mode {
 typedef struct s_redirect {
 	int					type;
 	char				*filename;
-	char				*vars;
+	char				*char_vars;
+	int					*int_vars;
 	int					in_fd;
 	int					out_fd;
 	struct s_redirect	*next;
@@ -237,7 +238,7 @@ void	store_in_cmd(t_cmd **head, char **arr, char *vars, int *int_vars);
 
 //parse_redir.c
 int		check_redir(t_cmd **command, t_token **tkn_temp, int *err);
-void	append_rdct_node(t_cmd **head, int type, char *filename, int is_var, char *vars);
+void	append_rdct_node(t_cmd **head, int type, char *filename, char *vars, int *int_vars);
 int		is_redir(t_token *token);
 
 // parse_utils.c
@@ -247,6 +248,7 @@ void	print_arr(char **arr);
 //parse.c
 void	while_not_op(t_token **temp, t_shell *shell, char **vars, int **int_vars);
 void	parse_tokens(t_shell *shell);
+int		*add_to_arr(char *vars, int *arr, char *added, int *int_vars);
 
 /*		general utils	*/
 void	free_struct(t_shell *shell);

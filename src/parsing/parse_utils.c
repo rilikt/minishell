@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:52:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:22:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	print_commands(t_shell *shell)
 	int		cmd_i;
 	int		redir_i;
 	int		i;
+	int j;
 
 	// t_shell *temp = shell;
 	temp = shell->commands;
@@ -51,7 +52,7 @@ void	print_commands(t_shell *shell)
 		printf("vars %s ", temp->char_vars);
 		if (temp->char_vars)
 		{
-			int j = 0;
+			j = 0;
 			printf("int_vars:");
 			while (j < ft_strlen(temp->char_vars))
 			{
@@ -66,7 +67,17 @@ void	print_commands(t_shell *shell)
 			while (temp_redir)
 			{
 				printf("nr:%d type: %d filename: %s vars %s", redir_i,
-					temp->reds->type, temp->reds->filename, temp->reds->vars);
+					temp->reds->type, temp->reds->filename, temp->reds->char_vars);
+				if (temp->reds->char_vars)
+				{
+					j = 0;
+					printf("int_vars:");
+					while (j < ft_strlen(temp->reds->char_vars))
+					{
+						printf("%d ", temp->reds->int_vars[j]);
+						j++;
+					}
+				}
 				temp_redir = temp_redir->next;
 				redir_i++;
 			}
