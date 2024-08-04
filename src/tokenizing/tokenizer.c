@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 17:01:47 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:50:43 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ void	tokenize(t_shell *shell)
 
 int	operator_check(char *str, int *input_i)
 {
-	int	i;
+	int		i;
+	char	*operator;
 
-	char *operator= "|<>";
+	operator= "|<>";
 	i = 0;
 	while (operator[i])
 	{
@@ -78,10 +79,11 @@ int	operator_check(char *str, int *input_i)
 
 int	is_operator(char *str, int *input_i)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*operator;
 
-	char *operator= "|<>";
+	operator= "|<>";
 	i = *input_i;
 	j = 0;
 	while (operator[j])
@@ -118,14 +120,15 @@ int	is_whitespace(char c)
 void	print_tokens(t_shell *shell)
 {
 	int		i;
-	int j;
+	int		j;
 	t_token	*temp;
 
 	i = 1;
 	temp = shell->tokens;
 	while (temp)
 	{
-		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str, temp->type, temp->char_vars);
+		printf("-token%d- str: %s, type: %d vars: %s\n", i, temp->str,
+			temp->type, temp->char_vars);
 		if (temp->char_vars)
 		{
 			j = 0;

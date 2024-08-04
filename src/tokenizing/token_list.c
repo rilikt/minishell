@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:27:24 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:51:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,12 @@ int	find_type(char *str, int q_flag)
 	return (check_variable(str, q_flag));
 }
 
-
 char	*set_vars(char *str, char *vars)
 {
-	static int i = 0;
-	int j;
-	int count;
-	char *re;
+	static int	i = 0;
+	int			j;
+	int			count;
+	char		*re;
 
 	j = 0;
 	count = 0;
@@ -75,33 +74,32 @@ char	*set_vars(char *str, char *vars)
 	if (count == 0)
 		return (NULL);
 	re = ft_substr(vars, i, count);
-	error_check(re , "set_vars", ERR_MALLOC);
+	error_check(re, "set_vars", ERR_MALLOC);
 	i += count;
 	if (!vars[i])
 		i = 0;
 	return (re);
 }
 
-
 int	*set_int_vars(int *arr, char *str, char *vars)
 {
-	static int i = 0;
-	int len;
-	int *re;
-	int j;
+	static int	i = 0;
+	int			len;
+	int			*re;
+	int			j;
 
 	j = 0;
 	len = ft_strlen(str);
 	re = (int *)malloc(len * sizeof(int));
-	error_check(re , "set_int_vars", ERR_MALLOC);
+	error_check(re, "set_int_vars", ERR_MALLOC);
 	len += i;
-	while(i < len)
+	while (i < len)
 	{
 		re[j] = arr[i];
 		j++;
 		i++;
 	}
-	if(!vars[i])
+	if (!vars[i])
 		i = 0;
 	return (re);
 }
@@ -117,13 +115,13 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	new_node->str = str;
 	new_node->type = find_type(str, q_flag);
 	new_node->char_vars = set_vars(str, shell->char_vars);
-	if(new_node->char_vars)
-		new_node->int_vars = set_int_vars(shell->int_vars, new_node->char_vars, shell->char_vars);
+	if (new_node->char_vars)
+		new_node->int_vars = set_int_vars(shell->int_vars, new_node->char_vars,
+				shell->char_vars);
 	return (new_node);
 }
 
-
-int count_quotes(char *str, int q_count, int start)
+int	count_quotes(char *str, int q_count, int start)
 {
 	int	i;
 
@@ -134,12 +132,12 @@ int count_quotes(char *str, int q_count, int start)
 		{
 			start = i;
 			i++;
-			while(str[i])
+			while (str[i])
 			{
 				if (str[i] == str[start])
 				{
 					q_count += 2;
-					break;
+					break ;
 				}
 				i++;
 			}
@@ -149,21 +147,20 @@ int count_quotes(char *str, int q_count, int start)
 		if (str[i])
 			i++;
 	}
-	return(q_count);
+	return (q_count);
 }
 
-
-char *check_and_rm_quotes(char *str)
+char	*check_and_rm_quotes(char *str)
 {
 	char	*re;
-	int count;
+	int		count;
 
 	count = count_quotes(str, 0, 0);
 	if (count == -1)
-		return("\0");
+		return ("\0");
 	re = (char *)malloc(ft_strlen(str) + 1 - count);
 	error_check(re, "check_and_rm_quotes", ERR_MALLOC);
-	return(create_string(str, re, 0, 0, 0));
+	return (create_string(str, re, 0, 0, 0));
 }
 
 void	is_heredoc(t_token *node)
@@ -181,8 +178,9 @@ void	is_heredoc(t_token *node)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && delimiter[0] != '\0')
+			break ;
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter))
+			&& delimiter[0] != '\0')
 			break ;
 		line = ft_strjoin(line, "\n");
 		error_check(line, "ft_strjoin", ERR_MALLOC);
@@ -199,6 +197,12 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 	t_token	*new_node;
 	t_token	*temp;
 
+	if (!str || !str[0])
+	{
+		if (str)
+			free(str);
+		return ;
+	}
 	new_node = create_node(str, q_flag, shell);
 	if (*head == NULL)
 	{

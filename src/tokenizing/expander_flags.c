@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:23:42 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 19:18:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_int_arr(int *arr, int len)
 
 int check_end(char c)
 {
-	char *set = "$\"'";
+	char *set = "$\"'/";
 	int i;
 
 	i = 0;
@@ -55,12 +55,14 @@ void int_var_list(t_shell *shell)
 		{
 			count = 0;
 			j++;
-			if (shell->char_vars[i] == '1' || shell->char_vars[i] == '2')
+			if (ft_isdigit(shell->input[j]))
+				count = 1;
+			else if (shell->char_vars[i] == '1' || shell->char_vars[i] == '2')
 			{
 				while (shell->input[j] && check_end(shell->input[j]))
 				{
-					j++;
 					count++;
+					j++;
 				}
 			}
 			arr[i] = count;
