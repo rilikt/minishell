@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 18:37:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 19:53:53 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ int main(int argc, char **argv, char **envp)
 			tokenize(&shell);
 		// print_tokens(&shell);
 		if (!shell.err)
-			parse_tokens(&shell);		
+			parse_tokens(&shell);
 		// print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus, shell.envp))
-	{		check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);
-	}
+			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);
 		else if (!shell.err)
 			execute_commandline(&shell);
-		free_struct(&shell);
+		// free_struct(&shell);
+		free(shell.input);
+		shell.input = NULL;
 	}
 	free_string_array(shell.envp);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term[0]);

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 15:18:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 21:25:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	redirect_accordingly(cmd->reds);
 	if (cmd->builtin_flag == EXTERN && cmd->args && cmd->args[0])
 	{
-		if (!access(cmd->args[0], F_OK))
+		if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 		{
-			if (!access(cmd->args[0], X_OK))
-				error_check(NULL, cmd->args[0], ERR_PERMISSION);
 			path_to_cmd = ft_strdup(cmd->args[0]);
 			cmd->args[0] = ft_strdup(ft_strrchr(cmd->args[0], '/'));
 		}
@@ -46,7 +44,6 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err));
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
-	
 	execve(path_to_cmd, cmd->args, shell->envp);
 	// error_check
 	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));
@@ -72,7 +69,6 @@ char *get_path(char *cmd, char **envp)
 		error_check(tmp, "ft_strjoin", ERR_MALLOC);
 		if (access(tmp, X_OK) == 0)
 		{
-			printf("%s\n", tmp);
 			free_string_array(path);
 			return(tmp);
 		}

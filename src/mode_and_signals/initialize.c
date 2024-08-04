@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 17:15:19 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 19:15:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 	shell->envp = copy_env(envp);
 	shell->input = put_input(argc, argv);
 	shell->tokens = NULL;
-	shell->vars = NULL;
+	shell->char_vars = NULL;
+	shell->int_vars = NULL;
 	shell->commands = NULL;
 	shell->cmd_nb = 0;
 	shell->exitstatus = 0;

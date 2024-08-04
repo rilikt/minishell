@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_flags.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:23:42 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 19:00:13 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_int_arr(int *arr, int len)
 
 int check_end(char c)
 {
-	char *set = "$\"'";
+	char *set = "$\"'/\\| ";
 	int i;
 
 	i = 0;
