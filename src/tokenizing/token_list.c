@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 14:29:16 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:34:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void	is_heredoc(t_token *node)
 	char	*input;
 	char	*delimiter;
 
-	if (node->prev->type != IN_HEREDOC)
+	if (node->prev->type != IN_HEREDOC || node->type  == PIPE || is_redir(node))
 		return ;
 	line = NULL;
 	input = NULL;

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 14:44:29 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:19:14 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	check_and_print(char **args, char ***envp)
 {
 	int	j;
 
-	j = 0;
+	j = 1;
 	if (!(*envp))
 		return (0);
 	if (!args[1])
@@ -155,9 +155,11 @@ int	check_and_print(char **args, char ***envp)
 	}
 	while (args[j])
 	{
-		if (ft_isdigit(args[j][0]))
+		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$')
 		{
-			error_check(NULL, "false var declaration", ERR_SYNTAX);
+			write(2, "minishell: export: `", 20);
+			write(2, args[j], ft_strlen(args[j]));
+			write(2, "': not a valid identifier\n", 27);
 			return(0);
 		}
 		j++;
