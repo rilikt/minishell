@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 17:17:10 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:42:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	while_not_op(t_token **temp, t_shell *shell, char **vars, int **int_vars)
 	if ((*temp) && (*temp)->type == PIPE)
 	{
 		if (!(*temp)->next)
-			shell->err = ERR_SYNTAX;
+			ft_sytax_error(&shell->err, *temp);
 		else if ((*temp)->next->type == PIPE)
-			shell->err = ERR_SYNTAX;
+			ft_sytax_error(&shell->err, *temp);
 		else if ((*temp) == shell->tokens)
-			shell->err = ERR_SYNTAX;
+			ft_sytax_error(&shell->err, *temp);
 		else if (is_redir((*temp)->prev))
-			shell->err = ERR_SYNTAX;
+			ft_sytax_error(&shell->err, *temp);
 	}
 }
 
@@ -72,7 +72,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 	char	*vars;
 	int		*int_vars;
 
-	while (temp)
+	while (temp && !shell->err)
 	{
 		vars = NULL;
 		int_vars = NULL;
