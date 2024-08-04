@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:14:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 15:34:03 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	check_mode_handle_signals(t_shell *shell)
 		shell->mode = NON_INTERACTIVE;
 	tcgetattr(STDIN_FILENO, &shell->term[0]);
 	shell->term[1] = shell->term[0];
-	shell->term[1].c_lflag &= ~ECHOCTL;
-	tcsetattr(fd[0], TCSANOW, &shell->term[1]);
 	if (shell->mode == INTERACTIVE)
 	{
+		shell->term[1].c_lflag &= ~ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->term[1]);
 		shell->signals.sa_handler = SIG_IGN;
 		sigemptyset(&shell->signals.sa_mask);
 		shell->signals.sa_flags = 0;

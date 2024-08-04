@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 18:50:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 15:38:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ void	free_struct(t_shell *shell);
 
 //read_input.c
 int		check_whitespace(char *input);
-char	*read_input(int mode);
+char	*read_input(int mode, t_shell *shell);
 
 //token_list.c
 int		check_variable(char *str, int q_flag);
