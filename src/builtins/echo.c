@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 20:58:41 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:53:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	echo(char **args)
 	while(args[i] && !ft_strncmp(args[i], "-n", 2))
 	{
 		j = 2;
-		while (args[i][j] == 'n')
+		while (args[i][j] == 'n' || args[i][j] == ' ')
 			j++;
 		if  (args[i][j])
 			break ;

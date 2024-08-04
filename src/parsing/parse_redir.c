@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 17:20:30 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 15:12:52 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 		return (0);
 	type = (*tkn_temp)->type;
 	*tkn_temp = (*tkn_temp)->next;
-	if (!(*tkn_temp) || ((*tkn_temp)->type == PIPE) && is_redir((*tkn_temp)))
+	if (!(*tkn_temp) || ((*tkn_temp)->type == PIPE) || is_redir((*tkn_temp)))
 		return(ft_sytax_error(err, *tkn_temp), ERR_SYNTAX);
 	if (*tkn_temp)
 	{

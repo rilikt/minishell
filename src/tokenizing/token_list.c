@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 18:51:25 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:29:16 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,12 +197,12 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 	t_token	*new_node;
 	t_token	*temp;
 
-	if (!str || !str[0])
-	{
-		if (str)
-			free(str);
-		return ;
-	}
+	// if (!str || !str[0]) // removes empty strings
+	// {
+	// 	if (str)
+	// 		free(str);
+	// 	return ;
+	// }
 	new_node = create_node(str, q_flag, shell);
 	if (*head == NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 19:06:43 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:27:44 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
 	return ;
 }
 
-char	**split_and_arrange_cmd(char **args)
+char	**split_and_arrange_cmd(char **args, int u)
 {
 	char	**arr;
 	char	**new_args;
@@ -58,7 +58,7 @@ char	**split_and_arrange_cmd(char **args)
 	i = 0;
 	j = 0;
 	k = -1;
-	arr = ft_split(args[0], ' ');
+	arr = ft_split(args[u], ' ');
 	error_check(arr, "split failed", ERR_SPLIT);
 	while (arr[i])
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 18:50:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:25:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
-char	**split_and_arrange_cmd(char **args);
+char	**split_and_arrange_cmd(char **args, int i);
 
 /*=		mode_nd_signals	=*/
 //initialize.c
