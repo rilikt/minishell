@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 19:35:09 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 14:44:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		set = 0;
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
-			if (!ft_strncmp((*envp)[i], args[j], len))
+			if (!ft_strncmp((*envp)[i], args[j], len+1))
 			{
 				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);

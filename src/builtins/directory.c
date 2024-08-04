@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:38:38 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/04 15:28:36 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void go_home(void) //moves the current working dir to root
 {
-	// char *user;
-	// char *path;
+	char *user;
+	char *path;
 
-	// user = getenv("LOGNAME");
-	// path = ft_strjoin("/Users/", user);
+	user = getenv("LOGNAME");
+	path = ft_strjoin("/Users/", user);
 
-	if (chdir(getenv("PWD")) == -1)
+	if (chdir(path) == -1)
 	{
 		perror("chdir in go_home\n");
 	}
@@ -55,6 +55,8 @@ void cd(char **arg, char ***envp)
 	char *input = arg[1];
 	char *move_to = arg[1];
 
+	if (!arg[1])
+		return (go_home(), update_env(envp));
 	if (arg[2])
 	{
 		write(2, "cd : too many arguments\n", 25);
@@ -80,11 +82,11 @@ void pwd(char **arg)
 {
 	char path[1024];
 	
-	if (arg[1])
-	{
-		write(2, "pwd : too many arguments\n", 25);
-		return;
-	}
+	// if (arg[1])
+	// {
+	// 	write(2, "pwd : too many arguments\n", 25);
+	// 	return;
+	// }
 	printf("%s\n", getcwd(path, sizeof(path)));
 	return;
 }

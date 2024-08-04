@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 20:36:19 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:26:07 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	while (cmd->char_vars && cmd->args[i])
 	{
 		expand_string(&cmd->args[i], &utils);
-		if (i == 0 && ft_strchr(cmd->args[0], ' ') && !(cmd->char_vars[0] == '2'))
-			cmd->args = split_and_arrange_cmd(cmd->args);
+		if (ft_strchr(cmd->args[i], ' ') && (i = 0 && !(cmd->char_vars[i] == '2')))
+			cmd->args = split_and_arrange_cmd(cmd->args, i);
 		i++;
 	}
 	tmp = cmd->reds;
