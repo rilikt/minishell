@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/22 18:59:20 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:14:12 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ void	check_mode_handle_signals(t_shell *shell)
 	
 	fd[0] = isatty(STDIN_FILENO);
 	fd[1] = isatty(STDERR_FILENO);
-	if (fd[0] && fd[1])
+	if (fd[0] && fd[1] && !shell->input)
 		shell->mode = INTERACTIVE;
 	else
 		shell->mode = NON_INTERACTIVE;
-
-
-		tcgetattr(STDIN_FILENO, &shell->term[0]);
-		shell->term[1] = shell->term[0];
-		shell->term[1].c_lflag &= ~ECHOCTL;
-		tcsetattr(fd[0], TCSANOW, &shell->term[1]);
+	tcgetattr(STDIN_FILENO, &shell->term[0]);
+	shell->term[1] = shell->term[0];
+	shell->term[1].c_lflag &= ~ECHOCTL;
+	tcsetattr(fd[0], TCSANOW, &shell->term[1]);
 	if (shell->mode == INTERACTIVE)
 	{
-		
 		shell->signals.sa_handler = SIG_IGN;
 		sigemptyset(&shell->signals.sa_mask);
 		shell->signals.sa_flags = 0;

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 15:03:22 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 19:06:43 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
 {
-	if (u->vars[u->count] == '2')
+	if (u->vars.c_vars[u->count] == '3')
 	{
 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		u->count++;
 		*pos = ft_strchr(&str[0][*tmp], '$');
 	}
-	if (u->vars[u->count] == '0')
+	if (u->vars.c_vars[u->count] == '0')
 	{
 		(*tmp)++;
 		u->count++;
 		*pos = ft_strchr(&str[0][*tmp], '$');
 	}
-	while (*pos && (*(*pos + 1) == '\0' || *(*pos + 1) == '$' || *(*pos
-				+ 1) == ' '))
+	while (*pos && (*(*pos + 1) == '\0' || *(*pos + 1) == '$' || *(*pos+ 1) == ' '))
 	{
 		if (*(*pos + 1) == '\0')
 		{
 			(*tmp)++;
+			u->count++;
 			*pos = NULL;
 			return ;
 		}
-		else if (*(*pos + 1) == '$' && u->vars[u->count] == '1')
+		else if (*(*pos + 1) == '$' && (u->vars.c_vars[u->count] == '1' || u->vars.c_vars[u->count] == '1'))
 			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else if (*(*pos + 1) == ' ')
 			(*tmp)++;

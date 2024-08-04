@@ -6,13 +6,13 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 14:58:14 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 20:36:19 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char	*get_var(char *pos, char **var_name, t_exp_help utils)
+char	*get_var(char *pos, char **var_name, t_exp_help *utils)
 {
 	char	*tmp;
 	char	*var_value;
@@ -22,22 +22,12 @@ char	*get_var(char *pos, char **var_name, t_exp_help utils)
 		return (NULL);
 	tmp = pos + 1;
 	if (*tmp == '?')
-	{
-		var_value = ft_itoa(utils.exit);
-		tmp++;
-	}
-	else
-	{
-		while (*tmp && (*tmp != ' ') && (*tmp != '$') && (*tmp != '\'')
-				&& (*tmp != '/') && (*tmp != '\\') && (*tmp != '"')
-				&& (*tmp != '|'))
-		tmp++;
-	}
-	*var_name = (char *)malloc(sizeof(char) * (tmp - pos));
-	error_check(*var_name, "malloc failed", ERR_MALLOC);
-	ft_strlcpy(*var_name, pos + 1, tmp - pos);
+		var_value = ft_itoa(utils->exit);
+	*var_name = ft_substr(pos, 1, utils->vars.i_vars[utils->count]);
+	tmp++;
 	if (!var_value)
-		var_value = ft_getenv(*var_name, utils.envp);
+		var_value = ft_getenv(*var_name, utils->envp);
+	utils->count++;
 	return (var_value);
 }
 
@@ -74,10 +64,9 @@ void	expand_string(char **str, t_exp_help *utils)
 	while (pos)
 	{
 		tmp = pos - *str;
-		check_char_behind(&pos, 
-		str, &tmp, utils);
-		value = get_var(pos, &name, *utils);
-		if (pos && utils->vars && utils->vars[(utils->count)++] == '1')
+		check_char_behind(&pos, str, &tmp, utils);
+		value = get_var(pos, &name, utils);
+		if (pos && utils->vars.c_vars)
 		{
 			if (!value)
 				ft_memmove(pos, pos + ft_strlen(name) + 1, ft_strlen(pos + ft_strlen(name)) + 1);
@@ -101,19 +90,21 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	i = 0;
 	utils.count = 0;
 	utils.envp = envp;
-	utils.vars = cmd->vars;
+	utils.vars.c_vars = cmd->char_vars;
+	utils.vars.i_vars = cmd->int_vars;
 	utils.exit = exitstatus;
-	while (cmd->vars && cmd->args[i])
+	while (cmd->char_vars && cmd->args[i])
 	{
 		expand_string(&cmd->args[i], &utils);
-		if (i == 0 && ft_strchr(cmd->args[0], ' '))
+		if (i == 0 && ft_strchr(cmd->args[0], ' ') && !(cmd->char_vars[0] == '2'))
 			cmd->args = split_and_arrange_cmd(cmd->args);
 		i++;
 	}
 	tmp = cmd->reds;
-	while (tmp && tmp->vars)
+	while (tmp && tmp->char_vars)
 	{
-		utils.vars = tmp->vars;
+		utils.vars.c_vars = tmp->char_vars;
+		utils.vars.i_vars = tmp->int_vars;
 		utils.count = 0;
 		expand_string(&tmp->filename, &utils);
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/27 14:48:23 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:10:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char **copy_env(char **envp)
 			re[len] = ft_strdup("OLDPWD");
 		else
 			re[len] = ft_strdup(envp[len]);
+		// printf("%s\n", envp[len]);
 		len++;
 	}
 	re[len] = NULL;

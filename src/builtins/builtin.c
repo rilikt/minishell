@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 18:26:42 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 20:27:08 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,5 @@ void	check_builtins(t_cmd *cmd)
 		cmd->builtin_flag = EXTERN;
 	return;
 }
+// $USER pstrohal text  ' text
+// $USER pstrohal text  ' text

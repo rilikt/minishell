@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/03 15:11:06 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/03 18:37:09 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ EXECUTING:= child.c\
 			redirecting.c
 EXPANDING:= expanding.c\
 			expanding_utils.c
-MDE_SGNL :=	signals.c
+MDE_SGNL :=	initialize.c\
+			signals.c
 PARSING  :=	parse.c\
 			parse_redir.c\
 			parse_utils.c\

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 14:44:58 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/03 21:25:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	{
 		if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 		{
-
 			path_to_cmd = ft_strdup(cmd->args[0]);
 			cmd->args[0] = ft_strdup(ft_strrchr(cmd->args[0], '/'));
 		}
 		else
 		{
-			// if (ft_str)
+			if (ft_strchr(cmd->args[0], '/'))
+				error_check(NULL, cmd->args[0], ERR_FILE);
 			path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]), shell->envp);
 			error_check(path_to_cmd, cmd->args[0], ERR_PATH);
 		}
@@ -69,7 +69,6 @@ char *get_path(char *cmd, char **envp)
 		error_check(tmp, "ft_strjoin", ERR_MALLOC);
 		if (access(tmp, X_OK) == 0)
 		{
-			printf("%s\n", tmp);
 			free_string_array(path);
 			return(tmp);
 		}
