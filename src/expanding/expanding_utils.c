@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 15:53:43 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:28:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,44 @@ void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
 	return ;
 }
 
-char	**split_and_arrange_cmd(char **args)
+int	ft_arr_len(char **arr)
 {
-	char	**arr;
-	char	**new_args;
-	int		i;
-	int		j;
-	int		k;
+	int	i;
 
 	i = 0;
-	j = 0;
-	k = -1;
-	arr = ft_split(args[0], ' ');
-	error_check(arr, "split failed", ERR_SPLIT);
-	while (arr[i])
+	if (!arr)
+		return (i);
+	while  (arr[i])
 		i++;
-	while (args[j])
-		j++;
-	new_args = (char **)malloc(sizeof(char *) * (i++ + j));
+	return (i);
+}
+
+char	**split_and_arrange_cmd(char **args, int i, int arg_len, char **new_args)
+{
+	char	**arr;
+	int		i_new;
+	int		j;
+	int		k;
+	int		curr_pos;
+
+	arr = ft_split(args[i], ' ');
+	error_check(arr, "split failed", ERR_SPLIT);
+	i_new = ft_arr_len(arr);
+	j = i;
+	k = arg_len - i - 1;
+	curr_pos = -1;
+	new_args = (char **)malloc(sizeof(char *) * (i_new++ + j));
 	error_check(new_args, "malloc failed", ERR_MALLOC);
-	while (--i > 0 && ++k >= 0)
-		new_args[k] = arr[k];
-	while (i < j)
-		new_args[++k] = args[++i];
-	free(args[0]);
+	
+	while(j-- && ++curr_pos >= 0)
+		new_args[curr_pos] = args[curr_pos];
+	j = 0;
+	while (i_new-- && ++curr_pos)
+		new_args[curr_pos] = arr[j++];
+	while (k-- && ++curr_pos)
+		new_args[curr_pos] = args[++i];
+	free(args[i]);
 	free(args);
-	new_args[k] = NULL;
+	new_args[++curr_pos] = NULL;
 	return (new_args);
 }

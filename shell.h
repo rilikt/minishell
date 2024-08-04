@@ -239,7 +239,8 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
-char	**split_and_arrange_cmd(char **args, int i);
+int		ft_arr_len(char **arr);
+char	**split_and_arrange_cmd(char **args, int i, int arg_len, char **new_args);
 
 /*=		mode_nd_signals	=*/
 //initialize.c
