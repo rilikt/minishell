@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/04 15:51:04 by pstrohal         ###   ########.fr       */
-=======
-/*   Updated: 2024/08/04 15:17:19 by timschmi         ###   ########.fr       */
->>>>>>> 2738cbc6dac456adf0c5093a2fb4229586702028
+/*   Updated: 2024/08/04 17:35:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +40,8 @@ int main(int argc, char **argv, char **envp)
 		// free_struct(&shell);
 		free(shell.input);
 		shell.input = NULL;
-<<<<<<< HEAD
 		// printf("%d\n", shell.exitstatus);
 
-=======
-		shell.err = 0;
->>>>>>> 2738cbc6dac456adf0c5093a2fb4229586702028
 	}
 	free_string_array(shell.envp);
 	if (shell.mode == INTERACTIVE)
