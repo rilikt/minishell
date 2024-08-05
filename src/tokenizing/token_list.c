@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 17:34:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:40:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	check_variable(char *str, int q_flag)
 		i++;
 	}
 	if (q_flag)
+	{
 		return (IN_QUOTES);
+	}
 	return (WORD);
 }
 
@@ -112,7 +114,13 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	error_check(new_node, "token node allocation", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	new_node->str = str;
+	if (!q_flag && !ft_strncmp(str, "~", 2))
+	{
+		free(str);
+		new_node->str = ft_strdup(getenv("HOME"));
+	}
+	else
+		new_node->str = str;
 	new_node->type = find_type(str, q_flag);
 	new_node->char_vars = set_vars(str, shell->char_vars);
 	if (new_node->char_vars)

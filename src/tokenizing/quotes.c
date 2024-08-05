@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/01 12:28:56 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:02:46 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	in_qoutes(char *str, int *input_i, t_shell *shell)
 {
 	int	i;
 	int	start;
+	int j;
 
 	i = *input_i;
 	start = i;
@@ -29,6 +30,10 @@ int	in_qoutes(char *str, int *input_i, t_shell *shell)
 		i++;
 	if (str[i] != str[start])
 		shell->err = ERR_SYNTAX;
+	*input_i = i + 1;
+	j = i + 1;
+	if (is_operator(str, &j))
+		return(1);
 	*input_i = i +1;
 	return (in_qoutes(str, input_i, shell));
 }

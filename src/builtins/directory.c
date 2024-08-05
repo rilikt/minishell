@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 18:39:06 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:40:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void cd(char **arg, char ***envp)
 	char *input = arg[1];
 	char *move_to = arg[1];
 
-	if (!arg[1] || !ft_strncmp(arg[1], "~", 2))
+	if (!arg[1])
 		return (go_home(), update_env(envp));
 	else if (!ft_strncmp(arg[1], "-", 2))
 	{

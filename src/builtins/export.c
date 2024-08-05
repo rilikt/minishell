@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 17:19:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:15:10 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	var_len(char *str, char *str2)
 			len1 = ft_strlen(str);
 		if(!(len2 = var_len(str2, NULL)))
 			len2 = ft_strlen(str2);
-		if (len1 > len2)
+		if (len1 < len2)
 			len1 = len2;
 		return (len1);
 	}
@@ -173,6 +173,7 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 	int j;
 	int set;
 	int len;
+	int len2;
 
 	if (!(j = check_and_print(args, envp)))
 		return ;
@@ -181,9 +182,11 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		len = var_len(args[j], NULL);
 		i = 0;
 		set = 0;
+		printf("%d\n", len);
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
-			if (!ft_strncmp((*envp)[i], args[j], len+1))
+			len = var_len(args[j], (*envp)[i]);
+			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
 				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);
