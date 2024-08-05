@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 17:11:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:39:31 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return ;
 }
 
-void	expand_string(char **str, t_exp_help *utils)
+void	expand_string(char **str, t_exp_help *utils, int i)
 {
 	int		tmp;
 	char	*pos;
@@ -78,26 +78,36 @@ void	expand_string(char **str, t_exp_help *utils)
 			tmp += ft_strlen(name);
 		if (pos)
 			pos = ft_strchr(&str[0][tmp], '$');
+		if (utils->vars.c_vars[utils->count - 1] == '2')
+			*utils->arg_vars.i_vars = tmp;
 	}
+	if (i == 0)
+		utils->arg_vars.c_vars[utils->count] = '\0';
 }
-
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
 	int				i;
 	t_rdct			*tmp;
 	t_exp_help	utils;
 
-	i = 0;
+	i = -1;
 	utils.count = 0;
 	utils.envp = envp;
 	utils.vars.c_vars = cmd->char_vars;
 	utils.vars.i_vars = cmd->int_vars;
+	utils.arg_vars.c_vars = ft_strdup(cmd->char_vars);
+	error_check(utils.arg_vars.c_vars, "ft_strdup in expand_cmd", ERR_MALLOC);
+	utils.vars.i_vars= (int *)malloc(ft_strlen(cmd->char_vars) * sizeof(int));
+	error_check(utils.arg_vars.i_vars, "ft_malloc in expand_cmd", ERR_MALLOC);
+	while (cmd->char_vars && cmd->char_vars[++i])
+		utils.vars.i_vars[i] = cmd->int_vars[i];
+	i = 0;
 	utils.exit = exitstatus;
 	while (cmd->char_vars && cmd->args[i])
 	{
-		expand_string(&cmd->args[i], &utils);
-		if (ft_strchr(cmd->args[i], ' ') && (i = 0 && !(cmd->char_vars[i] == '2')))
-			cmd->args = split_and_arrange_cmd(cmd->args, i, ft_arr_len(cmd->args), NULL);
+		expand_string(&cmd->args[i], &utils, i);
+		if (i == 0 )
+			cmd->args = check_and_insert_first_index(cmd->args, &utils);
 		i++;
 	}
 	tmp = cmd->reds;
@@ -106,7 +116,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		utils.vars.c_vars = tmp->char_vars;
 		utils.vars.i_vars = tmp->int_vars;
 		utils.count = 0;
-		expand_string(&tmp->filename, &utils);
+		expand_string(&tmp->filename, &utils, i);
 		tmp = tmp->next;
 	}
 	// print_arr(cmd->args);

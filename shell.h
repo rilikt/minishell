@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 17:33:02 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:28:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_vars {
 typedef struct s_expand_help {
 	char	**envp;
 	t_vars	vars;
+	t_vars	arg_vars;
 	int		count;
 	int		exit;
 } t_exp_help ;
@@ -156,7 +157,7 @@ typedef struct s_shell {
 /*========================================================*/
 /*==				main.c								==*/
 /*========================================================*/
-
+//main
 /*========================================================*/
 /*==				builtins							==*/
 /*========================================================*/
@@ -195,6 +196,7 @@ int		compare_to_envp(char **args, char *envp);
 /*========================================================*/
 /*==				error and utils						==*/
 /*========================================================*/
+// error.c
 void	ft_error(char *arg, char *msg, int errorcode);
 void	ft_sytax_error(int *err, t_token *tkn);
 void	error_check(void *ptr, char *msg, int error_code);
@@ -228,7 +230,7 @@ void	change_output_fd(t_rdct *reds, int mode);
 void	redirect_accordingly(t_rdct *reds);
 
 /*========================================================*/
-/*==					expander						==*/
+/*==				expander							==*/
 /*========================================================*/
 //expanding.c
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
@@ -236,9 +238,13 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 //expanding_utils.c
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
 int		ft_arr_len(char **arr);
+char	**check_and_insert_first_index(char **args, t_exp_help *utils);
 char	**split_and_arrange_cmd(char **args, int i, int arg_len, char **new_args);
 
-/*=		mode_nd_signals	=*/
+/*========================================================*/
+/*==				mode_nd_signals						==*/
+/*========================================================*/
+
 //initialize.c
 void	setup_shell(t_shell *shell, char **envp, int argc, char **argv);
 char	*put_input(int argc, char **argv);
@@ -247,7 +253,9 @@ char	*put_input(int argc, char **argv);
 void	signal_handler(int signum);
 void	check_mode_handle_signals(t_shell *shell);
 
-/*		parser			*/
+/*========================================================*/
+/*==				parser								==*/
+/*========================================================*/
 
 //parse_nodes.c
 char	**create_array(t_token *start, t_token *end);
@@ -272,7 +280,9 @@ int		*add_to_arr(char *vars, int *arr, char *added, int *int_vars);
 /*		general utils	*/
 void	free_struct(t_shell *shell);
 
-/*		tokenizer		*/
+/*========================================================*/
+/*==				tokenizer							==*/
+/*========================================================*/
 
 //read_input.c
 int		check_whitespace(char *input);

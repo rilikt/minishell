@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_flags.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:10:00 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:56:12 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
