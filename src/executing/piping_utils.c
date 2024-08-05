@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/02 11:39:23 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:22:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	close_accordingly(t_pipe *pipes, int *mode)
 {
 	if (*mode == START)
 	{
-		ft_close(pipes->pipe[WRITE]);
+		ft_close(pipes->pipe[WRITE], "close_accordingly");
 		pipes->last_pipe = pipes->pipe[READ];
 		*mode = MIDDLE;
 	}
 	else if (*mode == MIDDLE)
 	{
-		ft_close(pipes->last_pipe);
-		ft_close(pipes->pipe[WRITE]);
+		ft_close(pipes->last_pipe, "close_accordingly");
+		ft_close(pipes->pipe[WRITE], "close_accordingly");
 
 		pipes->last_pipe = pipes->pipe[READ];
 	}
 	else if (*mode == END)
 	{
 
-		ft_close(pipes->last_pipe);
+		ft_close(pipes->last_pipe, "close_accordingly");
 	}
 	return ;
 }
@@ -44,21 +44,21 @@ int	*allocate_pid(int nb)
 	return (pid);
 }
 
-void ft_close(int fd)
+void ft_close(int fd, char *msg)
 {
 	if (fd >= 0)
 	{
 		if (close(fd) < 0)
-			ft_error(NULL, "oh shit close failed!", ERR_CLOSE);
+			ft_error(NULL, msg, ERR_CLOSE);
 	}
 	
 }
-void ft_dup2(int new, int old)
+void ft_dup2(int new, int old, char *msg)
 {
 	if (new >= 0)
 	{
 	if (dup2(new, old) < 0)
-		ft_error(NULL, "oh shit, dup2 failed!", ERR_DUP2);
+		ft_error(NULL, msg, ERR_DUP2);
 	}
 }
 
@@ -67,23 +67,23 @@ void	change_std_fd(t_pipe *pipes, int mode)
 
 	if (mode == START)
 	{
-		ft_close(pipes->pipe[READ]);
-		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO);
-		ft_close(pipes->pipe[WRITE]);
+		ft_close(pipes->pipe[READ], "close in change_std_fd");
+		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO, "dup2 in change_std_fd");
+		ft_close(pipes->pipe[WRITE], "close in change_std_fd");
 	}
 	else if (mode == MIDDLE)
 	{
-		ft_close(pipes->pipe[READ]);
-		ft_dup2(pipes->last_pipe, STDIN_FILENO);
-		ft_close(pipes->last_pipe);
-		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO);
-		ft_close(pipes->pipe[WRITE]);
+		ft_close(pipes->pipe[READ], "close in change_std_fd");
+		ft_dup2(pipes->last_pipe, STDIN_FILENO, "dup2 in change_std_fd");
+		ft_close(pipes->last_pipe, "close in change_std_fd");
+		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO, "dup2 in change_std_fd");
+		ft_close(pipes->pipe[WRITE], "close in change_std_fd");
 
 	}
 	else if (mode == END)
 	{
 	
-		ft_dup2(pipes->last_pipe, STDIN_FILENO);
-		ft_close(pipes->last_pipe);
+		ft_dup2(pipes->last_pipe, STDIN_FILENO, "dup2 in change_std_fd");
+		ft_close(pipes->last_pipe, "close in change_std_fd");
 	}
 }

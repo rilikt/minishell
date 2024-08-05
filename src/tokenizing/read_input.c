@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:39:50 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:44:10 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*read_input(int mode, t_shell *shell)
 	free(tmp);
 	if (mode == INTERACTIVE)
 		input = readline(rl_str);
-	else if (!isatty(STDIN_FILENO))
+	else if (mode == NON_INTERACTIVE && !isatty(STDIN_FILENO))
 	{
 		tmp = get_next_line(STDIN_FILENO);
 		if (tmp)

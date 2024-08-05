@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 12:39:31 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:58:43 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	utils.vars.i_vars = cmd->int_vars;
 	utils.arg_vars.c_vars = ft_strdup(cmd->char_vars);
 	error_check(utils.arg_vars.c_vars, "ft_strdup in expand_cmd", ERR_MALLOC);
-	utils.vars.i_vars= (int *)malloc(ft_strlen(cmd->char_vars) * sizeof(int));
+	utils.arg_vars.i_vars = (int *)malloc(ft_strlen(cmd->char_vars) * sizeof(int));
 	error_check(utils.arg_vars.i_vars, "ft_malloc in expand_cmd", ERR_MALLOC);
 	while (cmd->char_vars && cmd->char_vars[++i])
 		utils.vars.i_vars[i] = cmd->int_vars[i];
@@ -106,7 +106,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	while (cmd->char_vars && cmd->args[i])
 	{
 		expand_string(&cmd->args[i], &utils, i);
-		if (i == 0 )
+		if (i == 0 && ft_strchr(cmd->args[0], ' '))
 			cmd->args = check_and_insert_first_index(cmd->args, &utils);
 		i++;
 	}

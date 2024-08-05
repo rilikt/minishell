@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:28:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:10:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum e_errorcodes {
 	ERR_PERMISSION = 13,
 	ERR_PATH = 127,
 	ERR_EXPORT,
+	ERR_WRITE,
 } ;
 
 enum e_forkmode {
@@ -96,6 +97,7 @@ typedef struct s_redirect {
 	int					*int_vars;
 	int					in_fd;
 	int					out_fd;
+	int					here_doc;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -116,6 +118,7 @@ typedef struct s_command {
 	int					*int_vars;
 	int					builtin_flag;
 	int					stdout_fd;
+	int					stdin_fd;
 	t_rdct				*reds;
 	int					var_in_redir;
 	struct termios		term;
@@ -220,13 +223,14 @@ int		wait_for_children(int *pid, int nb);
 void	close_accordingly(t_pipe *pipes, int *mode);
 int		*allocate_pid(int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
-void	ft_close(int fd);
-void	ft_dup2(int new, int old);
+void	ft_close(int fd, char *msg);
+void	ft_dup2(int new, int old, char *msg);
 
 
 //redirecting.c
 void	change_input_fd(t_rdct *reds);
 void	change_output_fd(t_rdct *reds, int mode);
+void	pipe_heredoc(t_rdct *reds);
 void	redirect_accordingly(t_rdct *reds);
 
 /*========================================================*/
@@ -239,7 +243,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
 int		ft_arr_len(char **arr);
 char	**check_and_insert_first_index(char **args, t_exp_help *utils);
-char	**split_and_arrange_cmd(char **args, int i, int arg_len, char **new_args);
+char	**split_and_arrange_cmd(char **args);
 
 /*========================================================*/
 /*==				mode_nd_signals						==*/
