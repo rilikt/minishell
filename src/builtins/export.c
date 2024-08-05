@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 16:15:10 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:17:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		len = var_len(args[j], NULL);
 		i = 0;
 		set = 0;
-		printf("%d\n", len);
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
 			len = var_len(args[j], (*envp)[i]);

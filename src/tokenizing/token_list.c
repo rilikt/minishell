@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:40:38 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:45:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,15 +163,18 @@ char	*check_and_rm_quotes(char *str)
 	char	*re;
 	int		count;
 
+	count = 0;
 	count = count_quotes(str, 0, 0);
 	if (count == -1)
 		return ("\0");
+	else if (count == 0)
+		return (str);
 	re = (char *)malloc(ft_strlen(str) + 1 - count);
 	error_check(re, "check_and_rm_quotes", ERR_MALLOC);
 	return (create_string(str, re, 0, 0, 0));
 }
 
-void	is_heredoc(t_token *node)
+void	is_heredoc(t_token *node, int q_flag)
 {
 	char	*line;
 	char	*input;
@@ -187,7 +190,7 @@ void	is_heredoc(t_token *node)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter))
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)+1)
 			&& delimiter[0] != '\0')
 			break ;
 		line = ft_strjoin(line, "\n");
@@ -195,9 +198,12 @@ void	is_heredoc(t_token *node)
 		input = ft_strjoin(input, line);
 		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
+	if (!q_flag)
+		node->type = VARIABLE;
+	else
+		node->type = WORD;
+	free(node->str);
 	node->str = input;
-	if (input)
-		node->type = check_variable(input, 0);
 }
 
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
@@ -222,5 +228,5 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 		temp = temp->next;
 	temp->next = new_node;
 	new_node->prev = temp;
-	is_heredoc(new_node);
+	is_heredoc(new_node, q_flag);
 }

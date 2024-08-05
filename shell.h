@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:35:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:45:50 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ char	*read_input(int mode, t_shell *shell);
 int		check_variable(char *str, int q_flag);
 int		find_type(char *str, int q_flag);
 t_token	*create_node(char *str, int q_flag, t_shell *shell);
-void	is_heredoc(t_token *node);
+void	is_heredoc(t_token *node, int q_flag);
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell);
 char	*set_vars(char *str, char *vars);
 int		*set_int_vars(int *arr, char *str, char *vars);
