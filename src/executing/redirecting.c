@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 17:09:42 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:54:25 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	change_output_fd(t_rdct *reds, int mode)
 	if (reds->out_fd < 0)
 		ft_error(reds->filename, strerror(errno), ERR_EXIT);
 	ft_dup2(reds->out_fd, STDOUT_FILENO, "dup2 in change_output_fd");
-	ft_close(reds->out_fd, " close in change_output_fd");
+	ft_close(reds->out_fd, "close in change_output_fd");
 	return ;
 }
 

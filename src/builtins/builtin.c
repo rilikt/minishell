@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 17:17:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:59:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 		*err = ERR_EXIT;
 	ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
 	ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
-	ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
-	ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
+	// ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
+	// ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
 	return (0);
 }
 

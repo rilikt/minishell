@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 17:24:00 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:27:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,15 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		i++;
 	}
 	tmp = cmd->reds;
-	while (tmp && tmp->char_vars)
+	while (tmp)
 	{
-		utils.vars.c_vars = tmp->char_vars;
-		utils.vars.i_vars = tmp->int_vars;
-		utils.count = 0;
-		expand_string(&tmp->filename, &utils, i);
+		if (tmp->char_vars)
+		{
+			utils.vars.c_vars = tmp->char_vars;
+			utils.vars.i_vars = tmp->int_vars;
+			utils.count = 0;
+			expand_string(&tmp->filename, &utils, i);
+		}
 		tmp = tmp->next;
 	}
 	// print_arr(cmd->args);

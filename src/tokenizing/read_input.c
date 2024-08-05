@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 16:44:10 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:51:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*read_input(int mode, t_shell *shell)
 	if (!input)
 	{
 		if (shell->mode == INTERACTIVE)
-		tcsetattr(STDIN_FILENO, TCSANOW, &(shell->term[0]));
+			tcsetattr(STDIN_FILENO, TCSANOW, &(shell->term[0]));
 		exit(shell->exitstatus);
 	}
 	if (check_whitespace(input))
