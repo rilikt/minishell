@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:28:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:40:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,17 @@ void cd(char **arg, char ***envp)
 
 	if (!arg[1])
 		return (go_home(), update_env(envp));
-	if (arg[2])
+	else if (!ft_strncmp(arg[1], "-", 2))
 	{
-		write(2, "cd : too many arguments\n", 25);
-		return;
+		move_to = ft_getenv("OLDPWD", *envp);
+		if (move_to)
+			printf("%s\n", move_to);
 	}
+	// if (arg[2])
+	// {
+	// 	write(2, "cd : too many arguments\n", 25);
+	// 	return;
+	// }
 	getcwd(path, sizeof(path));
 	if (!ft_strchr(move_to, '/')) // need to check if this is needed or chdir takes care of this
 	{

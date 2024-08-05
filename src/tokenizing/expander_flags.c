@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 10:56:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:24:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void int_var_list(t_shell *shell)
 		{
 			count = 0;
 			j++;
-			if (ft_isdigit(shell->input[j]))
+			if (ft_isdigit(shell->input[j]) || shell->input[j] == '?')
 				count = 1;
 			else if (shell->char_vars[i] == '1' || shell->char_vars[i] == '2')
 			{

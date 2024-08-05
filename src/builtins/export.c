@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 14:44:29 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:17:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	var_len(char *str, char *str2)
 			len1 = ft_strlen(str);
 		if(!(len2 = var_len(str2, NULL)))
 			len2 = ft_strlen(str2);
-		if (len1 > len2)
+		if (len1 < len2)
 			len1 = len2;
 		return (len1);
 	}
@@ -145,7 +145,7 @@ int	check_and_print(char **args, char ***envp)
 {
 	int	j;
 
-	j = 0;
+	j = 1;
 	if (!(*envp))
 		return (0);
 	if (!args[1])
@@ -155,9 +155,11 @@ int	check_and_print(char **args, char ***envp)
 	}
 	while (args[j])
 	{
-		if (ft_isdigit(args[j][0]))
+		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$')
 		{
-			error_check(NULL, "false var declaration", ERR_SYNTAX);
+			write(2, "minishell: export: `", 20);
+			write(2, args[j], ft_strlen(args[j]));
+			write(2, "': not a valid identifier\n", 27);
 			return(0);
 		}
 		j++;
@@ -171,6 +173,7 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 	int j;
 	int set;
 	int len;
+	int len2;
 
 	if (!(j = check_and_print(args, envp)))
 		return ;
@@ -181,7 +184,8 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 		set = 0;
 		while ((*envp)[i] && len != 0 && set != 1)
 		{
-			if (!ft_strncmp((*envp)[i], args[j], len+1))
+			len = var_len(args[j], (*envp)[i]);
+			if (!ft_strncmp((*envp)[i], args[j], len))
 			{
 				free((*envp)[i]);
 				(*envp)[i] = ft_strdup(args[j]);

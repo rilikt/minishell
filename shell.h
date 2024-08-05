@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 17:10:46 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:23:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ char	*read_input(int mode, t_shell *shell);
 int		check_variable(char *str, int q_flag);
 int		find_type(char *str, int q_flag);
 t_token	*create_node(char *str, int q_flag, t_shell *shell);
-void	is_heredoc(t_token *node);
+void	is_heredoc(t_token *node, int q_flag);
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell);
 char	*set_vars(char *str, char *vars);
 int		*set_int_vars(int *arr, char *str, char *vars);

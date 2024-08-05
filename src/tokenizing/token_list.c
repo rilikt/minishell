@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 14:29:16 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 16:45:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	check_variable(char *str, int q_flag)
 		i++;
 	}
 	if (q_flag)
+	{
 		return (IN_QUOTES);
+	}
 	return (WORD);
 }
 
@@ -112,7 +114,13 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	error_check(new_node, "token node allocation", ERR_MALLOC);
 	new_node->next = NULL;
 	new_node->prev = NULL;
-	new_node->str = str;
+	if (!q_flag && !ft_strncmp(str, "~", 2))
+	{
+		free(str);
+		new_node->str = ft_strdup(getenv("HOME"));
+	}
+	else
+		new_node->str = str;
 	new_node->type = find_type(str, q_flag);
 	new_node->char_vars = set_vars(str, shell->char_vars);
 	if (new_node->char_vars)
@@ -155,21 +163,24 @@ char	*check_and_rm_quotes(char *str)
 	char	*re;
 	int		count;
 
+	count = 0;
 	count = count_quotes(str, 0, 0);
 	if (count == -1)
 		return ("\0");
+	else if (count == 0)
+		return (str);
 	re = (char *)malloc(ft_strlen(str) + 1 - count);
 	error_check(re, "check_and_rm_quotes", ERR_MALLOC);
 	return (create_string(str, re, 0, 0, 0));
 }
 
-void	is_heredoc(t_token *node)
+void	is_heredoc(t_token *node, int q_flag)
 {
 	char	*line;
 	char	*input;
 	char	*delimiter;
 
-	if (node->prev->type != IN_HEREDOC)
+	if (node->prev->type != IN_HEREDOC || node->type  == PIPE || is_redir(node))
 		return ;
 	line = NULL;
 	input = NULL;
@@ -179,7 +190,7 @@ void	is_heredoc(t_token *node)
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter))
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)+1)
 			&& delimiter[0] != '\0')
 			break ;
 		line = ft_strjoin(line, "\n");
@@ -187,9 +198,12 @@ void	is_heredoc(t_token *node)
 		input = ft_strjoin(input, line);
 		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
+	if (!q_flag)
+		node->type = VARIABLE;
+	else
+		node->type = WORD;
+	free(node->str);
 	node->str = input;
-	if (input)
-		node->type = check_variable(input, 0);
 }
 
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
@@ -214,5 +228,5 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 		temp = temp->next;
 	temp->next = new_node;
 	new_node->prev = temp;
-	is_heredoc(new_node);
+	is_heredoc(new_node, q_flag);
 }
