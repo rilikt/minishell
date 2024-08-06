@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 15:39:42 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:21:06 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,21 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (!shell.input)
 			shell.input = read_input(shell.mode, &shell);
-		if (!shell.err && !sig)
+		if (!shell.err)
 			tokenize(&shell);
 		// print_tokens(&shell);
-		if (!shell.err && !sig)
+		if (!shell.err)
 			parse_tokens(&shell);
 		// print_commands(&shell);
-		if (!shell.err && !sig && shell.cmd_nb == 1 &&
+		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus, shell.envp))
 			check_and_exec_builtins(shell.commands, &shell.envp, &shell.err);
-		else if (!shell.err && !sig)
+		else if (!shell.err)
 			execute_commandline(&shell);
-		free_struct(&shell);
+		// free_struct(&shell);
 		// printf("%d\n", shell.exitstatus);
-		sig = 0;
+		free(shell.input);
+		shell.input = NULL;
 	}
 	free_string_array(shell.envp);
 	if (shell.mode == INTERACTIVE)
