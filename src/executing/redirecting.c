@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 17:54:25 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:13:03 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	change_input_fd(t_rdct *reds)
 {
+	if (access(reds->filename, F_OK))
+		error_check(NULL, reds->filename, ERR_FILE);
+	if (access(reds->filename, R_OK))
+		error_check(NULL, reds->filename, ERR_PERMISSION);
 	reds->in_fd = open(reds->filename, O_RDONLY);
 	if (reds->in_fd < 0)
 		ft_error(reds->filename, "couldnt open file\n", ERR_EXIT);
@@ -37,7 +41,7 @@ void	pipe_heredoc(t_rdct *reds)
 	int	fd[2];
 
 	if (pipe(fd) < 0)
-		error_check(NULL, "dup2 in herdoc", ERR_DUP2);
+		ft_error(NULL, "pipe in herdoc", ERR_DUP2);
 	if (write(fd[1], reds->filename, ft_strlen(reds->filename) + 1) < 0)
 		ft_error(NULL, "write in heredoc", ERR_WRITE);
 	ft_close(fd[1], "close in pipe_heredoc");
@@ -55,7 +59,7 @@ void	redirect_accordingly(t_rdct *reds)
 		return ;
 	while (reds)
 	{
-		if (reds->type == IN_REDIRECT && !access(reds->filename, R_OK))
+		if (reds->type == IN_REDIRECT)
 			change_input_fd(reds);
 		else if (reds->type == IN_HEREDOC)
 			pipe_heredoc(reds);

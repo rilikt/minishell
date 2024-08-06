@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 18:50:43 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/06 08:56:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ int	operator_check(char *str, int *input_i)
 
 	operator= "|<>";
 	i = 0;
+	if (!str)
+		return (0);
 	while (operator[i])
 	{
-		if (str[0] == operator[i])
+		if (*str == operator[i])
 		{
 			*input_i += 1;
 			return (1);

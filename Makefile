@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/03 18:37:09 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/06 11:33:33 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,8 +65,7 @@ OBJS	:= $(patsubst $(SRC_PATH)%.c, $(OBJ_PATH)%.o,$(SRC))
 NAME := minishell
 LIB := $(INCLUDE_PATH)libft
 LIBG := $(INCLUDE_PATH)get_next_line
-LIBFT :=	$(INCLUDE_PATH)libft/libft.a\
-			$(INCLUDE_PATH)get_next_line/get_next_line.a
+LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
@@ -76,25 +75,23 @@ LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 all: $(NAME)
 $(LIBFT):
 
-	@$(MAKE) -C $(LIBG)
-	@printf "$(CYAN)Building libraries$(RESET)"
-	@$(MAKE) -C $(LIB) & PID=$$!; \
+	
+	@printf "$(GREEN)\n\nBuilding libraries\n\n$(RESET)"
+	@make -s -C $(LIB) & PID=$$!; \
 	while kill -0 $$PID 2>/dev/null; do \
-		printf "$(CYAN). $(RESET)"; \
+		printf "$(GREEN)█ $(RESET)"; \
 		sleep 0.1; \
 	done; \
 	wait $$PID;
-	@printf "$(GREEN)\nBuild complete.$(RESET)\n\n"
-	@sleep 1
-	@printf "$(YELLOW)Compiling $(NAME)$(RESET)\n\n"
+	@printf "$(GREEN)\n\nBuild complete.$(RESET)\n\n"
 	
 $(NAME): $(OBJS)
-	@$(MAKE) print
-	@$(MAKE) $(LIBFT)
+	@make -s $(LIBFT)
+	@make -s -C $(LIBG)
 	@$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS) -O0 -g
 	@printf "$(GREEN)$(NAME) successfully compiled!$(RESET)\n\\n"
 	@printf "$(MAGENTA)WELCOME TO MINISHELL!!!$(RESET)\n\n"
-	# @$(MAKE) welcome 
+	@make -s welcome 
 	
 obj/%.o: src/%.c
 	@mkdir -p $(dir $@)
@@ -102,20 +99,18 @@ obj/%.o: src/%.c
 	@printf "$(GREEN)█ $(RESET)"
 
 clean:
-	@printf "\n$(BLUE)MAKING CLEAN$(RESET)\n\n"
-	@$(MAKE) -C $(LIB)/ clean
-	@printf "$(BLUE)REMOVING OBJECT FILES$(RESET)\n\n"
+	@printf "\n$(BLUE)make clean$(RESET)\n\n"
+	@make clean -s -C $(LIB)
+	@make clean -s -C $(LIBG)
+	@printf "$(BLUE)removing objectfiles$(RESET)\n\n"
 	@rm -rf obj
 
 fclean: clean
 	@printf "$(BLUE)"
-	@$(MAKE) -C $(LIB)/ fclean
-	@$(MAKE) -C $(LIBG)/ fclean
-	@printf "$(BLUE)REMOVING EXECUTABLE$(RESET)\n\n"
+	@make fclean -s -C $(LIB)
+	@make fclean -s -C $(LIBG)
+	@printf "$(BLUE)removing executable$(RESET)\n\n"
 	@rm -rf $(NAME)
-
-print:
-	@printf "\n\n$(YELLOW)$(NAME) is compiling please wait$(RESET)\n\n"
 
 welcome:
 	@printf "$(MAGENTA)"

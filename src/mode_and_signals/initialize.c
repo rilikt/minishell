@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 19:15:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:05:04 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*put_input(int argc, char **argv)
 			tmp2 = ft_strjoin(tmp, argv[i++]);
 			input = ft_strjoin(tmp2, " ");
 			free(tmp2);
-			if (tmp)
+			if (i != argc - 1)
 				free(tmp);
-			tmp = input;
+			input = tmp;
 		}
 	}
 	return (input);
@@ -40,13 +40,13 @@ char	*put_input(int argc, char **argv)
 void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 {
 	char	*shlvl[3];
+	char	*tmp;
 	int		nb;
 	int		i;
 
 	i = 0;
-	sig = 0;
 	nb = 0;
-	shlvl[0] = ft_strdup("export");
+	shlvl[0] = "export";
 	shlvl[2] = NULL;
 	shell->envp = copy_env(envp);
 	shell->input = put_input(argc, argv);
@@ -61,6 +61,9 @@ void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 	if (shlvl[1])
 		nb = ft_atoi(shlvl[1]);
 	nb += 1;
-	shlvl[1] = ft_strjoin("SHLVL=", ft_itoa(nb));
+	tmp = ft_itoa(nb);
+	shlvl[1] = ft_strjoin("SHLVL=", tmp);
+	free(tmp);
 	export(shlvl, &shell->envp);
+	free(shlvl[1]);
 }
