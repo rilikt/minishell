@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:40:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:41:31 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void cd(char **arg, char ***envp)
 	}
 	if (chdir(move_to) == -1)
 	{
-		fprintf(stderr, "cd : %s %s\n", strerror(errno), input); // fprint not allowed find alternative
+		error_check(NULL, move_to, ERR_FILE);
 	}
 	update_env(envp);
 }

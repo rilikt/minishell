@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 09:40:19 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:26:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		expand_string(&cmd->args[i], &utils, i);
 		if (i == 0 && ft_strchr(cmd->args[0], ' '))
 			cmd->args = check_and_insert_first_index(cmd->args, &utils);
+		// else
+		// 	split_and_arrange_arg(cmd->args, i, ft_arr_len(cmd->args), NULL);
 		i++;
 	}
 	tmp = cmd->reds;

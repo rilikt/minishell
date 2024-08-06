@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 17:23:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:24:21 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
 int		ft_arr_len(char **arr);
 char	**check_and_insert_first_index(char **args, t_exp_help *utils);
+char	**split_and_arrange_arg(char **args, int i, int arg_len, char **new_args);
 char	**split_and_arrange_cmd(char **args);
 
 /*========================================================*/

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 10:13:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:06:26 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	pipe_heredoc(t_rdct *reds)
 
 	if (pipe(fd) < 0)
 		ft_error(NULL, "pipe in herdoc", ERR_DUP2);
-	if (write(fd[1], reds->filename, ft_strlen(reds->filename) + 1) < 0)
+	if (write(fd[1], reds->filename, ft_strlen(reds->filename)) < 0)
 		ft_error(NULL, "write in heredoc", ERR_WRITE);
 	ft_close(fd[1], "close in pipe_heredoc");
 	ft_dup2(fd[0], STDIN_FILENO, "dup2 in pipe_heredoc");

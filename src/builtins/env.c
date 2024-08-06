@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 10:19:45 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:45:13 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 	i = 0;
 	if (arg[1])
 	{
-		write(2, "env: ", 6);
-		write(2, "'", 1);
-		write(2, arg[1], ft_strlen(arg[1]));
-		write(2, "': ", 3);
-		write(2, "No such file or directory\n", 27);
+		write(2, "minishell: env: too many arguments!\n", 37);
 		return ;
 	}
 	while(envp[i])

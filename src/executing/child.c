@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 14:54:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:41:56 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		exit(0);
 	execve(path_to_cmd, cmd->args, shell->envp);
 	// error_check
-	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));
+	exit(1);
 }
 
 char *get_path(char *cmd, char **envp)

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 16:31:26 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:32:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	echo(char **args)
 	while(args[i] && !ft_strncmp(args[i], "-n", 2))
 	{
 		j = 2;
-		while (args[i][j] == 'n' || args[i][j] == ' ')
+		while (args[i][j] == 'n')// || args[i][j] == ' ')
 			j++;
 		if  (args[i][j])
 			break ;
@@ -35,7 +35,6 @@ void	echo(char **args)
 	}
 	while(args[i])
 	{
-
 		write(STDOUT_FILENO, args[i], ft_strlen(args[i]));
 		if (args[i + 1])
 			write(STDOUT_FILENO, " ", 1);
