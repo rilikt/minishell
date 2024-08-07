@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 17:41:56 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:42:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		}
 	}
 	if (cmd->builtin_flag != EXTERN)
-		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err));
+		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err, shell->exitstatus));
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	execve(path_to_cmd, cmd->args, shell->envp);

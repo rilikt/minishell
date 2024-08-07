@@ -487,7 +487,7 @@ export TES!T=123
 
 export TES\~T=123
 
-export TEST+=100
+															export TEST+=100
 
 export TES_T=123
 /bin/echo $TES_T

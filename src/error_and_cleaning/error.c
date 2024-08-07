@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 10:13:59 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:34:54 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,16 @@ void	ft_error(char *arg, char *msg, int errorcode)
 		if (arg)
 		{
 			write(STDERR_FILENO, arg, ft_strlen(arg));
-			write(STDERR_FILENO, " ", 1);
 		}
 		write(STDERR_FILENO, msg, ft_strlen(msg) + 1);
-		
+		write(STDERR_FILENO, ": ", 2);
+		if (errorcode)
+		{
+			write (STDERR_FILENO, strerror(errorcode), ft_strlen(strerror(errorcode)));
+		}
 		write(STDERR_FILENO, "\n", 1);
 	}	
-	exit (errorcode);
+	return;
 }
 
 void	ft_sytax_error(int *err, t_token *tkn)

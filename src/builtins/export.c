@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 17:19:16 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:59:04 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,7 @@ int	check_and_print(char **args, char ***envp)
 	j = 1;
 	if (!(*envp))
 		return (0);
-	if (!args[1])
-	{
-		export_print(*envp);
-		return (0);
-	}
+
 	while (args[j])
 	{
 		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$' || args[j][0] == '=')
@@ -167,7 +163,7 @@ int	check_and_print(char **args, char ***envp)
 	return (1);
 }
 
-void	export(char **args, char ***envp) // maybe rework qoutes for this
+int	export(char **args, char ***envp) // maybe rework qoutes for this
 {
 	int i;
 	int j;
@@ -175,8 +171,11 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 	int len;
 	int len2;
 
-	if (!(j = check_and_print(args, envp)))
-		return ;
+	if (!args[1])
+		return(export_print(*envp), 0);
+	if (check_input(args, envp, 1) == -1)
+		return(1);
+	j = 1;
 	while (args[j])
 	{
 		len = var_len(args[j], NULL);
@@ -198,4 +197,5 @@ void	export(char **args, char ***envp) // maybe rework qoutes for this
 			(*envp) = append_env(args[j], *envp);
 		j++;
 	}
+	return (0);
 }

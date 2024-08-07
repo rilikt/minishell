@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 12:39:56 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 17:32:20 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:55:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	echo(char **args)
+int	echo(char **args)
 {
 	int i = 1;
 	int n = 1;
@@ -21,7 +21,7 @@ void	echo(char **args)
 	if (!args[1])
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		return ;
+		return (0);
 	}
 	while(args[i] && !ft_strncmp(args[i], "-n", 2))
 	{
@@ -42,5 +42,5 @@ void	echo(char **args)
 	}
 	if (n)
 		write(STDOUT_FILENO, "\n", 1);
-	return ;
+	return (0);
 }

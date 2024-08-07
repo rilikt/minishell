@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 18:45:13 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:55:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void env(char **arg, char **envp) // prints out env from extern char **environ we might have to create our own env don't know
+int env(char **arg, char **envp) // prints out env from extern char **environ we might have to create our own env don't know
 {
 	int i;
 	int len;
@@ -21,7 +21,7 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 	if (arg[1])
 	{
 		write(2, "minishell: env: too many arguments!\n", 37);
-		return ;
+		return (1);
 	}
 	while(envp[i])
 	{
@@ -29,7 +29,7 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 			printf("%s\n", envp[i]);
 		i++;
 	}
-	return ;
+	return (0);
 }
 
 char **copy_env(char **envp)
