@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 12:36:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:38:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int main(int argc, char **argv, char **envp)
 		else if (!shell.err)
 			execute_commandline(&shell);
 		// free_struct(&shell);
+		// printf("%d\n", shell.exitstatus);
 		free(shell.input);
 		shell.input = NULL;
-		shell.err = 0;
 	}
 	free_string_array(shell.envp);
 	if (shell.mode == INTERACTIVE)

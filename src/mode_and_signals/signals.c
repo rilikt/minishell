@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:34:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 15:49:17 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 void	signal_handler(int signal)
 {	
-	if (signal == SIGQUIT)
-		sig = signal;
+	// if (signal == SIGQUIT)
+	// 	sig = signal;
 	if (signal == SIGINT)
 	{
 		rl_replace_line("", 1);
 		write(STDIN_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
+		// if (!sig)
+		// 	sig = signal;
+		// else
+		// 	sig = 0;
 	}
+	
 }
 void	check_mode_handle_signals(t_shell *shell)
 {
@@ -44,11 +49,8 @@ void	check_mode_handle_signals(t_shell *shell)
 		sigemptyset(&shell->signals.sa_mask);
 		shell->signals.sa_flags = 0;
 		sigaction(SIGQUIT, &shell->signals, NULL);
-		signal(SIGINT, signal_handler);
 	}
-	if (shell->mode == NON_INTERACTIVE)
-	{
-		signal(SIGINT, signal_handler);
-	}
+	signal(SIGINT, signal_handler);
 	return ;
+
 }

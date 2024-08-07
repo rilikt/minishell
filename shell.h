@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 16:45:50 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:24:21 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ enum e_errorcodes {
 	ERR_PERMISSION = 13,
 	ERR_PATH = 127,
 	ERR_EXPORT,
+	ERR_WRITE,
 } ;
 
 enum e_forkmode {
@@ -96,6 +97,7 @@ typedef struct s_redirect {
 	int					*int_vars;
 	int					in_fd;
 	int					out_fd;
+	int					here_doc;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -116,6 +118,7 @@ typedef struct s_command {
 	int					*int_vars;
 	int					builtin_flag;
 	int					stdout_fd;
+	int					stdin_fd;
 	t_rdct				*reds;
 	int					var_in_redir;
 	struct termios		term;
@@ -135,6 +138,7 @@ typedef struct s_vars {
 typedef struct s_expand_help {
 	char	**envp;
 	t_vars	vars;
+	t_vars	arg_vars;
 	int		count;
 	int		exit;
 } t_exp_help ;
@@ -156,7 +160,7 @@ typedef struct s_shell {
 /*========================================================*/
 /*==				main.c								==*/
 /*========================================================*/
-
+//main
 /*========================================================*/
 /*==				builtins							==*/
 /*========================================================*/
@@ -195,6 +199,7 @@ int		compare_to_envp(char **args, char *envp);
 /*========================================================*/
 /*==				error and utils						==*/
 /*========================================================*/
+// error.c
 void	ft_error(char *arg, char *msg, int errorcode);
 void	ft_sytax_error(int *err, t_token *tkn);
 void	error_check(void *ptr, char *msg, int error_code);
@@ -218,26 +223,33 @@ int		wait_for_children(int *pid, int nb);
 void	close_accordingly(t_pipe *pipes, int *mode);
 int		*allocate_pid(int nb);
 void	change_std_fd(t_pipe *pipes, int mode);
-void	ft_close(int fd);
-void	ft_dup2(int new, int old);
+void	ft_close(int fd, char *msg);
+void	ft_dup2(int new, int old, char *msg);
 
 
 //redirecting.c
 void	change_input_fd(t_rdct *reds);
 void	change_output_fd(t_rdct *reds, int mode);
+void	pipe_heredoc(t_rdct *reds);
 void	redirect_accordingly(t_rdct *reds);
 
 /*========================================================*/
-/*==					expander						==*/
+/*==				expander							==*/
 /*========================================================*/
 //expanding.c
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
 void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
+int		ft_arr_len(char **arr);
+char	**check_and_insert_first_index(char **args, t_exp_help *utils);
+char	**split_and_arrange_arg(char **args, int i, int arg_len, char **new_args);
 char	**split_and_arrange_cmd(char **args);
 
-/*=		mode_nd_signals	=*/
+/*========================================================*/
+/*==				mode_nd_signals						==*/
+/*========================================================*/
+
 //initialize.c
 void	setup_shell(t_shell *shell, char **envp, int argc, char **argv);
 char	*put_input(int argc, char **argv);
@@ -246,7 +258,9 @@ char	*put_input(int argc, char **argv);
 void	signal_handler(int signum);
 void	check_mode_handle_signals(t_shell *shell);
 
-/*		parser			*/
+/*========================================================*/
+/*==				parser								==*/
+/*========================================================*/
 
 //parse_nodes.c
 char	**create_array(t_token *start, t_token *end);
@@ -271,7 +285,9 @@ int		*add_to_arr(char *vars, int *arr, char *added, int *int_vars);
 /*		general utils	*/
 void	free_struct(t_shell *shell);
 
-/*		tokenizer		*/
+/*========================================================*/
+/*==				tokenizer							==*/
+/*========================================================*/
 
 //read_input.c
 int		check_whitespace(char *input);

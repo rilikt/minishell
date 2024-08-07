@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 17:10:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:45:13 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 	i = 0;
 	if (arg[1])
 	{
-		write(2, "env : too many arguments\n", 25);
-		return;
+		write(2, "minishell: env: too many arguments!\n", 37);
+		return ;
 	}
 	while(envp[i])
 	{
@@ -32,7 +32,6 @@ void env(char **arg, char **envp) // prints out env from extern char **environ w
 	return ;
 }
 
-
 char **copy_env(char **envp)
 {
 	int len = 0;
@@ -41,8 +40,9 @@ char **copy_env(char **envp)
 	while(envp[len])
 		len++;
 	re = (char **)malloc((len + 1) * sizeof(char *));
+	error_check(re, "mlloc in copy_env", ERR_MALLOC);
 	len = 0;
-	while (envp[len])
+	while (envp && envp[len])
 	{
 		if (!ft_strncmp("OLDPWD", envp[len], 6))
 			re[len] = ft_strdup("OLDPWD");

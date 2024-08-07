@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/03 20:27:08 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:42:43 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
 {
 	cmd->stdout_fd = -1;
+	cmd->stdin_fd = -1;
 	expand_cmd(cmd, exitstatus, envp);
 	check_builtins(cmd);
 	if (cmd->builtin_flag == EXTERN)
@@ -22,7 +23,10 @@ int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
 	else
 	{
 		if (cmd->reds)
+		{
 			cmd->stdout_fd = dup(STDOUT_FILENO);
+			cmd->stdin_fd = dup(STDIN_FILENO);
+		}
 		redirect_accordingly(cmd->reds);
 	}
 	return(1);
@@ -44,11 +48,16 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 		env(cmd->args, *envp);
 	else if (cmd->builtin_flag == EXIT)
 		*err = ERR_EXIT;
-	if (cmd->stdout_fd > 0)
+	if (cmd->stdout_fd > -1)
 	{
-		ft_dup2(cmd->stdout_fd, STDOUT_FILENO);
-		ft_close(cmd->stdout_fd);
-	}	
+		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
+		ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
+	}
+	if (cmd->stdin_fd)
+	{
+		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
+		ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
+	}
 	return (0);
 }
 

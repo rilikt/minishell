@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 19:39:50 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:09:04 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	free_struct(t_shell *shell)
 	temp = shell;
 	while (shell->tokens)
 	{
-		// print_tokens(shell);
 		temp_tkn = temp->tokens;
 		shell->tokens = shell->tokens->next;
 		if (temp_tkn->str)
@@ -34,7 +33,6 @@ void	free_struct(t_shell *shell)
 	}
 	while (shell->commands)
 	{
-		// print_commands(shell);
 		temp_cmd = shell->commands;
 		shell->commands = shell->commands->next;
 		while (temp_cmd->reds)
@@ -58,6 +56,7 @@ void free_string_array(char **str)
 	i = 0;
 	while(str[i])
 	{
+		// printf("%s\n", str[i]);
 		if (str[i])
 			free(str[i]);
 		i++;

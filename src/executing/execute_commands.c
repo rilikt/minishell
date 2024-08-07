@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:40:25 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 08:35:24 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	execute_commandline(t_shell *shell)
 		pipe_mode_check(&pipes, &mode, i, shell->cmd_nb);
 		pid[i] = fork();
 		if (pid[i] == 0)
-		{
 			run_childprocess(tmp, &pipes, shell, mode);
-		}	
 		else if (pid[i] < 0)
 			ft_error(NULL, "fork failed", ERR_FORK);
 		if (tmp->next)

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 15:18:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:41:56 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	char	*path_to_cmd;
 
 	path_to_cmd = NULL;
-	// print_arr(cmd->args);
+	signal(SIGINT, &exit);
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
 	{
@@ -46,7 +46,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		exit(0);
 	execve(path_to_cmd, cmd->args, shell->envp);
 	// error_check
-	return (close(STDIN_FILENO), close(STDOUT_FILENO), exit(1));
+	exit(1);
 }
 
 char *get_path(char *cmd, char **envp)
@@ -60,7 +60,7 @@ char *get_path(char *cmd, char **envp)
 	i = 0;
 	error_check(cmd, "ft_strjoin", ERR_MALLOC);
 	path_string = ft_getenv("PATH", envp);
-	error_check(path, "PATH not valid env variable", ERR_PATH);
+	error_check(path_string, "PATH not valid env variable", ERR_PATH);
 	path = ft_split(path_string, ':');
 	error_check(path, "ft_split", ERR_MALLOC);
 	while(path[i])

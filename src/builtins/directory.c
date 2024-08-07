@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 17:15:27 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:38:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void cd(char **arg, char ***envp)
 	}
 	if (chdir(move_to) == -1)
 	{
-		fprintf(stderr, "cd : %s %s\n", strerror(errno), input); // fprint not allowed find alternative
+		error_check(NULL, move_to, ERR_FILE);
 	}
 	update_env(envp);
 }

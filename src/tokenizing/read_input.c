@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:39:50 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:15:48 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,52 @@ int	check_whitespace(char *input)
 	return (1);
 }
 
+// char	*read_input(int mode, t_shell *shell)
+// {
+// 	char	*input;
+// 	char	path[1024];
+// 	char	*rl_str;
+// 	char	*tmp;
+
+// 	input = NULL;
+// 	getcwd(path, sizeof(path));
+// 	rl_str = ft_strjoin(path, " > ");
+// 	error_check(rl_str, "strjoin in read_inut", ERR_MALLOC);
+// 	tmp = ft_strdup((ft_strrchr(rl_str, '/') + 1));
+// 	error_check(tmp, "strdup in read_inut", ERR_MALLOC);
+// 	free(rl_str);
+// 	rl_str = ft_strjoin("🐚 ", tmp);
+// 	free(tmp);
+// 	error_check(rl_str, "strjoin in read_inut", ERR_MALLOC);
+// 	if (mode == INTERACTIVE)
+// 		input = readline(rl_str);
+// 	else if (mode == NON_INTERACTIVE && !isatty(STDIN_FILENO))
+// 	{
+// 		tmp = get_next_line(STDIN_FILENO);
+// 		if (tmp)
+// 			input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+// 		free(tmp);
+// 	}
+// 	if (!input)
+// 	{
+// 		if (shell->mode == INTERACTIVE)
+// 			tcsetattr(STDIN_FILENO, TCSANOW, &(shell->term[0]));
+// 		// free_string_array(shell->envp);
+// 		// free_struct(shell);
+// 		// free(rl_str);
+// 		exit(shell->exitstatus);
+// 	}
+// 	if (check_whitespace(input))
+// 	{
+// 		free(input);
+// 		input = read_input(mode, shell);
+// 	}
+// 	free(rl_str);
+// 	rl_str = NULL;
+// 	add_history(input);
+// 	return (input);
+// }
+
 char	*read_input(int mode, t_shell *shell)
 {
 	char	*input;
@@ -42,7 +88,7 @@ char	*read_input(int mode, t_shell *shell)
 	free(tmp);
 	if (mode == INTERACTIVE)
 		input = readline(rl_str);
-	else if (!isatty(STDIN_FILENO))
+	else if (mode == NON_INTERACTIVE && !isatty(STDIN_FILENO))
 	{
 		tmp = get_next_line(STDIN_FILENO);
 		if (tmp)
@@ -52,7 +98,7 @@ char	*read_input(int mode, t_shell *shell)
 	if (!input)
 	{
 		if (shell->mode == INTERACTIVE)
-		tcsetattr(STDIN_FILENO, TCSANOW, &(shell->term[0]));
+			tcsetattr(STDIN_FILENO, TCSANOW, &(shell->term[0]));
 		exit(shell->exitstatus);
 	}
 	if (check_whitespace(input))

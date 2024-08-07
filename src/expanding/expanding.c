@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/04 17:00:49 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:26:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return ;
 }
 
-void	expand_string(char **str, t_exp_help *utils)
+void	expand_string(char **str, t_exp_help *utils, int i)
 {
 	int		tmp;
 	char	*pos;
@@ -78,105 +78,53 @@ void	expand_string(char **str, t_exp_help *utils)
 			tmp += ft_strlen(name);
 		if (pos)
 			pos = ft_strchr(&str[0][tmp], '$');
+		if (utils->vars.c_vars[utils->count - 1] == '2')
+			*utils->arg_vars.i_vars = tmp;
 	}
+	if (i == 0)
+		utils->arg_vars.c_vars[utils->count] = '\0';
 }
-
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
 	int				i;
 	t_rdct			*tmp;
 	t_exp_help	utils;
 
-	i = 0;
+	i = -1;
 	utils.count = 0;
 	utils.envp = envp;
 	utils.vars.c_vars = cmd->char_vars;
 	utils.vars.i_vars = cmd->int_vars;
+	utils.arg_vars.c_vars = ft_strdup(cmd->char_vars);
+	error_check(utils.arg_vars.c_vars, "ft_strdup in expand_cmd", ERR_MALLOC);
+	utils.arg_vars.i_vars = (int *)malloc(ft_strlen(cmd->char_vars) * sizeof(int));
+	error_check(utils.arg_vars.i_vars, "ft_malloc in expand_cmd", ERR_MALLOC);
+	while (cmd->char_vars && cmd->char_vars[++i])
+		utils.vars.i_vars[i] = cmd->int_vars[i];
+	i = 0;
 	utils.exit = exitstatus;
 	while (cmd->char_vars && cmd->args[i])
 	{
-		expand_string(&cmd->args[i], &utils);
-		if (i == 0 && ft_strchr(cmd->args[i], ' ') && !(cmd->char_vars[i] == '2'))
-			cmd->args = split_and_arrange_cmd(cmd->args);
+		expand_string(&cmd->args[i], &utils, i);
+		if (i == 0 && ft_strchr(cmd->args[0], ' '))
+			cmd->args = check_and_insert_first_index(cmd->args, &utils);
+		// else
+		// 	split_and_arrange_arg(cmd->args, i, ft_arr_len(cmd->args), NULL);
 		i++;
 	}
 	tmp = cmd->reds;
-	while (tmp && tmp->char_vars)
+	while (tmp)
 	{
-		utils.vars.c_vars = tmp->char_vars;
-		utils.vars.i_vars = tmp->int_vars;
-		utils.count = 0;
-		expand_string(&tmp->filename, &utils);
+		if (tmp->char_vars)
+		{
+			utils.vars.c_vars = tmp->char_vars;
+			utils.vars.i_vars = tmp->int_vars;
+			utils.count = 0;
+			expand_string(&tmp->filename, &utils, i);
+		}
 		tmp = tmp->next;
 	}
-	// print_arr(cmd->args);
+	free(utils.arg_vars.c_vars);
+	free(utils.arg_vars.i_vars);
 	return ;
 }
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_cmd cmd;
-// 	t_rdct	*tmp;
-// 	char *f = "$SHLVL";
-// 	char *s ="$LOGNAME";
-// 	char *d = "ste$?hen$LS";
-// 	char *f1 = "1";
-// 	char *s1 = "1";
-// 	char *d1 = "01";
-
-// 	cmd.args = ft_split("echo $LS'$HOME'", ' ');
-// 	cmd.is_var = 1;
-// 	cmd.vars = "11";
-// 	tmp = (t_rdct *)malloc(sizeof(t_rdct));
-// 	cmd.reds = tmp;
-// 	tmp->filename = (char *)malloc(sizeof(f));
-// 	tmp-> vars = (char *)malloc(sizeof(f1));
-// 	ft_memmove(tmp->vars, f1, ft_strlen(f));
-// 	ft_memmove(tmp->filename, f, ft_strlen(f));
-// 	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
-// 	tmp = tmp->next;
-	
-// 	tmp->filename = (char *)malloc(sizeof(s));
-// 	tmp-> vars = (char *)malloc(sizeof(s1));
-// 	ft_memmove(tmp->vars, s1, ft_strlen(s1));
-// 	ft_memmove(tmp->filename, s, ft_strlen(s));
-// 	tmp->next = (t_rdct *)malloc(sizeof(t_rdct));
-// 	tmp = tmp->next;
-	
-// 	tmp->filename = (char *)malloc(sizeof(d));
-// 	tmp-> vars = (char *)malloc(sizeof(d1));
-// 	ft_memmove(tmp->vars, d1, ft_strlen(d1));
-// 	ft_memmove(tmp->filename, d, ft_strlen(d));
-// 	tmp->next = NULL;
-	
-// 	cmd.var_in_redir = 1;
-// 	expand_cmd(&cmd, 15, envp);
-// 	int i = 0;
-// 	printf("---final output---\n\n");
-// 	while (cmd.args[i])
-// 	{
-// 		if (cmd.args[i + 1])
-// 			printf("%s\n", cmd.args[i]);
-// 		else
-// 			printf("%s\n", cmd.args[i]);
-// 		free(cmd.args[i]);
-// 		i++;
-// 	}
-// 	free(cmd.args);
-// 	printf("\n------reds---------\n\n");
-// 	while (1)
-// 	{
-// 		tmp = cmd.reds;
-// 		printf("%s\n", cmd.reds->filename);
-// 		free(cmd.reds->filename);
-// 		cmd.reds = cmd.reds->next;
-// 		free(tmp);
-// 		if(!cmd.reds)
-// 			break ;
-// 	}
-// 	printf("\n");
-	
-// 	// system("leaks a.out");
-// 	return 0;
-// }
-// cc -Wall -Wextra -Werror -lreadline ../../include/libft/libft.a 
-// expanding.c ../error_and_utils/error.c -g
