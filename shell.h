@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 17:24:21 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:16:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ typedef struct s_command {
 	int					stdin_fd;
 	t_rdct				*reds;
 	int					var_in_redir;
-	struct termios		term;
+
 	struct s_command	*next;
 }	t_cmd;
 
@@ -130,18 +130,19 @@ typedef struct s_piping {
 	int		last_pipe;
 }	t_pipe;
 
-typedef struct s_vars {
-	int		*i_vars;
-	char	*c_vars;
-} t_vars;
+typedef	struct arg_vars {
+	int				*index;
+	char			*type;
+} t_avars;
 
 typedef struct s_expand_help {
 	char	**envp;
-	t_vars	vars;
-	t_vars	arg_vars;
-	int		count;
+	t_avars	*arg_vars;
+	int		v_count;
+	char	**str;
+	int		*i_vars;
 	int		exit;
-} t_exp_help ;
+} t_exp ;
 
 typedef struct s_shell {
 	int					mode;
@@ -240,9 +241,9 @@ void	redirect_accordingly(t_rdct *reds);
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
-void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u);
+void	check_char_behind(char **pos, char **str, int *tmp, t_exp *u);
 int		ft_arr_len(char **arr);
-char	**check_and_insert_first_index(char **args, t_exp_help *utils);
+char	**check_and_insert_first_index(char **args, t_exp *utils);
 char	**split_and_arrange_arg(char **args, int i, int arg_len, char **new_args);
 char	**split_and_arrange_cmd(char **args);
 

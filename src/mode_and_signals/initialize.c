@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 12:05:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 11:03:03 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ char	*put_input(int argc, char **argv)
 		while (i < argc)
 		{
 			tmp2 = ft_strjoin(tmp, argv[i++]);
-			input = ft_strjoin(tmp2, " ");
-			free(tmp2);
-			if (i != argc - 1)
+			if (tmp)
 				free(tmp);
+			tmp = ft_strjoin(tmp2, " ");
+			free(tmp2);
 			input = tmp;
 		}
+		printf("%s\n", input);
 	}
 	return (input);
 }
