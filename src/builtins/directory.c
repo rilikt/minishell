@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:40:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:15:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ void cd(char **arg, char ***envp)
 		move_to = ft_getenv("OLDPWD", *envp);
 		if (move_to)
 			printf("%s\n", move_to);
+		else
+		{
+			write(2, "minishell: cd: OLDPWD not set\n", 31);
+			return;
+		}
 	}
 	// if (arg[2])
 	// {

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 17:51:40 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:00:42 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void print_int_arr(int *arr, int len)
 
 int check_end(char c)
 {
-	char *set = "$\"'/\\| ";
+	char *set = "$\"'/\\|. ";
 	int i;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 16:52:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:36:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ int main(int argc, char **argv, char **envp)
 		tcsetattr(STDIN_FILENO, TCSANOW, &(shell.term[0]));
 	return (shell.exitstatus);
 }
-		// printf("%d\n", shell.exitstatus);

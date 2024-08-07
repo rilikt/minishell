@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 16:17:25 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:19:16 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	check_and_print(char **args, char ***envp)
 	}
 	while (args[j])
 	{
-		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$')
+		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$' || args[j][0] == '=')
 		{
 			write(2, "minishell: export: `", 20);
 			write(2, args[j], ft_strlen(args[j]));
