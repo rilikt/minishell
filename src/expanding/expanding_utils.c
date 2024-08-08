@@ -6,51 +6,46 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/08 12:15:36 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:21:36 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-// void	check_char_behind(char **pos, char **str, int *tmp, t_exp_help *u)
-// {
-// 	if (u->vars.c_vars[u->count] == '3')
-// 	{
-// 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
-// 		u->count++;
-// 		*pos = ft_strchr(&str[0][*tmp], '$');
-// 	}
-// 	if (u->vars.c_vars[u->count] == '0')
-// 	{
-// 		(*tmp)++;
-		
-// 		u->count++;
-// 		*pos = ft_strchr(&str[0][*tmp], '$');
-// 	}
-// 	while (*pos && (*(*pos + 1) == '\0' || *(*pos + 1) == '$' || *(*pos+ 1) == ' '
-// 			|| *(*pos+ 1) == '/'))
-// 	{
-// 		if (*(*pos + 1) == '\0')
-// 		{
-// 			(*tmp)++;
-// 			u->count++;
-// 			*pos = NULL;
-// 			return ;
-// 		}
-// 		else if (*(*pos + 1) == '$' && (u->vars.c_vars[u->count] == '1'))
-// 			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
-// 		else if (*(*pos + 1) == ' ' || *(*pos+ 1) == '/')
-// 			(*tmp)++;
-// 		else
-// 			(*tmp)++;
-// 		u->count++;
-// 		*pos = ft_strchr(&str[0][*tmp], '$');
-// 	}
-// 	return ;
-// }
+int	*check_char_behind(char **pos, char **str)
+{
+	char	c;
+	int		*var_len;
+
+	*var_len = 0;
+	if (*pos && *(*pos + 1))
+		c = *(*pos + 1);
+	else
+		return ;
+	if (c == '\0')
+		return (NULL);
+	else if (!ft_isalpha((int)c))
+		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
+	else if(ft_isalpha((int)c))
+	{
+		while(ft_isalpha((int)*(*pos + 1 + *var_len))
+			|| ft_digit((int)*(*pos + 1 + *var_len)))
+		*var_len++;
+	}
+	return (var_len);
+}
 /*
 ec$USER "$HOME $?" $$USER"$SHLVL" $"$"$
 export T="ho    world"
+
+ minishell > ec$HOME >  $USER"LOL" <HALLO$HOME <<s
+> lool
+> $USER
+> $SHLVL
+> "HALLO $USER$$$"
+> s
+
+
 */
 int	ft_arr_len(char **arr)
 {

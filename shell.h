@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/08 12:28:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:21:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void	redirect_accordingly(t_rdct *reds);
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
-void	check_char_behind(char **pos, char **str, int *tmp, t_exp *u);
+int		*check_char_behind(char **pos, char **str);
 int		ft_arr_len(char **arr);
 char	**check_and_insert_first_index(char **args, t_exp *utils);
 char	**split_and_arrange_arg(char **args, int i, int arg_len, char **new_args);

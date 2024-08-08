@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/08 12:39:28 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:25:32 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,29 @@ void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils)
 return ;
 }
 
+void	expand_heredoc(char **str, t_exp *utils)
+{
+	int		tmp;
+	char	*pos;
+	char	*var_value;
+	char	*var_name;
+	int		*var_len;
+
+	tmp = 0;
+	utils->str = str;
+	var_value = NULL;
+	pos = ft_strchr(*str + tmp, '$');
+	while (pos)
+	{
+		var_len = check_char_behind(&pos, str);
+		if (var_len)
+			get_var(pos, &var_name, var_len, utils);
+		if ()
+		pos = ft_strchr(*str + tmp, '$');
+	}
+	return ;
+}
+
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
 	int				i;
@@ -182,17 +205,19 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		setup_exp_help_struct(cmd, &utils);
 	while (cmd->char_vars && cmd->args[++i])
 		expand_string(&cmd->args[i], &utils, i);
-	split_args(cmd->args, i, utils.arg_vars);
-	free_arg_vars(utils.arg_vars);
+	// split_args(cmd->args, i, utils.arg_vars);
+	// free_arg_vars(utils.arg_vars);
 	tmp = cmd->reds;
+	utils.arg_vars = (t_avars *)malloc(sizeof(t_avars) * 1);
 	while (tmp)
 	{
 		utils.arg_vars->type = tmp->char_vars;
+		error_check(utils.arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
 		utils.arg_vars->index = tmp->int_vars;
-		else if (tmp->char_vars)
-		{
-			expand_string()
-		}
+		if (tmp->char_vars && tmp->type != IN_HEREDOC)
+			expand_string(&tmp->filename, &utils, 0);
+		else
+			expand_heredoc(&tmp->filename, &utils);
 		tmp = tmp->next;
 	}
 	return ;
