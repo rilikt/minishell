@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 18:01:11 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:39:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	int		index_var_end;
 
 	var_end = pos + ft_strlen(var_name) + 1;
-	new_len = ft_strlen(pos) - (ft_strlen(var_name) + 1)
+	new_len = ft_strlen(*str) - (ft_strlen(var_name) + 1)
 		+ ft_strlen(var_value);
 	new_str = (char *)malloc(sizeof(char) * new_len + 1);
 	error_check(new_str, "malloc in insert_var", ERR_MALLOC);
@@ -44,8 +44,8 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 		ft_strlen(var_value) + 1);
 	index_var_end = ft_strlen(new_str);
 	ft_strlcpy(&(new_str[ft_strlen(new_str)]), var_end, ft_strlen(var_end) + 1);
+	free(*str);
 	free(var_name);
-	// free(*str);
 	*str = new_str;
 	return (index_var_end);
 }
@@ -180,30 +180,30 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	utils.exit = exitstatus;
 	if (cmd->char_vars)
 		setup_exp_help_struct(cmd, &utils);
-	i = 0;
-	while (cmd->char_vars && cmd->args[i])
-	{
-	printf("\n-----before---\n");
-		k = 0;
-		while(cmd->args[k])
-			printf("%s\n", cmd->args[k++]);
-			
+	while (cmd->char_vars && cmd->args[++i])
 		expand_string(&cmd->args[i], &utils, i);
-		i++;
-		k = 0;
-	printf("\n----after----\n");
-
-		while(cmd->args[k])
-			printf("%s\n", cmd->args[k++]);
+	split_args(cmd->args, i, utils.arg_vars);
+	free_arg_vars(utils.arg_vars);
+	tmp = cmd->reds;
+	while (tmp)
+	{
+		utils.arg_vars->type = tmp->char_vars;
+		utils.arg_vars->index = tmp->int_vars;
+		else if (tmp->char_vars)
+		{
+			expand_string()
+		}
+		tmp = tmp->next;
 	}
-	// tmp = cmd->reds;
-	// while (tmp)
-	// {
-	// 	if (tmp->char_vars)
-	// 	{
-	// 		expand_string(&tmp->filename, &utils, i);
-	// 	}
-	// 	tmp = tmp->next;
-	// }
 	return ;
 }
+	// printf("\n-----before---\n");
+	// 	k = 0;
+	// 	while(cmd->args[k])
+	// 		printf("%s\n", cmd->args[k++]);
+			
+
+	// printf("\n----after----\n");
+
+	// 	while(cmd->args[k])
+	// 		printf("%s\n", cmd->args[k++]);

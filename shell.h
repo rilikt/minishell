@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 16:16:40 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 12:28:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ typedef struct s_expand_help {
 	t_avars	*arg_vars;
 	int		v_count;
 	char	**str;
-	int		*i_vars;
 	int		exit;
 } t_exp ;
 
