@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/06 11:33:33 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/07 17:40:34 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ BUILTINS :=	directory.c\
 			env.c\
 			export.c\
 			export_2.c\
-			unset.c
+			unset.c\
+			export_unset_input_check.c\
+			exit.c
 ERR_CLEAN:=	error.c\
 			cleaning.c
 EXECUTING:= child.c\

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/08 12:28:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:30:38 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,24 +166,24 @@ typedef struct s_shell {
 /*========================================================*/
 // builtin.c
 int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
-int		check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err);
+int		check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus);
 void	check_builtins(t_cmd *cmd);
 
 // directory.c
-void	pwd(char **arg);
-void	cd(char **arg, char ***envp);
+int		pwd(char **arg);
+int		cd(char **arg, char ***envp);
 void	go_home(void);
 void	update_env(char ***envp);
 
 // echo.c
-void	echo(char **args);
+int		echo(char **args);
 
 // env.c
-void	env(char **arg, char **envp);
-char 	**copy_env(char **envp);
+int		env(char **arg, char **envp);
+char	**copy_env(char **envp);
 
 // export.c export_2.c
-void	export(char **args, char ***envp);
+int		export(char **args, char ***envp);
 char	*ft_getenv(char *find, char **env);
 int		var_len(char *str, char *str2);
 char	**append_env(char *var, char **envp);
@@ -193,8 +193,15 @@ void	export_print(char **envp);
 int		check_and_print(char **args, char ***envp);
 
 // unset.c
-void	unset(char **args, char ***envp);
+int		unset(char **args, char ***envp);
 int		compare_to_envp(char **args, char *envp);
+
+// export_unset_input_check.c
+int		check_input(char **args, char ***envp, int mode);
+int invalid_char(char c, int mode);
+
+// exit.c
+int	ft_exit(char **args, int *err, int exitstatus);
 
 /*========================================================*/
 /*==				error and utils						==*/

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:10:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/07/29 17:39:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:03:15 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,21 @@ int	compare_to_envp(char **args, char *envp)
 	return (1);
 }
 
-void	unset(char **args, char ***envp) // needs to accept multiple argumens
+int	unset(char **args, char ***envp) // needs to accept multiple argumens
 {
 	int len = 0;
 	int i = 1;
 	char **re;
 
 	if (!args[1])
-		return ;
+		return (0);
+	else
+		
 	while ((*envp)[len])
 		len++;
-	while (args[i])
-		i++;
+	i = check_input(args, envp, 2);
+	if (i == -1)
+		return (1);
 	re = (char **)malloc((len + i) * sizeof(char *));
 	error_check(re, "unset", ERR_MALLOC);
 	len = 0;
@@ -53,4 +56,5 @@ void	unset(char **args, char ***envp) // needs to accept multiple argumens
 	}
 	re[i] = NULL;
 	*envp = re;
+	return (0);
 }

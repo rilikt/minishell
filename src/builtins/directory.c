@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 18:41:31 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:20:56 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void update_env(char ***envp) // maybe use ft_getenv for all of this instead of 
 	free(new[1]);
 }
 
-void cd(char **arg, char ***envp)
+int cd(char **arg, char ***envp)
 {
 	char path[1024];
 	char *new_path;
@@ -56,35 +56,45 @@ void cd(char **arg, char ***envp)
 	char *move_to = arg[1];
 
 	if (!arg[1])
-		return (go_home(), update_env(envp));
+	{
+		move_to = ft_getenv("HOME", *envp);
+		input = move_to;
+	}
 	else if (!ft_strncmp(arg[1], "-", 2))
 	{
 		move_to = ft_getenv("OLDPWD", *envp);
 		if (move_to)
 			printf("%s\n", move_to);
+		else
+		{
+			write(2, "minishell: cd: OLDPWD not set\n", 31);
+			return(1);
+		}
 	}
 	// if (arg[2])
 	// {
 	// 	write(2, "cd : too many arguments\n", 25);
 	// 	return;
 	// }
-	getcwd(path, sizeof(path));
-	if (!ft_strchr(move_to, '/')) // need to check if this is needed or chdir takes care of this
-	{
-		if (path[ft_strlen(path)-1] != '/')
-		move_to = ft_strjoin("/", move_to);
-		error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
-		move_to = ft_strjoin(path, move_to);
-		error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
-	}
+	// getcwd(path, sizeof(path));
+	// if (!ft_strchr(move_to, '/')) // need to check if this is needed or chdir takes care of this
+	// {
+	// 	if (path[ft_strlen(path)-1] != '/')
+	// 	move_to = ft_strjoin("/", move_to);
+	// 	error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
+	// 	move_to = ft_strjoin(path, move_to);
+	// 	error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
+	// }
 	if (chdir(move_to) == -1)
 	{
-		error_check(NULL, move_to, ERR_FILE);
+		ft_error("cd: ", input, ERR_FILE);
+		return(1);
 	}
 	update_env(envp);
+	return(0);
 }
 
-void pwd(char **arg)
+int pwd(char **arg)
 {
 	char path[1024];
 	
@@ -94,5 +104,5 @@ void pwd(char **arg)
 	// 	return;
 	// }
 	printf("%s\n", getcwd(path, sizeof(path)));
-	return;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 12:47:48 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 18:49:44 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 		if (is_redir(temp))
 		{
 			if(check_redir(&command, &temp, &shell->err))
-				return(command);
+				return(shell->exitstatus = 2, command);
 			start = temp;
 			while_not_op(&temp, shell, &vars, &int_vars);
 			arr = append_array(arr, start, temp);

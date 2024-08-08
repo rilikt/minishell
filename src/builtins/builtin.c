@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 17:42:19 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:31:47 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,25 @@ int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
 	return(1);
 }
 
-int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
+int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 {
+	int exit_re;
+
+	exit_re = 0;
 	if (cmd->builtin_flag == FT_ECHO)
-		echo(cmd->args);
+		exit_re = echo(cmd->args);
 	else if (cmd->builtin_flag == CD)
-		cd(cmd->args, envp);
+		exit_re = cd(cmd->args, envp);
 	else if (cmd->builtin_flag == PWD)
-		pwd(cmd->args);
+		exit_re = pwd(cmd->args);
 	else if (cmd->builtin_flag == EXPORT)
-		export(cmd->args, envp);
+		exit_re = export(cmd->args, envp);
 	else if (cmd->builtin_flag == UNSET)
-		unset(cmd->args, envp);
+		exit_re = unset(cmd->args, envp);
 	else if (cmd->builtin_flag == ENV)
-		env(cmd->args, *envp);
+		exit_re = env(cmd->args, *envp);
 	else if (cmd->builtin_flag == EXIT)
-		*err = ERR_EXIT;
+		exit_re = ft_exit(cmd->args, err, exitstatus);
 	if (cmd->stdout_fd > -1)
 	{
 		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
@@ -58,7 +61,7 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err)
 		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
 		ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
 	}
-	return (0);
+	return (exit_re);
 }
 
 void	check_builtins(t_cmd *cmd)

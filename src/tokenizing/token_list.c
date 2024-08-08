@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/05 16:45:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:47:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	if (!q_flag && !ft_strncmp(str, "~", 2))
 	{
 		free(str);
-		new_node->str = ft_strdup(getenv("HOME"));
+		new_node->str = ft_strdup(ft_getenv("HOME", shell->envp));
 	}
 	else
 		new_node->str = str;
@@ -185,16 +185,19 @@ void	is_heredoc(t_token *node, int q_flag)
 	line = NULL;
 	input = NULL;
 	delimiter = check_and_rm_quotes(node->str);
+	delimiter = ft_strjoin(delimiter, "\n");
 	while (1)
 	{
-		line = readline("> ");
-		if (!line)
+		write(1, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (!line || line[ft_strlen(line)-1] != '\n')
+		{
+			write(STDIN_FILENO, "\n", 1);
 			break ;
+		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)+1)
 			&& delimiter[0] != '\0')
 			break ;
-		line = ft_strjoin(line, "\n");
-		error_check(line, "ft_strjoin", ERR_MALLOC);
 		input = ft_strjoin(input, line);
 		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
