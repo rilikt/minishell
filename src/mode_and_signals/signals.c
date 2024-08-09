@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 15:49:17 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:31:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,27 @@
 
 void	signal_handler(int signal)
 {	
-	// if (signal == SIGQUIT)
-	// 	sig = signal;
-	if (signal == SIGINT)
+	// printf("signal: %d\n", sig);
+	if (sig == 0)
 	{
-		rl_replace_line("", 1);
 		write(STDIN_FILENO, "\n", 1);
+		return;
+	}
+	if (sig == 42)
+	{
+		write(STDIN_FILENO, "\n", 1);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		// if (!sig)
-		// 	sig = signal;
-		// else
-		// 	sig = 0;
+		return;
 	}
-	
+	if (sig == 666)
+	{
+		write(STDIN_FILENO, "\n", 1);
+		close(STDIN_FILENO);
+		sig = 2;
+		return;
+	}
 }
 void	check_mode_handle_signals(t_shell *shell)
 {

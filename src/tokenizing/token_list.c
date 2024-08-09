@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 14:47:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/09 18:30:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,22 +182,19 @@ void	is_heredoc(t_token *node, int q_flag)
 
 	if (node->prev->type != IN_HEREDOC || node->type  == PIPE || is_redir(node))
 		return ;
+	sig = 666;
 	line = NULL;
 	input = NULL;
 	delimiter = check_and_rm_quotes(node->str);
-	delimiter = ft_strjoin(delimiter, "\n");
-	while (1)
+	while (1 && sig != 2)
 	{
-		write(1, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
-		if (!line || line[ft_strlen(line)-1] != '\n')
-		{
-			write(STDIN_FILENO, "\n", 1);
+		line = readline("> ");
+		if (!line || sig == 2)
 			break ;
-		}
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)+1)
 			&& delimiter[0] != '\0')
 			break ;
+		line = ft_strjoin(line, "\n");
 		input = ft_strjoin(input, line);
 		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
@@ -206,7 +203,14 @@ void	is_heredoc(t_token *node, int q_flag)
 	else
 		node->type = WORD;
 	free(node->str);
+	if (sig == 2)
+	{
+		int fd = open("/dev/tty", O_RDWR);
+		dup2(fd, STDIN_FILENO);
+		input = NULL;
+	}
 	node->str = input;
+	sig = 0;
 }
 
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
