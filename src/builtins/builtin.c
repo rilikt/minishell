@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 17:32:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:29:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 	int exit_re;
 
 	exit_re = 0;
+	set_last_arg(cmd, envp, 0);
 	if (cmd->builtin_flag == FT_ECHO)
 		exit_re = echo(cmd->args);
 	else if (cmd->builtin_flag == CD)

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:57:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 13:15:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:23:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		check_input(char **args, char ***envp, int mode)
 	int	i;
 	int j;
 
-	i = 0;
+	i = 1;
 	j = 0;
 	if (!envp || !(*envp))
 		return (-1);

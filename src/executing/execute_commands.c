@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 08:35:24 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:29:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void	execute_commandline(t_shell *shell)
 		close_accordingly(&pipes, &mode);
 	}
 	shell->exitstatus = wait_for_children(pid, shell->cmd_nb);
+	set_last_arg(shell->commands, &shell->envp, 1);
 	return ;
 }

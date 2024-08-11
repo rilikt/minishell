@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/07 17:40:34 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/11 16:15:37 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ BUILTINS :=	directory.c\
 			export_2.c\
 			unset.c\
 			export_unset_input_check.c\
-			exit.c
+			exit.c\
+			set_.c
 ERR_CLEAN:=	error.c\
 			cleaning.c
 EXECUTING:= child.c\

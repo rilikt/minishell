@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 13:15:51 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:29:44 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,9 @@ int invalid_char(char *c, int mode);
 
 // exit.c
 int	ft_exit(char **args, int *err, int exitstatus);
+
+// set_.c
+void set_last_arg(t_cmd *cmd, char ***envp, int mode);
 
 /*========================================================*/
 /*==				error and utils						==*/
