@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 17:42:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 13:15:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int		compare_to_envp(char **args, char *envp);
 
 // export_unset_input_check.c
 int		check_input(char **args, char ***envp, int mode);
-int invalid_char(char c, int mode);
+int invalid_char(char *c, int mode);
 
 // exit.c
 int	ft_exit(char **args, int *err, int exitstatus);
