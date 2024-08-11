@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/08 15:32:35 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 10:33:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ int main(int argc, char **argv, char **envp)
 			shell.input = read_input(shell.mode, &shell);
 		if (!shell.err)
 			tokenize(&shell);
-		print_tokens(&shell);
+		// print_tokens(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);
 		// print_commands(&shell);
-		// printf("err:%d, exit:%d\n", shell.err, shell.exitstatus);
-		print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(shell.commands, shell.exitstatus, shell.envp))
 			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell.envp, &shell.err, shell.exitstatus);

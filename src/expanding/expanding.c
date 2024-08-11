@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/08 12:39:28 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:29:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return (index_var_end);
 }
 
+
 void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 {
 	char	*var_name;
@@ -61,12 +62,13 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 	if (utils->arg_vars[i].type[utils->v_count] == '0')
 	{
 		*tmp += 1;
-		utils->arg_vars[i].index[utils->v_count] = *tmp;
+		utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
 	}
 	else if (utils->arg_vars[i].type[utils->v_count] == '1'
 			|| utils->arg_vars[i].type[utils->v_count] == '2')
 	{
-		var_len = utils->arg_vars[i].index[utils->v_count];
+		var_len = utils->arg_vars[i].s_index[utils->v_count];
+		utils->arg_vars[i].s_index[utils->v_count] = *tmp;
 		if (var_len)
 		{
 			var_value = get_var(*pos, &var_name, var_len, utils);
@@ -79,7 +81,7 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else
 			*tmp += 1;
-		utils->arg_vars[i].index[utils->v_count] = *tmp;
+		utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
 	}	
 	else if (utils->arg_vars[i].type[utils->v_count] == '3')
 	{
@@ -88,7 +90,7 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 	}
 }
 
-void	expand_string(char **str, t_exp *utils, int i)
+void	expand_string(char **str, int type, t_exp *utils, int i)
 {
 	int		tmp;
 	char	*pos;
@@ -96,76 +98,19 @@ void	expand_string(char **str, t_exp *utils, int i)
 	tmp = 0;
 	utils->v_count = 0;
 	utils->str = str;
-	pos = ft_strchr(*str + tmp, '$');
-	while (pos)
+	if (type != IN_HEREDOC)
 	{
-		handle_var(i, &pos, &tmp, utils);
-		utils->v_count++;
 		pos = ft_strchr(*str + tmp, '$');
-	}
-	return ;
-}
-
-int	count_vars_in_str(char *str)
-{
-	int	j;
-	int	var_count;
-
-	j = -1;
-	var_count = 0;
-	if (str)
-	{
-		while (str[++j])
+		while (pos)
 		{
-		if (str[j] == '$')
-			var_count++;	
+			handle_var(i, &pos, &tmp, utils);
+			utils->v_count++;
+			pos = ft_strchr(*str + tmp, '$');
 		}
 	}
-	return (var_count);
-	
-}
-
-void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils)
-{
-	int	i;
-	int	j;
-	int	arg_len;
-	int	var_count;
-	int	vars_used;
-	
-	i = -1;
-	vars_used = 0;
-	arg_len = ft_arr_len(cmd->args);
-	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len);
-	error_check(utils->arg_vars, "malloc arg_vars in setup_exp_help_struct", ERR_MALLOC);
-	while (++i < arg_len)
-	{
-		var_count = count_vars_in_str(cmd->args[i]);
-		int start = vars_used;
-		int len = var_count;
-		utils->arg_vars[i].type = ft_substr(cmd->char_vars, vars_used, var_count);
-		char *lol = utils->arg_vars[i].type;
-		error_check(utils->arg_vars[i].type, "substr in setup_exp_help_struct", ERR_MALLOC);
-		int p = ft_strlen(utils->arg_vars[i].type);
-		utils->arg_vars[i].index = (int *)malloc(sizeof(int) * ft_strlen(utils->arg_vars[i].type));
-		error_check(utils->arg_vars[i].type, "malloc in setup_exp_help_struct", ERR_MALLOC);
-		j = -1;
-		while (++j < var_count)
-			utils->arg_vars[i].index[j] = cmd->int_vars[vars_used + j];
-		vars_used += var_count;
-	}
-	int k = 0;
-	int l = 0;
-
-	while (cmd->args[k])
-	{
-		l = 0;
-		while (l < ft_strlen(utils->arg_vars[k].type))
-			printf("%d,", utils->arg_vars[k].index[l++]);
-		printf("\n%s\n", utils->arg_vars[k].type);
-		k++;
-	}
-return ;
+	else
+		expand_heredoc(str, utils);
+	return ;
 }
 
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
@@ -179,19 +124,40 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	utils.envp = envp;
 	utils.exit = exitstatus;
 	if (cmd->char_vars)
-		setup_exp_help_struct(cmd, &utils);
+		setup_exp_help_struct(cmd, &utils, ft_arr_len(cmd->args), 0);
 	while (cmd->char_vars && cmd->args[++i])
-		expand_string(&cmd->args[i], &utils, i);
-	split_args(cmd->args, i, utils.arg_vars);
-	free_arg_vars(utils.arg_vars);
+	{
+		printf("\n-----before---\n");
+		k = 0;
+		while(cmd->args[k])
+			printf("%s\n", cmd->args[k++]);
+			
+		expand_string(&cmd->args[i], 0, &utils, i);
+		
+		printf("\n----after exp ----\n");
+		k = 0;
+		while(cmd->args[k])
+			printf("%s\n", cmd->args[k++]);
+		
+		if (strchr(cmd->args[i], ' '))
+			cmd->args = split_arg(cmd->args, utils.arg_vars, &i);
+		
+		printf("\n----after split ----\n");
+		k = 0;
+		while(cmd->args[k])
+			printf("%s\n", cmd->args[k++]);
+	}
+	// free_arg_vars(utils.arg_vars);
 	tmp = cmd->reds;
+	utils.arg_vars = (t_avars *)malloc(sizeof(t_avars) * 1);
 	while (tmp)
 	{
-		utils.arg_vars->type = tmp->char_vars;
-		utils.arg_vars->index = tmp->int_vars;
-		else if (tmp->char_vars)
+		if (tmp->char_vars)
 		{
-			expand_string()
+			utils.arg_vars->type = tmp->char_vars;
+			error_check(utils.arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
+			utils.arg_vars->s_index = tmp->int_vars;
+				expand_string(&tmp->filename, tmp->type, &utils, 0);
 		}
 		tmp = tmp->next;
 	}
@@ -202,8 +168,3 @@ void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	// 	while(cmd->args[k])
 	// 		printf("%s\n", cmd->args[k++]);
 			
-
-	// printf("\n----after----\n");
-
-	// 	while(cmd->args[k])
-	// 		printf("%s\n", cmd->args[k++]);

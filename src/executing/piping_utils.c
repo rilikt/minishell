@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 10:42:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/05 16:22:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/09 10:16:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	close_accordingly(t_pipe *pipes, int *mode)
 	}
 	else if (*mode == END)
 	{
-
 		ft_close(pipes->last_pipe, "close_accordingly");
 	}
 	return ;
@@ -64,7 +63,6 @@ void ft_dup2(int new, int old, char *msg)
 
 void	change_std_fd(t_pipe *pipes, int mode)
 {
-
 	if (mode == START)
 	{
 		ft_close(pipes->pipe[READ], "close in change_std_fd");
@@ -78,7 +76,6 @@ void	change_std_fd(t_pipe *pipes, int mode)
 		ft_close(pipes->last_pipe, "close in change_std_fd");
 		ft_dup2(pipes->pipe[WRITE], STDOUT_FILENO, "dup2 in change_std_fd");
 		ft_close(pipes->pipe[WRITE], "close in change_std_fd");
-
 	}
 	else if (mode == END)
 	{
