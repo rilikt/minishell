@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/08 17:21:46 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 10:29:06 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_redirect {
 	int					*int_vars;
 	int					in_fd;
 	int					out_fd;
-	int					here_doc;
 	struct s_redirect	*next;
 }	t_rdct;
 
@@ -130,9 +129,12 @@ typedef struct s_piping {
 	int		last_pipe;
 }	t_pipe;
 
+
+
 typedef	struct arg_vars {
-	int				*index;
-	char			*type;
+	int		*s_index;// var_len;
+	int		*e_index;
+	char	*type;
 } t_avars;
 
 typedef struct s_expand_help {
@@ -237,14 +239,24 @@ void	redirect_accordingly(t_rdct *reds);
 /*==				expander							==*/
 /*========================================================*/
 //expanding.c
+char	*get_var(char *pos, char **var_name, int var_len, t_exp *utils);
+int		insert_var(char **str, char *pos, char *var_value, char *var_name);
+void	handle_var(int i, char **pos, int *tmp, t_exp *utils);
+void	expand_string(char **str, int type, t_exp *utils, int i);
 void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
 int		*check_char_behind(char **pos, char **str);
 int		ft_arr_len(char **arr);
-char	**check_and_insert_first_index(char **args, t_exp *utils);
-char	**split_and_arrange_arg(char **args, int i, int arg_len, char **new_args);
-char	**split_and_arrange_cmd(char **args);
+void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used);
+int		count_vars_in_str(char *str);
+void	expand_heredoc(char **str, t_exp *utils);
+
+//splitting_utils.c
+int		is_in_quoted_part(int i, t_avars arg_vars);
+char	**make_array_from_list(t_list **new_arg);
+char	**divide_string_correctly(char *str, t_avars arg_vars);
+char	**split_arg(char **args, t_avars *arg_vars, int *i);
 
 /*========================================================*/
 /*==				mode_nd_signals						==*/
