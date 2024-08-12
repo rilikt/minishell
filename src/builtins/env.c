@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 14:22:24 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:09:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ int env(char **arg, char **envp) // prints out env from extern char **environ we
 	}
 	return (0);
 }
-
-// char **ez_export_arr(char *var)
-// {
-// 	char *re[3];
-
-// 	re[0] = "export";
-// 	re[1] = var;
-// 	re[2] = NULL;
-// 	return(re);
-// }
 
 void add_oldpwd(char ***envp)
 {

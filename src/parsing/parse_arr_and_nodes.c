@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 16:50:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:58:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,9 @@ void	append_cmd_node(t_cmd **head)
 
 void	store_in_cmd(t_cmd **head, char **arr, char *vars, int *int_vars)
 {
-	t_cmd *temp = *head;
+	t_cmd	*temp;
+
+	temp = *head;
 	while (temp->next)
 		temp = temp->next;
 	temp->args = arr;

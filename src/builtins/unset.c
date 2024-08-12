@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:10:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 17:03:15 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:04:14 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	unset(char **args, char ***envp) // needs to accept multiple argumens
 
 	if (!args[1])
 		return (0);
-	else
-		
 	while ((*envp)[len])
 		len++;
 	i = check_input(args, envp, 2);

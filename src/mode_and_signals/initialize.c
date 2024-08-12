@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 14:16:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:01:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,42 +38,34 @@ char	*put_input(int argc, char **argv)
 	return (input);
 }
 
-
-void initial_export(t_shell *shell)
+void	initial_export(t_shell *shell)
 {
-	char *pwd[3];
-	char path[1024];
-	char	*shlvl[3];
+	char	*var[3];
+	char	path[1024];
 	char	*tmp;
 	int		nb;
 
 	nb = 0;
-	pwd[0] = "export";
- 	pwd[1] = getcwd(path, sizeof(path));
-	pwd[1] = ft_strjoin("PWD=", pwd[1]);
-	pwd[2] = NULL;
-	export(pwd, &shell->envp);
-	shlvl[0] = "export";
-	shlvl[2] = NULL;
-	shlvl[1] = ft_getenv("SHLVL", shell->envp);
-	if (shlvl[1])
-		nb = ft_atoi(shlvl[1]);
+	var[0] = "export";
+	var[1] = getcwd(path, sizeof(path));
+	var[1] = ft_strjoin("PWD=", var[1]);
+	var[2] = NULL;
+	export(var, &shell->envp);
+	free(var[1]);
+	var[1] = ft_getenv("SHLVL", shell->envp);
+	if (var[1])
+		nb = ft_atoi(var[1]);
 	nb += 1;
 	tmp = ft_itoa(nb);
-	shlvl[1] = ft_getenv("SHLVL", shell->envp);
-	if (shlvl[1])
-		nb = ft_atoi(shlvl[1]);
-	nb += 1;
-	tmp = ft_itoa(nb);
-	shlvl[1] = ft_strjoin("SHLVL=", tmp);
+	var[1] = ft_strjoin("SHLVL=", tmp);
 	free(tmp);
-	export(shlvl, &shell->envp);
-	free(shlvl[1]);
+	export(var, &shell->envp);
+	free(var[1]);
 }
 
-void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
+void	setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	shell->envp = copy_env(envp);

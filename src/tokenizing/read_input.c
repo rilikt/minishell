@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/09 16:52:26 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:29:23 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,33 +72,49 @@ int	check_whitespace(char *input)
 // 	return (input);
 // }
 
-char	*read_input(int mode, t_shell *shell)
+char	*use_get_next(void)
 {
-	char	*input;
-	char	path[1024];
-	char	*rl_str;
 	char	*tmp;
+	char	*input;
 
-	sig = 42;
-
+	tmp = NULL;
 	input = NULL;
+	tmp = get_next_line(STDIN_FILENO);
+	if (tmp)
+		input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+	free(tmp);
+	return (input);
+}
+
+char	*setup_prompt(void)
+{
+	char	*tmp;
+	char	*rl_str;
+	char	path[1024];
+
+	tmp = NULL;
+	rl_str = NULL;
 	getcwd(path, sizeof(path));
 	rl_str = ft_strjoin(path, " > ");
 	tmp = ft_strdup((ft_strrchr(rl_str, '/') + 1));
 	free(rl_str);
 	rl_str = ft_strjoin("🐚 ", tmp);
 	free(tmp);
+	return (rl_str);
+}
+
+char	*read_input(int mode, t_shell *shell)
+{
+	char	*input;
+	char	*rl_str;
+
+	sig = 42;
+	input = NULL;
+	rl_str = setup_prompt();
 	if (mode == INTERACTIVE)
 		input = readline(rl_str);
 	else if (mode == NON_INTERACTIVE && !isatty(STDIN_FILENO))
-	{
-	
-		tmp = get_next_line(STDIN_FILENO);
-		if (tmp)
-			input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
-		free(tmp);
-
-	}
+		input = use_get_next();
 	if (!input)
 	{
 		if (shell->mode == INTERACTIVE)

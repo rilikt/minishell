@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 14:34:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:35:52 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	ft_sytax_error(int *err, t_token *tkn)
 	return ;
 }
 
+void quotes_err(int *err)
+{
+	write(2, "syntax error: unclosed quotes\n", 31);
+	*err = ERR_SYNTAX;
+}
 
 void	error_check(void *ptr, char *msg, int error_code)
 {

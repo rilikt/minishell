@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/09 18:30:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:20:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,30 +174,43 @@ char	*check_and_rm_quotes(char *str)
 	return (create_string(str, re, 0, 0, 0));
 }
 
-void	is_heredoc(t_token *node, int q_flag)
+char	*heredoc_loop(char *delimiter)
 {
 	char	*line;
 	char	*input;
-	char	*delimiter;
 
-	if (node->prev->type != IN_HEREDOC || node->type  == PIPE || is_redir(node))
-		return ;
-	sig = 666;
 	line = NULL;
 	input = NULL;
-	delimiter = check_and_rm_quotes(node->str);
 	while (1 && sig != 2)
 	{
 		line = readline("> ");
 		if (!line || sig == 2)
 			break ;
-		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)+1)
+		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)
 			&& delimiter[0] != '\0')
 			break ;
 		line = ft_strjoin(line, "\n");
+		error_check(line, "ft_strjoin", ERR_MALLOC);
 		input = ft_strjoin(input, line);
 		error_check(input, "ft_strjoin", ERR_MALLOC);
 	}
+	return (input);
+}
+
+void	is_heredoc(t_token *node, int q_flag)
+{
+	char	*line;
+	char	*input;
+	char	*delimiter;
+	int		fd;
+
+	if (node->prev->type != IN_HEREDOC || node->type == PIPE || is_redir(node))
+		return ;
+	sig = 666;
+	line = NULL;
+	input = NULL;
+	delimiter = check_and_rm_quotes(node->str);
+	input = heredoc_loop(delimiter);
 	if (!q_flag)
 		node->type = VARIABLE;
 	else
@@ -205,7 +218,7 @@ void	is_heredoc(t_token *node, int q_flag)
 	free(node->str);
 	if (sig == 2)
 	{
-		int fd = open("/dev/tty", O_RDWR);
+		fd = open("/dev/tty", O_RDWR);
 		dup2(fd, STDIN_FILENO);
 		input = NULL;
 	}

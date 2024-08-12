@@ -6,16 +6,18 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 12:38:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:51:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void print_int_arr(int *arr, int len)
+void	print_int_arr(int *arr, int len)
 {
-	int i = 0;
-	while(i < len)
+	int	i;
+
+	i = 0;
+	while (i < len)
 	{
 		printf("%d ", arr[i]);
 		i++;
@@ -23,64 +25,98 @@ void print_int_arr(int *arr, int len)
 	printf("\n");
 }
 
-int check_end(char c)
+int	check_end(char c)
 {
-	char *set = "$\"'/\\|. ";
-	int i;
+	char	*set;
+	int		i;
 
+	set = "$\"'/\\|. ";
 	i = 0;
-	while(set[i])
+	while (set[i])
 	{
 		if (c == set[i])
 			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
-void int_var_list(t_shell *shell)
+void	ivl_loop(int *arr, t_shell *shell, int *i, int *j)
+{
+	int	count;
+
+	if (shell->input[*j] == '$')
+	{
+		count = 0;
+		*j += 1;
+		if (ft_isdigit(shell->input[*j]) || shell->input[*j] == '?')
+			count = 1;
+		else if (shell->char_vars[*i] == '1' || shell->char_vars[*i] == '2')
+		{
+			while (shell->input[*j] && check_end(shell->input[*j]))
+			{
+				count++;
+				*j += 1;
+			}
+		}
+		arr[*i] = count;
+		*i += 1;
+	}
+}
+
+void	int_var_list(t_shell *shell)
 {
 	int	*arr;
-	int i;
-	int j;
-	int count;
+	int	i;
+	int	j;
+	int	count;
 
 	i = 0;
 	j = 0;
 	arr = (int *)malloc(ft_strlen(shell->char_vars) * sizeof(int));
 	error_check(arr, "int_var_list", ERR_MALLOC);
-	while(shell->input[j])
+	while (shell->input[j])
 	{
-		if (shell->input[j] == '$')
-		{
-			count = 0;
-			j++;
-			if (ft_isdigit(shell->input[j]) || shell->input[j] == '?')
-				count = 1;
-			else if (shell->char_vars[i] == '1' || shell->char_vars[i] == '2')
-			{
-				while (shell->input[j] && check_end(shell->input[j]))
-				{
-					count++;
-					j++;
-				}
-			}
-			arr[i] = count;
-			i++;
-		}
+		ivl_loop(arr, shell, &i, &j);
 		if (shell->input[j] && shell->input[j] != '$')
 			j++;
 	}
 	shell->int_vars = arr;
 }
 
-
-void var_lists(t_shell *shell)
+void	var_lists(t_shell *shell)
 {
 	char_var_list(shell);
 	int_var_list(shell);
 	// printf("%s\n", shell->char_vars);
 	// print_int_arr(shell->int_vars, ft_strlen(shell->char_vars));
+}
+
+char	*cvl_if_quotes(char *vars, t_shell *shell, int *i)
+{
+	int		start;
+	char	*flag;
+
+	start = 0;
+	flag = "1";
+	if (shell->input[*i] == 39 || shell->input[*i] == 34)
+	{
+		start = *i;
+		if (shell->input[*i] == 39)
+			flag = "0";
+		else
+			flag = "2";
+		*i += 1;
+		while (shell->input[*i] && (shell->input[*i] != shell->input[start]))
+		{
+			if (shell->input[*i] == '$')
+				vars = ft_strjoin(vars, flag);
+			*i += 1;
+		}
+	}
+	else
+		return (vars);
+	return (vars);
 }
 
 void	char_var_list(t_shell *shell)
@@ -94,30 +130,16 @@ void	char_var_list(t_shell *shell)
 	i = 0;
 	while (shell->input[i])
 	{
-		if (shell->input[i] == 39 || shell->input[i] == 34)
-		{
-			start = i;
-			if (shell->input[i] == 39)
-				flag = "0";
-			else
-				flag = "2";
-			i++;
-			while (shell->input[i] && (shell->input[i] != shell->input[start]))
-			{
-				if (shell->input[i] == '$') // myb check for whitespace after and set flag accordingly
-					vars = ft_strjoin(vars, flag);
-				i++;
-			}
-		}
+		vars = cvl_if_quotes(vars, shell, &i);
 		if (shell->input[i] == '$')
 		{
-			if ((shell->input[i+1] == 39 || shell->input[i+1] == 34))
+			if ((shell->input[i + 1] == 39 || shell->input[i + 1] == 34))
 				vars = ft_strjoin(vars, "3");
 			else
 				vars = ft_strjoin(vars, "1");
 		}
-		
-		i++;
+		if (shell->input[i])
+			i++;
 	}
 	shell->char_vars = vars;
 }

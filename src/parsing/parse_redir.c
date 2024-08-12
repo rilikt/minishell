@@ -6,44 +6,41 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 17:12:27 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:57:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int check_redir(t_cmd **command, t_token **tkn_temp, int *err)
+int	check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 {
-	char	*filename;
-	int		type;
-	int		*int_vars;
-	char	*vars;
+	t_redir_val	redir;
 
-	filename = NULL;
-	int_vars = NULL;
-	vars = NULL;
+	redir.filename = NULL;
+	redir.int_vars = NULL;
+	redir.vars = NULL;
 	if (!is_redir(*tkn_temp))
 		return (0);
-	type = (*tkn_temp)->type;
+	redir.type = (*tkn_temp)->type;
 	*tkn_temp = (*tkn_temp)->next;
 	if (!(*tkn_temp) || ((*tkn_temp)->type == PIPE) || is_redir((*tkn_temp)))
-		return(ft_sytax_error(err, *tkn_temp), ERR_SYNTAX);
+		return (ft_sytax_error(err, *tkn_temp), ERR_SYNTAX);
 	if (*tkn_temp)
 	{
-		filename = (*tkn_temp)->str;
+		redir.filename = (*tkn_temp)->str;
 		if ((*tkn_temp)->type == VARIABLE)
 		{
-			vars = ft_strjoin(vars, (*tkn_temp)->char_vars);
-			int_vars = add_to_arr(vars, (*tkn_temp)->int_vars, (*tkn_temp)->char_vars, int_vars);
+			redir.vars = ft_strjoin(redir.vars, (*tkn_temp)->char_vars);
+			redir.int_vars = add_to_arr(redir.vars, (*tkn_temp)->int_vars,
+					(*tkn_temp)->char_vars, redir.int_vars);
 		}
 		*tkn_temp = (*tkn_temp)->next;
 	}
-	append_rdct_node(command, type, filename, vars, int_vars);
+	append_rdct_node(command, &redir);
 	return (check_redir(command, tkn_temp, err));
-	// return (0);
 }
 
-void	append_rdct_node(t_cmd **head, int type, char *filename, char *vars, int *int_vars)
+void	append_rdct_node(t_cmd **head, t_redir_val *redir)
 {
 	t_rdct	*new_node;
 	t_rdct	*temp;
@@ -55,10 +52,10 @@ void	append_rdct_node(t_cmd **head, int type, char *filename, char *vars, int *i
 	new_node = (t_rdct *)malloc(sizeof(t_rdct));
 	error_check(new_node, "append_rdct_node", ERR_MALLOC);
 	new_node->next = NULL;
-	new_node->type = type;
-	new_node->filename = filename;
-	new_node->char_vars = vars;
-	new_node->int_vars = int_vars;
+	new_node->type = redir->type;
+	new_node->filename = redir->filename;
+	new_node->char_vars = redir->vars;
+	new_node->int_vars = redir->int_vars;
 	if (command->reds == NULL)
 	{
 		command->reds = new_node;

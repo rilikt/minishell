@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/11 14:15:19 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:05:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**append_env(char *var, char **envp)
 	len = 0;
 	while (envp[len])
 	{
-		if (!ft_strncmp(envp[len], var, var_len(envp[len], var)+1))
+		if (!ft_strncmp(envp[len], var, var_len(envp[len], var) + 1))
 			return (envp);
 		len++;
 	}
@@ -35,7 +35,7 @@ char	**append_env(char *var, char **envp)
 	}
 	re[len] = ft_strdup(var);
 	error_check(re[len], "ft_strdup in append_env", ERR_MALLOC);
-	re[len +1] = NULL;
+	re[len + 1] = NULL;
 	free_string_array(envp);
 	return (re);
 }
@@ -55,9 +55,9 @@ int	var_len(char *str, char *str2)
 	}
 	else
 	{
-		if(!(len1 = var_len(str, NULL)))
+		if (!(len1 = var_len(str, NULL)))
 			len1 = ft_strlen(str);
-		if(!(len2 = var_len(str2, NULL)))
+		if (!(len2 = var_len(str2, NULL)))
 			len2 = ft_strlen(str2);
 		if (len1 < len2)
 			len1 = len2;
@@ -148,27 +148,27 @@ int	check_and_print(char **args, char ***envp)
 	j = 1;
 	if (!(*envp))
 		return (0);
-
 	while (args[j])
 	{
-		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$' || args[j][0] == '=')
+		if (ft_isdigit(args[j][0]) || args[j][0] == '?' || args[j][0] == '$'
+			|| args[j][0] == '=')
 		{
 			write(2, "minishell: export: `", 20);
 			write(2, args[j], ft_strlen(args[j]));
 			write(2, "': not a valid identifier\n", 27);
-			return(0);
+			return (0);
 		}
 		j++;
 	}
 	return (1);
 }
 
-char *rm_plus(char *str)
+char	*rm_plus(char *str)
 {
-	int i;
-	int j;
-	char *re;
-	int flag;
+	int		i;
+	int		j;
+	char	*re;
+	int		flag;
 
 	i = 0;
 	j = 0;
@@ -189,12 +189,12 @@ char *rm_plus(char *str)
 	return (re);
 }
 
-int export_append(char **args,char ***envp, int *j)
+int	export_append(char **args, char ***envp, int *j)
 {
-	char *str;
-	int i;
-	int len;
-	int set;
+	char	*str;
+	int		i;
+	int		len;
+	int		set;
 
 	i = 0;
 	set = 0;
@@ -203,17 +203,17 @@ int export_append(char **args,char ***envp, int *j)
 	str = rm_plus(args[*j]);
 	len = var_len(args[*j], NULL);
 	while ((*envp)[i] && len != 0 && set != 1)
+	{
+		len = var_len(args[*j], (*envp)[i]);
+		if (!ft_strncmp((*envp)[i], args[*j], len))
 		{
-			len = var_len(args[*j], (*envp)[i]);
-			if (!ft_strncmp((*envp)[i], args[*j], len))
-			{
-				// free((*envp)[i]);
-				(*envp)[i] = ft_strjoin((*envp)[i], ft_strchr(args[*j], '=')+1);
-				error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
-				set = 1;
-			}
-			i++;
+			// free((*envp)[i]);
+			(*envp)[i] = ft_strjoin((*envp)[i], ft_strchr(args[*j], '=') + 1);
+			error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
+			set = 1;
 		}
+		i++;
+	}
 	if (set != 1)
 		(*envp) = append_env(args[*j], *envp);
 	*j += 1;
@@ -221,8 +221,6 @@ int export_append(char **args,char ***envp, int *j)
 		return (1);
 	return (0);
 }
-
-
 
 int	export(char **args, char ***envp) // maybe rework qoutes for this
 {
@@ -233,14 +231,14 @@ int	export(char **args, char ***envp) // maybe rework qoutes for this
 	int len2;
 
 	if (!args[1])
-		return(export_print(*envp), 0);
+		return (export_print(*envp), 0);
 	if (check_input(args, envp, 1) == -1)
-		return(1);
+		return (1);
 	j = 1;
 	while (args[j])
 	{
 		if (export_append(args, envp, &j))
-			break;
+			break ;
 		len = var_len(args[j], NULL);
 		i = 0;
 		set = 0;
