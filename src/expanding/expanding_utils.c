@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/09 17:43:17 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:22:04 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	*check_char_behind(char **pos, char **str)
 		return (NULL);
 	if (c == '\0')
 		return (NULL);
-	else if (!ft_isalpha((int)c))
+	else if (!ft_isalpha((int)c) && c != '_')
 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
-	else if(ft_isalpha((int)c))
+	else if(ft_isalpha((int)c) || c == '_')
 	{
 		while(ft_isalpha((int)*(*pos + 1 + *var_len))
-			|| ft_isdigit((int)*(*pos + 1 + *var_len)))
+			|| ft_isdigit((int)*(*pos + 1 + *var_len)) || *(*pos + 1 + *var_len) == '_')
 		(*var_len)++;
 	}
 	return (var_len);
@@ -45,6 +45,25 @@ int	ft_arr_len(char **arr)
 	while  (arr[i])
 		i++;
 	return (i);
+}
+
+void	free_arg_vars(t_exp *utils, int arg_len)
+{
+	int	i;
+	int	s_e_len;
+	i = 0;
+	while (i < arg_len)
+	{
+		if (ft_strlen(utils->arg_vars[i].type) > 0)
+		{
+			free(utils->arg_vars[i].s_index);
+			free(utils->arg_vars[i].e_index);
+		}
+		free(utils->arg_vars[i].type);
+		i++;
+	}
+	free(utils->arg_vars);
+	
 }
 
 void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)

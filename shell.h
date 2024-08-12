@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 10:33:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:41:37 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ typedef struct s_shell {
 /*==				builtins							==*/
 /*========================================================*/
 // builtin.c
-int		single_cmd_check(t_cmd *cmd, int exitstatus, char **envp);
+int		single_cmd_check(t_shell *shell);
 int		check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus);
 void	check_builtins(t_cmd *cmd);
 
@@ -200,7 +200,7 @@ int		compare_to_envp(char **args, char *envp);
 
 // export_unset_input_check.c
 int		check_input(char **args, char ***envp, int mode);
-int invalid_char(char c, int mode);
+int		invalid_char(char c, int mode);
 
 // exit.c
 int	ft_exit(char **args, int *err, int exitstatus);
@@ -250,20 +250,21 @@ char	*get_var(char *pos, char **var_name, int var_len, t_exp *utils);
 int		insert_var(char **str, char *pos, char *var_value, char *var_name);
 void	handle_var(int i, char **pos, int *tmp, t_exp *utils);
 void	expand_string(char **str, int type, t_exp *utils, int i);
-void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
+int		expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 //expanding_utils.c
 int		*check_char_behind(char **pos, char **str);
 int		ft_arr_len(char **arr);
+void	free_arg_vars(t_exp *utils, int arg_len);
 void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used);
 int		count_vars_in_str(char *str);
 void	expand_heredoc(char **str, t_exp *utils);
 
 //splitting_utils.c
-int		is_in_quoted_part(int i, t_avars arg_vars);
-char	**make_array_from_list(t_list **new_arg);
+int		is_quoted(int i, t_avars arg_vars);
+char	**make_arr_from_list(t_list **new_arg);
 char	**divide_string_correctly(char *str, t_avars arg_vars);
-char	**split_arg(char **args, t_avars *arg_vars, int *i);
+char	**split_arg(char **args, t_avars *arg_vars, int *i, int a);
 
 /*========================================================*/
 /*==				mode_nd_signals						==*/

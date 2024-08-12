@@ -6,28 +6,28 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/08 15:31:47 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:13:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int	single_cmd_check(t_cmd *cmd, int exitstatus, char **envp)
+int	single_cmd_check(t_shell *shell)
 {
-	cmd->stdout_fd = -1;
-	cmd->stdin_fd = -1;
-	expand_cmd(cmd, exitstatus, envp);
-	check_builtins(cmd);
-	if (cmd->builtin_flag == EXTERN)
+	shell->commands->stdout_fd = -1;
+	shell->commands->stdin_fd = -1;
+	shell->err = expand_cmd(shell->commands, shell->exitstatus, shell->envp);
+	check_builtins(shell->commands);
+	if (shell->commands->builtin_flag == EXTERN)
 		return(0);
 	else
 	{
-		if (cmd->reds)
+		if (shell->commands->reds)
 		{
-			cmd->stdout_fd = dup(STDOUT_FILENO);
-			cmd->stdin_fd = dup(STDIN_FILENO);
+			shell->commands->stdout_fd = dup(STDOUT_FILENO);
+			shell->commands->stdin_fd = dup(STDIN_FILENO);
 		}
-		redirect_accordingly(cmd->reds);
+		redirect_accordingly(shell->commands->reds);
 	}
 	return(1);
 }
@@ -51,16 +51,16 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 		exit_re = env(cmd->args, *envp);
 	else if (cmd->builtin_flag == EXIT)
 		exit_re = ft_exit(cmd->args, err, exitstatus);
-	if (cmd->stdout_fd > -1)
-	{
-		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
-		ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
-	}
-	if (cmd->stdin_fd)
-	{
-		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
-		ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
-	}
+	// if (cmd->stdout_fd > -1)
+	// {
+	// 	ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
+	// 	ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
+	// }
+	// if (cmd->stdin_fd > -1)
+	// {
+	// 	ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
+	// 	ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
+	// }
 	return (exit_re);
 }
 

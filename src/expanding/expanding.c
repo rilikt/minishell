@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/09 19:29:14 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:17:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	return (index_var_end);
 }
 
-
 void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 {
 	char	*var_name;
@@ -59,6 +58,7 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 	
 	var_value = NULL;
 	var_name = NULL;
+	t_avars *lol = &(utils->arg_vars[i]);
 	if (utils->arg_vars[i].type[utils->v_count] == '0')
 	{
 		*tmp += 1;
@@ -73,7 +73,7 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 		{
 			var_value = get_var(*pos, &var_name, var_len, utils);
 			if (!var_value)
-				*tmp += 1;
+				ft_memmove(*pos, *pos + var_len + 1, ft_strlen(*pos + var_len + 1) + 1);
 			else
 				*tmp = insert_var(utils->str, *pos, var_value, var_name);
 		}
@@ -113,58 +113,54 @@ void	expand_string(char **str, int type, t_exp *utils, int i)
 	return ;
 }
 
-void	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
+int	expand_redirects(t_rdct *reds, t_exp *utils)
 {
-	int				i;
-	t_rdct			*tmp;
-	t_exp	utils;
-	int k = 0;
+	t_rdct	*tmp;
+	char	*f_name;
 
-	i = -1;
-	utils.envp = envp;
-	utils.exit = exitstatus;
-	if (cmd->char_vars)
-		setup_exp_help_struct(cmd, &utils, ft_arr_len(cmd->args), 0);
-	while (cmd->char_vars && cmd->args[++i])
-	{
-		printf("\n-----before---\n");
-		k = 0;
-		while(cmd->args[k])
-			printf("%s\n", cmd->args[k++]);
-			
-		expand_string(&cmd->args[i], 0, &utils, i);
-		
-		printf("\n----after exp ----\n");
-		k = 0;
-		while(cmd->args[k])
-			printf("%s\n", cmd->args[k++]);
-		
-		if (strchr(cmd->args[i], ' '))
-			cmd->args = split_arg(cmd->args, utils.arg_vars, &i);
-		
-		printf("\n----after split ----\n");
-		k = 0;
-		while(cmd->args[k])
-			printf("%s\n", cmd->args[k++]);
-	}
-	// free_arg_vars(utils.arg_vars);
-	tmp = cmd->reds;
-	utils.arg_vars = (t_avars *)malloc(sizeof(t_avars) * 1);
+	tmp = reds;
+	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * 1);
 	while (tmp)
 	{
 		if (tmp->char_vars)
 		{
-			utils.arg_vars->type = tmp->char_vars;
-			error_check(utils.arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
-			utils.arg_vars->s_index = tmp->int_vars;
-				expand_string(&tmp->filename, tmp->type, &utils, 0);
+			f_name = ft_strdup(tmp->filename);
+			error_check(f_name, "strdup in expand_redirect", ERR_MALLOC);
+			utils->arg_vars->type = tmp->char_vars;
+			error_check(utils->arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
+			utils->arg_vars->s_index = tmp->int_vars;
+				expand_string(&tmp->filename, tmp->type, utils, 0);
+			if (ft_strchr(tmp->filename, ' '))
+				return(ft_error(f_name, "ambiguous redirect", 0),
+					free(utils->arg_vars), free(f_name), 2);
 		}
 		tmp = tmp->next;
 	}
-	return ;
+	return (free(utils->arg_vars), 0);
 }
-	// printf("\n-----before---\n");
-	// 	k = 0;
-	// 	while(cmd->args[k])
-	// 		printf("%s\n", cmd->args[k++]);
-			
+
+int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
+{
+	int		i;
+	int		a;
+	int		arg_len;
+	t_exp	utils;
+
+	i = -1;
+	a = -1;
+	arg_len = ft_arr_len(cmd->args);
+	utils.envp = envp;
+	utils.exit = exitstatus;
+	if (cmd->char_vars)
+		setup_exp_help_struct(cmd, &utils, arg_len, 0);
+	while (cmd->char_vars && cmd->args[++i] && ++a >= 0)
+	{
+		expand_string(&cmd->args[i], 0, &utils, a);
+		if (strchr(cmd->args[i], ' '))
+			cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
+	}
+	free_arg_vars(&utils, arg_len);
+	if (cmd->reds)
+		return (expand_redirects(cmd->reds, &utils));
+	return (0);
+}

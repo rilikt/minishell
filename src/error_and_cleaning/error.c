@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 14:34:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:50:02 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_error(char *arg, char *msg, int errorcode)
 		write(STDERR_FILENO, ": ", 2);
 		if (errorcode)
 		{
-			write (STDERR_FILENO, strerror(errorcode), ft_strlen(strerror(errorcode)));
+			write(STDERR_FILENO, strerror(errorcode), ft_strlen(strerror(errorcode)));
 		}
 		write(STDERR_FILENO, "\n", 1);
 	}	

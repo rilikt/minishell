@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 17:42:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:06:47 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,25 @@
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
 	char	*path_to_cmd;
+	int		err;
 
 	path_to_cmd = NULL;
+	err = 0;
 	signal(SIGINT, &exit);
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
 	{
-		expand_cmd(cmd, shell->exitstatus, shell->envp);
+		err = expand_cmd(cmd, shell->exitstatus, shell->envp);
 		check_builtins(cmd);
 	}
 	redirect_accordingly(cmd->reds);
-	if (cmd->builtin_flag == EXTERN && cmd->args && cmd->args[0])
+	if (cmd->builtin_flag == EXTERN && cmd->args)
 	{
 		if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 		{
 			path_to_cmd = ft_strdup(cmd->args[0]);
 			cmd->args[0] = ft_strdup(ft_strrchr(cmd->args[0], '/'));
+			error_check(cmd->args[0], "strdup in run_childprocess", ERR_MALLOC);
 		}
 		else
 		{
@@ -41,11 +44,11 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		}
 	}
 	if (cmd->builtin_flag != EXTERN)
-		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err, shell->exitstatus));
-	if (!cmd->args || !cmd->args[0])
-		exit(0);
+		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err,
+			shell->exitstatus));
+	if (!cmd->args || err)
+		exit(err);
 	execve(path_to_cmd, cmd->args, shell->envp);
-	// error_check
 	exit(1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:46:33 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/05/09 20:27:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:31:22 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ long	ft_atoi(const char *str)
 	char	sign;
 	char	*sp;
 	long	value;
-
+	
 	sp = (char *)str;
 	value = 0;
 	sign = 0;
