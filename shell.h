@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 18:41:37 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:46:25 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,10 +200,13 @@ int		compare_to_envp(char **args, char *envp);
 
 // export_unset_input_check.c
 int		check_input(char **args, char ***envp, int mode);
-int		invalid_char(char c, int mode);
+int invalid_char(char *c, int mode);
 
 // exit.c
 int	ft_exit(char **args, int *err, int exitstatus);
+
+// set_.c
+void set_last_arg(t_cmd *cmd, char ***envp, int mode);
 
 /*========================================================*/
 /*==				error and utils						==*/

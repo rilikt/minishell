@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:57:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 18:06:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:23:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-int invalid_char(char c, int mode)
+int invalid_char(char *c, int mode)
 {
 	char *set;
 	int i;
@@ -21,10 +21,14 @@ int invalid_char(char c, int mode)
 	set = "-+.}{}*@!?#^\\~$;/";
 	while (set[i])
 	{
-		if (mode == 2 && c == '=')
+		if (mode == 2 && *c == '=')
 			return (-1);
-		if (set[i] == c)
+		if (set[i] == *c)
+		{
+			if (mode == 1 && set[i] == '+' &&  c[1] == '=')
+				return(0);
 			return (-1);
+		}
 		i++;
 	}
 	return (0);
@@ -41,7 +45,7 @@ int		check_input(char **args, char ***envp, int mode)
 	int	i;
 	int j;
 
-	i = 0;
+	i = 1;
 	j = 0;
 	if (!envp || !(*envp))
 		return (-1);
@@ -52,7 +56,7 @@ int		check_input(char **args, char ***envp, int mode)
 			return (not_valid(args[i]), -1);
 		while (args[i][j])
 		{
-			if (invalid_char(args[i][j], mode))
+			if (invalid_char(&args[i][j], mode))
 				return (not_valid(args[i]), -1);
 			if (args[i][j] == '=')
 				break;

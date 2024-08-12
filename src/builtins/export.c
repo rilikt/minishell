@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 16:59:04 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:15:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,67 @@ int	check_and_print(char **args, char ***envp)
 	return (1);
 }
 
+char *rm_plus(char *str)
+{
+	int i;
+	int j;
+	char *re;
+	int flag;
+
+	i = 0;
+	j = 0;
+	flag = 1;
+	re = (char *)malloc(ft_strlen(str));
+	while (str[i])
+	{
+		if (flag && str[i] == '+')
+		{
+			i++;
+			flag = 0;
+		}
+		re[j] = str[i];
+		i++;
+		j++;
+	}
+	re[j] = '\0';
+	return (re);
+}
+
+int export_append(char **args,char ***envp, int *j)
+{
+	char *str;
+	int i;
+	int len;
+	int set;
+
+	i = 0;
+	set = 0;
+	if (!ft_strchr(args[*j], '+'))
+		return (0);
+	str = rm_plus(args[*j]);
+	len = var_len(args[*j], NULL);
+	while ((*envp)[i] && len != 0 && set != 1)
+		{
+			len = var_len(args[*j], (*envp)[i]);
+			if (!ft_strncmp((*envp)[i], args[*j], len))
+			{
+				// free((*envp)[i]);
+				(*envp)[i] = ft_strjoin((*envp)[i], ft_strchr(args[*j], '=')+1);
+				error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
+				set = 1;
+			}
+			i++;
+		}
+	if (set != 1)
+		(*envp) = append_env(args[*j], *envp);
+	*j += 1;
+	if (!args[*j])
+		return (1);
+	return (0);
+}
+
+
+
 int	export(char **args, char ***envp) // maybe rework qoutes for this
 {
 	int i;
@@ -178,6 +239,8 @@ int	export(char **args, char ***envp) // maybe rework qoutes for this
 	j = 1;
 	while (args[j])
 	{
+		if (export_append(args, envp, &j))
+			break;
 		len = var_len(args[j], NULL);
 		i = 0;
 		set = 0;

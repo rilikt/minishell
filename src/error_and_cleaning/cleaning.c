@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 12:09:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:49:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ void	free_struct(t_shell *shell)
 	int		i;
 
 	temp = shell;
-	while (shell->tokens)
+	while (temp->tokens)
 	{
 		temp_tkn = temp->tokens;
-		shell->tokens = shell->tokens->next;
+		temp->tokens = temp->tokens->next;
 		if (temp_tkn->str)
 			free(temp_tkn->str);
 		free(temp_tkn);
 	}
-	while (shell->commands)
+	while (temp->commands)
 	{
-		temp_cmd = shell->commands;
-		shell->commands = shell->commands->next;
+		temp_cmd = temp->commands;
+		temp->commands = temp->commands->next;
 		while (temp_cmd->reds)
 		{
 			temp_redir = temp_cmd->reds;
@@ -45,8 +45,11 @@ void	free_struct(t_shell *shell)
 			free(temp_cmd->args);
 		free(temp_cmd);
 	}
-	free(shell->input);
-	shell->input = NULL;
+	if (shell->input)
+	{
+		free(shell->input);
+		shell->input = NULL;
+	}
 }
 
 void free_string_array(char **str)

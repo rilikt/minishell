@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/11 18:06:47 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:46:58 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		}
 	}
 	if (cmd->builtin_flag != EXTERN)
-		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err,
-			shell->exitstatus));
-	if (!cmd->args || err)
-		exit(err);
+		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err, shell->exitstatus));
+	if (!cmd->args || !cmd->args[0])
+		exit(0);
+	set_last_arg(cmd, &shell->envp, 0);
 	execve(path_to_cmd, cmd->args, shell->envp);
 	exit(1);
 }

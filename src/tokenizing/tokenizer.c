@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 08:56:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/11 12:58:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ int	token_loop(int i, char *str, t_shell *shell)
 			break ;
 		if (is_operator(str, &i))
 			break ;
-		else if (operator_check(&str[i + 1], &i))
+		else if (str[i] && operator_check(&str[i + 1], &i))
 			break ;
 		if (is_whitespace(str[i]))
 			break ;
-		i++;
+		if (str[i])
+			i++;
 	}
 	return (i);
 }

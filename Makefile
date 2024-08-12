@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/11 10:33:31 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/12 11:44:52 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ BUILTINS :=	directory.c\
 			export_2.c\
 			unset.c\
 			export_unset_input_check.c\
-			exit.c
+			exit.c\
+			set_.c
 ERR_CLEAN:=	error.c\
 			cleaning.c
 EXECUTING:= child.c\
