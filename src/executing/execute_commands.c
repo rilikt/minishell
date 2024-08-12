@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 11:43:46 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:22:21 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ int	wait_for_children(int *pid, int nb)
 	int	t;
 
 	i = -1;
+	sig = 15;
 	while (++i < nb)
 	{	
 		waitpid(pid[i], &t, 0);
 		t = WEXITSTATUS(t);
 	}
+	sig = 0;
 	free(pid);
 	pid = NULL;
 	return (t);

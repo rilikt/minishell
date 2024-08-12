@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 11:46:25 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:56:50 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,6 @@ typedef struct s_piping {
 	int		pipe[2];
 	int		last_pipe;
 }	t_pipe;
-
-
 
 typedef	struct arg_vars {
 	int		*s_index;// var_len;

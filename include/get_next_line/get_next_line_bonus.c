@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 10:07:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/05/22 16:32:36 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:41:37 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*read_next_line(int fd, char **buffer)
 	if (!*buffer)
 		nextbuild[0] = '\0';
 	else
-		ft_memcpy(nextbuild, *buffer, ft_strlen(*buffer) + 1);
+		ft_memcpy(nextbuild, *buffer, ft_strlen1(*buffer) + 1);
 	while (!ft_strchr(nextbuild, '\n'))
 	{
 		btsread = read(fd, tmp, BUFFER_SIZE);
@@ -48,7 +48,7 @@ char	*ft_cutstr(char **buffer)
 	cutstring = ft_strchr(*buffer, '\n');
 	if (!cutstring)
 	{
-		i = ft_strlen(*buffer);
+		i = ft_strlen1(*buffer);
 		i--;
 	}
 	else
@@ -79,7 +79,7 @@ void	ft_rearange_buffer(char *buffer)
 				return ;
 			}
 		}
-		ft_memcpy(buffer, &buffer[i + 1], ft_strlen(buffer) - i);
+		ft_memcpy(buffer, &buffer[i + 1], ft_strlen1(buffer) - i);
 	}
 	return ;
 }

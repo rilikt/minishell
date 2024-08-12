@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 10:07:52 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/05/22 16:32:30 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:41:13 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_next_line(int fd);
 char	*read_next_line(int fd, char **string);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strjoin1(char *s1, char const *s2);
-size_t	ft_strlen(const char *s);
+size_t	ft_strlen1(const char *s);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	ft_rearange_buffer(char *buffer);
 char	*ft_cutstr(char **nextline);

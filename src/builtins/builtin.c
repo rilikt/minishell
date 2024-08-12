@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 11:48:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:32:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,18 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 		exit_re = env(cmd->args, *envp);
 	else if (cmd->builtin_flag == EXIT)
 		exit_re = ft_exit(cmd->args, err, exitstatus);
-	// if (cmd->stdout_fd > -1)
-	// {
-	// 	ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
-	// 	ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
-	// }
-	// if (cmd->stdin_fd > -1)
-	// {
-	// 	ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
-	// 	ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
-	// }
+	if (cmd->stdout_fd > -1)
+	{
+		printf("%s: stdout_fd is %d\n", cmd->args[0], cmd->stdout_fd);
+		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
+		ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
+	}
+	if (cmd->stdin_fd > -1)
+	{
+		printf("%s: stdin_fd is %d\n", cmd->args[0], cmd->stdout_fd);
+		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
+		ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
+	}
 	return (exit_re);
 }
 

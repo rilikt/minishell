@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/11 18:22:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:18:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_arg_vars(t_exp *utils, int arg_len)
 	int	i;
 	int	s_e_len;
 	i = 0;
-	while (i < arg_len)
+	while (i < arg_len && utils->arg_vars)
 	{
 		if (ft_strlen(utils->arg_vars[i].type) > 0)
 		{
@@ -73,7 +73,7 @@ void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
 	int	var_count;
 	
 	i = -1;
-	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len);
+	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len + 1);
 	error_check(utils->arg_vars, "malloc arg_vars in setup_exp_help_struct", ERR_MALLOC);
 	while (++i < arg_len)
 	{
@@ -92,7 +92,6 @@ void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
 		}
 		vars_used += var_count;
 	}
-return ;
 }
 	// int k = 0;
 	// int l = 0;
@@ -143,6 +142,11 @@ void	expand_heredoc(char **str, t_exp *utils)
 			var_value = get_var(pos, &var_name, *var_len, utils);
 		if (var_value)
 			tmp = insert_var(str, pos, var_value, var_name);
+		else
+		{
+			ft_memmove(pos, pos + 1 + *var_len, ft_strlen(pos));
+			tmp++;
+		}
 		pos = ft_strchr(*str + tmp, '$');
 	}
 	return ;

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/11 18:17:14 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:52:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 			else
 				*tmp = insert_var(utils->str, *pos, var_value, var_name);
 		}
-		else if (!(*(*pos + 1) == '\0'))
-			ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
+		// else if (!((*(*pos + 1) == '\0') || (*(*pos + 1) == '$')))
+		// 	ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else
 			*tmp += 1;
 		utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
@@ -94,18 +94,23 @@ void	expand_string(char **str, int type, t_exp *utils, int i)
 {
 	int		tmp;
 	char	*pos;
-
+	char frt;
 	tmp = 0;
 	utils->v_count = 0;
 	utils->str = str;
 	if (type != IN_HEREDOC)
 	{
-		pos = ft_strchr(*str + tmp, '$');
-		while (pos)
+		while (str[0][tmp])
 		{
-			handle_var(i, &pos, &tmp, utils);
-			utils->v_count++;
-			pos = ft_strchr(*str + tmp, '$');
+			frt = str[0][tmp];
+			if (str[0][tmp] == '$')
+			{
+				pos = *str + tmp;
+				handle_var(i, &pos, &tmp, utils);
+				utils->v_count++;
+			}
+			else
+				tmp++;
 		}
 	}
 	else
@@ -120,23 +125,24 @@ int	expand_redirects(t_rdct *reds, t_exp *utils)
 
 	tmp = reds;
 	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * 1);
+	f_name = ft_strdup(tmp->filename);
+	error_check(f_name, "strdup in expand_redirect", ERR_MALLOC);
 	while (tmp)
 	{
 		if (tmp->char_vars)
 		{
-			f_name = ft_strdup(tmp->filename);
-			error_check(f_name, "strdup in expand_redirect", ERR_MALLOC);
 			utils->arg_vars->type = tmp->char_vars;
 			error_check(utils->arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
 			utils->arg_vars->s_index = tmp->int_vars;
+			utils->arg_vars->e_index = tmp->int_vars;
 				expand_string(&tmp->filename, tmp->type, utils, 0);
-			if (ft_strchr(tmp->filename, ' '))
+			if (ft_strchr(tmp->filename, ' ') && tmp->type != IN_HEREDOC)
 				return(ft_error(f_name, "ambiguous redirect", 0),
 					free(utils->arg_vars), free(f_name), 2);
 		}
 		tmp = tmp->next;
 	}
-	return (free(utils->arg_vars), 0);
+	return (free(utils->arg_vars), free(f_name), 0);
 }
 
 int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
@@ -156,10 +162,10 @@ int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	while (cmd->char_vars && cmd->args[++i] && ++a >= 0)
 	{
 		expand_string(&cmd->args[i], 0, &utils, a);
-		if (strchr(cmd->args[i], ' '))
+		if (strchr(utils.arg_vars[a].type, '1'))
 			cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
 	}
-	free_arg_vars(&utils, arg_len);
+	// free_arg_vars(&utils, arg_len);
 	if (cmd->reds)
 		return (expand_redirects(cmd->reds, &utils));
 	return (0);

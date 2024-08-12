@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 10:44:15 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 11:40:02 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:58:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,14 @@ char	**make_arr_from_list(t_list **new_arg)
 	return(new_arr);
 }
 
-void	fill_node(t_list **new_arg, char *str, int *i, int *prev)
+void	fill_node(t_list **new_arg, char *str)
 {
-	static int	start = 0;
-	char		*tmp;
 	t_list		*t;
 
-	tmp = ft_substr(str, *prev, i[0] - *prev);
-	error_check(tmp, "strdup in fill_node", ERR_MALLOC);
-	if (!*tmp)
-	{
-		free(tmp);
-		tmp = NULL;
-	}
-	if (start == 0)
-	{
-		free((*new_arg)->content);
-		(*new_arg)->content = tmp;
-		start = 1;
-		*prev = i[0] + 1;
-		return ;
-	}
-	t = ft_lstnew(tmp);
+	error_check(str, "strdup in fill_node", ERR_MALLOC);
+	t = ft_lstnew(str);
 	error_check(t, "lstnew in fill_node", ERR_MALLOC);
 	ft_lstadd_back(new_arg, t);
-	*prev = i[0] + 1;
 	return ;
 }
 
@@ -94,47 +77,68 @@ int	check_space(int *i, int *prev, char *str, t_avars arg_vars)
 		return (1);
 }
 
-t_list	*setup_for_splitting(int *i, int *prev, char *str)
+void	setup_for_splitting(int *i, int *prev, t_list **new_arg)
 {
-	t_list	*new;
-	char	*s;
-
-	s = ft_strdup(str);
-	error_check(s, "strdup in setup_for_splitting", ERR_MALLOC);
-	new = ft_lstnew(s);
-	error_check(new, "lstnew in divide_str", ERR_MALLOC);
-	i[0] = -1;
-	i[1] = -1;
+	*new_arg = NULL;
+	*i = -1;
 	*prev = 0;
-	return (new);
-	
+	return ;
 }
+
+void	iterate_index_area(char *str, t_list **new_arg, int index[2], int *prev)
+{
+	int	j;
+	char ll, lp;
+
+	j = index[0];
+	while (j <= index[1])
+	{
+		ll = str[*prev];
+		lp = str[j];
+		if (str[j] == ' ')
+		{	
+			if (j != *prev)
+				fill_node(new_arg, ft_substr(str, *prev, j - *prev));
+			while (str[j] == ' ' && j <= index[1])
+			{
+				j++;
+				if (str[j] != ' ' || j > index[1])
+					*prev = j;
+			}
+		}
+		j++;
+	}
+	return ;
+}
+
+
 char	**divide_string_correctly(char *str, t_avars arg_vars)
 {
 	t_list	*new_arg;
+	char	*s;
+	int		i;
 	int		prev;
-	int		i[2];
-	
-	if (!str || !*str)
-		return (NULL);
-	new_arg = setup_for_splitting(i, &prev, str);
-	while(++i[0] >= 0 && ++i[1] >= 0)
+	int		index[2];
+
+	setup_for_splitting(&i, &prev, &new_arg);
+	while(++i < ft_strlen(arg_vars.type))
 	{
-		char c = str[i[0]];
-		if (!str[i[0]])
+		if (arg_vars.type[i] == '1')
 		{
-			if (i[0] != 0)
-				fill_node(&new_arg, str, i, &prev);
-			break;
+			index[0] = arg_vars.s_index[i];
+			index[1] = arg_vars.e_index[i];
+			iterate_index_area(str, &new_arg, index, &prev);
 		}
-		if ((str[i[0]] == ' ' && !is_quoted(i[1], arg_vars)))
-		{
-			if (check_space(i, &prev, str, arg_vars))
-				fill_node(&new_arg, str, i, &prev);
-		}	
 	}
+	s = ft_strdup(&str[prev]);
+	error_check(s, "strdup in divide_string", ERR_MALLOC);
+	if (*s)
+		fill_node(&new_arg, s);
+	else
+		free(s);
 	return (make_arr_from_list(&new_arg));
 }
+
 void	put_args_back_together(char **args, char **new_args, char **arr, int *i)
 {
 	int	j;
@@ -154,6 +158,31 @@ void	put_args_back_together(char **args, char **new_args, char **arr, int *i)
 	new_args[j] = NULL;
 }
 
+int	check_if_must_split(char *arg, t_avars *arg_vars)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	len = ft_strlen(arg_vars->type);
+	while(i < len)
+	{
+		if (arg_vars->type[i] == '1')
+		{
+			j = arg_vars->s_index[i];
+			while (j <= arg_vars->e_index[i])
+			{
+				if (arg[j] == ' ')
+					return (1);
+				j++;
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
 char	**split_arg(char **args, t_avars *arg_vars, int *i, int a)
 {
 	char	**new_args;
@@ -162,19 +191,39 @@ char	**split_arg(char **args, t_avars *arg_vars, int *i, int a)
 	int		j;
 	int		k;
 
-	if (ft_strchr(args[*i], ' ') && ft_strchr(arg_vars[a].type, '2'))
+	j = check_if_must_split(args[*i], &arg_vars[a]);
+	if (j)
 		arg_arr = divide_string_correctly(args[*i], arg_vars[a]);
 	else
-	{
-		arg_arr = ft_split(args[*i], ' ');
-		error_check(arg_arr, "ft_split in split_args", ERR_MALLOC);
-	}
+		return (args);
 	new_len = ft_arr_len(args) - 1 + ft_arr_len(arg_arr);
 	new_args = (char **)malloc(sizeof(char *) * (new_len + 1));
 	error_check(new_args, "maloc in split_args", ERR_MALLOC);
 	put_args_back_together(args, new_args, arg_arr, i);
 	return (new_args);
 }
+
+// char	**split_arg(char **args, t_avars *arg_vars, int *i, int a)
+// {
+// 	char	**new_args;
+// 	char	**arg_arr;
+// 	int		new_len;
+// 	int		j;
+// 	int		k;
+
+// 	if (ft_strchr(args[*i], ' ') && ft_strchr(arg_vars[a].type, '2'))
+// 		arg_arr = divide_string_correctly(args[*i], arg_vars[a]);
+// 	else
+// 	{
+// 		arg_arr = ft_split(args[*i], ' ');
+// 		error_check(arg_arr, "ft_split in split_args", ERR_MALLOC);
+// 	}
+// 	new_len = ft_arr_len(args) - 1 + ft_arr_len(arg_arr);
+// 	new_args = (char **)malloc(sizeof(char *) * (new_len + 1));
+// 	error_check(new_args, "maloc in split_args", ERR_MALLOC);
+// 	put_args_back_together(args, new_args, arg_arr, i);
+// 	return (new_args);
+// }
 
 // int	divide_string_at_var_index(char *str, t_avars arg_vars)
 // {

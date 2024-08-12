@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 11:46:58 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:37:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
 	{
+		cmd->stdout_fd = -1;
+		cmd->stdin_fd = -1;
 		err = expand_cmd(cmd, shell->exitstatus, shell->envp);
 		check_builtins(cmd);
 	}

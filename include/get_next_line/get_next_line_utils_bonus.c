@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 19:53:09 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/05/22 16:32:19 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:41:57 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*ft_strjoin1(char *s1, char const *s2)
 	int		slen1;
 	int		slen2;
 
-	slen1 = ft_strlen(s1);
-	slen2 = ft_strlen(s2);
+	slen1 = ft_strlen1(s1);
+	slen2 = ft_strlen1(s2);
 	joined = (char *)malloc(slen1 + slen2 + 1);
 	if (!joined)
 		return (free(s1), NULL);
@@ -69,7 +69,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen1(const char *s)
 {
 	int		i;
 
