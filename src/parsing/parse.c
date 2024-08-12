@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 18:49:44 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:08:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	while_not_op(t_token **temp, t_shell *shell, char **vars, int **int_vars)
 			ft_sytax_error(&shell->err, *temp);
 		else if (is_redir((*temp)->prev))
 			ft_sytax_error(&shell->err, *temp);
+		if (shell->err == ERR_SYNTAX)
+			shell->exitstatus = 2;
 	}
 }
 

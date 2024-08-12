@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/06 16:15:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:52:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char	*read_input(int mode, t_shell *shell)
 	char	*rl_str;
 	char	*tmp;
 
+	sig = 42;
+
 	input = NULL;
 	getcwd(path, sizeof(path));
 	rl_str = ft_strjoin(path, " > ");
@@ -90,10 +92,12 @@ char	*read_input(int mode, t_shell *shell)
 		input = readline(rl_str);
 	else if (mode == NON_INTERACTIVE && !isatty(STDIN_FILENO))
 	{
+	
 		tmp = get_next_line(STDIN_FILENO);
 		if (tmp)
 			input = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
 		free(tmp);
+
 	}
 	if (!input)
 	{
@@ -108,5 +112,6 @@ char	*read_input(int mode, t_shell *shell)
 	}
 	free(rl_str);
 	add_history(input);
+	sig = 0;
 	return (input);
 }
