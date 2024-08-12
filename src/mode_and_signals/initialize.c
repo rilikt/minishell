@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/06 12:05:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:16:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,45 @@ char	*put_input(int argc, char **argv)
 	}
 	return (input);
 }
-void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
+
+
+void initial_export(t_shell *shell)
 {
+	char *pwd[3];
+	char path[1024];
 	char	*shlvl[3];
 	char	*tmp;
 	int		nb;
+
+	nb = 0;
+	pwd[0] = "export";
+ 	pwd[1] = getcwd(path, sizeof(path));
+	pwd[1] = ft_strjoin("PWD=", pwd[1]);
+	pwd[2] = NULL;
+	export(pwd, &shell->envp);
+	shlvl[0] = "export";
+	shlvl[2] = NULL;
+	shlvl[1] = ft_getenv("SHLVL", shell->envp);
+	if (shlvl[1])
+		nb = ft_atoi(shlvl[1]);
+	nb += 1;
+	tmp = ft_itoa(nb);
+	shlvl[1] = ft_getenv("SHLVL", shell->envp);
+	if (shlvl[1])
+		nb = ft_atoi(shlvl[1]);
+	nb += 1;
+	tmp = ft_itoa(nb);
+	shlvl[1] = ft_strjoin("SHLVL=", tmp);
+	free(tmp);
+	export(shlvl, &shell->envp);
+	free(shlvl[1]);
+}
+
+void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
+{
 	int		i;
 
 	i = 0;
-	nb = 0;
-	shlvl[0] = "export";
-	shlvl[2] = NULL;
 	shell->envp = copy_env(envp);
 	shell->input = put_input(argc, argv);
 	shell->tokens = NULL;
@@ -57,13 +85,5 @@ void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 	shell->cmd_nb = 0;
 	shell->exitstatus = 0;
 	shell->err = 0;
-	shlvl[1] = ft_getenv("SHLVL", envp);
-	if (shlvl[1])
-		nb = ft_atoi(shlvl[1]);
-	nb += 1;
-	tmp = ft_itoa(nb);
-	shlvl[1] = ft_strjoin("SHLVL=", tmp);
-	free(tmp);
-	export(shlvl, &shell->envp);
-	free(shlvl[1]);
+	initial_export(shell);
 }

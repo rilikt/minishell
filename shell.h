@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 16:29:44 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 13:07:54 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,8 @@ int		echo(char **args);
 // env.c
 int		env(char **arg, char **envp);
 char	**copy_env(char **envp);
+char **ez_export_arr(char *var);
+
 
 // export.c export_2.c
 int		export(char **args, char ***envp);

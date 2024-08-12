@@ -6,15 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 16:38:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:19:22 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
 int	sig = 0;
-
-
 
 int main(int argc, char **argv, char **envp)
 {

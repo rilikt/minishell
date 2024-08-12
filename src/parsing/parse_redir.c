@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/04 15:12:52 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:12:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 		*tkn_temp = (*tkn_temp)->next;
 	}
 	append_rdct_node(command, type, filename, vars, int_vars);
-	check_redir(command, tkn_temp, err);
-	return (0);
+	return (check_redir(command, tkn_temp, err));
+	// return (0);
 }
 
 void	append_rdct_node(t_cmd **head, int type, char *filename, char *vars, int *int_vars)

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 12:55:53 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/12 14:22:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,52 @@ int env(char **arg, char **envp) // prints out env from extern char **environ we
 	return (0);
 }
 
+// char **ez_export_arr(char *var)
+// {
+// 	char *re[3];
+
+// 	re[0] = "export";
+// 	re[1] = var;
+// 	re[2] = NULL;
+// 	return(re);
+// }
+
+void add_oldpwd(char ***envp)
+{
+	char *pwd[3];
+
+	pwd[0] = "export";
+	pwd[1] = "OLDPWD";
+	pwd[2] = NULL;
+	export(pwd, envp);
+}
+
 char **copy_env(char **envp)
 {
-	int len = 0;
+	int len;
 	char **re;
+	int set;
 
-	while(envp[len])
+	len = 0;
+	set = 0;
+	while(envp && envp[len])
 		len++;
 	re = (char **)malloc((len + 1) * sizeof(char *));
-	error_check(re, "mlloc in copy_env", ERR_MALLOC);
+	error_check(re, "malloc in copy_env", ERR_MALLOC);
 	len = 0;
 	while (envp && envp[len])
 	{
 		if (!ft_strncmp("OLDPWD", envp[len], 6))
+		{
 			re[len] = ft_strdup("OLDPWD");
+			set = 1;
+		}
 		else
 			re[len] = ft_strdup(envp[len]);
-		// printf("%s\n", envp[len]);
 		len++;
 	}
 	re[len] = NULL;
+	if (!set)
+		add_oldpwd(&re);
 	return(re);
 }
