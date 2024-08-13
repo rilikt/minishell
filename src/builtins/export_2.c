@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:04:03 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:05:50 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:03:38 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-char	*ft_getenv(char *find, char **env)
+char	*ft_getenv(char *find, char **env) // check for empty env
 {
 	int	i;
 	int	len_find;

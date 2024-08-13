@@ -6,28 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/07 15:20:56 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:48:34 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void go_home(void) //moves the current working dir to root
-{
-	char *user;
-	char *path;
-
-	user = getenv("LOGNAME");
-	path = ft_strjoin("/Users/", user);
-
-	if (chdir(path) == -1)
-	{
-		perror("chdir in go_home\n");
-	}
-	return;
-}
-
-void update_env(char ***envp) // maybe use ft_getenv for all of this instead of getcwd!?
+void update_env(char ***envp)
 {
 	char *old[3];
 	char *new[3];
@@ -48,6 +33,19 @@ void update_env(char ***envp) // maybe use ft_getenv for all of this instead of 
 	free(new[1]);
 }
 
+int get_home(char **arg, char **move_to, char **envp)
+{
+	if (arg[1])
+		return (0);
+	*move_to = ft_getenv("HOME", envp);
+	if (!(*move_to))
+	{
+		write (2, "minishell: cd: HOME not set\n", 29);
+		return (1);
+	}
+	return(0);
+}
+
 int cd(char **arg, char ***envp)
 {
 	char path[1024];
@@ -55,12 +53,9 @@ int cd(char **arg, char ***envp)
 	char *input = arg[1];
 	char *move_to = arg[1];
 
-	if (!arg[1])
-	{
-		move_to = ft_getenv("HOME", *envp);
-		input = move_to;
-	}
-	else if (!ft_strncmp(arg[1], "-", 2))
+	if(get_home(arg, &move_to, *envp))
+		return(1);
+	if (arg[1] && !ft_strncmp(arg[1], "-", 2))
 	{
 		move_to = ft_getenv("OLDPWD", *envp);
 		if (move_to)
@@ -71,23 +66,9 @@ int cd(char **arg, char ***envp)
 			return(1);
 		}
 	}
-	// if (arg[2])
-	// {
-	// 	write(2, "cd : too many arguments\n", 25);
-	// 	return;
-	// }
-	// getcwd(path, sizeof(path));
-	// if (!ft_strchr(move_to, '/')) // need to check if this is needed or chdir takes care of this
-	// {
-	// 	if (path[ft_strlen(path)-1] != '/')
-	// 	move_to = ft_strjoin("/", move_to);
-	// 	error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
-	// 	move_to = ft_strjoin(path, move_to);
-	// 	error_check(move_to, "ft_strjoin in cd", ERR_MALLOC);
-	// }
 	if (chdir(move_to) == -1)
 	{
-		ft_error("cd: ", input, ERR_FILE);
+		ft_error("cd: ", move_to, ERR_FILE);
 		return(1);
 	}
 	update_env(envp);
@@ -98,11 +79,6 @@ int pwd(char **arg)
 {
 	char path[1024];
 	
-	// if (arg[1])
-	// {
-	// 	write(2, "pwd : too many arguments\n", 25);
-	// 	return;
-	// }
 	printf("%s\n", getcwd(path, sizeof(path)));
 	return (0);
 }

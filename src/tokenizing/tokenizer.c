@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 12:58:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:00:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	token_loop(int i, char *str, t_shell *shell)
 			break ;
 		if (is_operator(str, &i))
 			break ;
-		else if (str[i] && operator_check(&str[i + 1], &i))
+		if (str[i] && operator_check(&str[i + 1], &i))
 			break ;
 		if (is_whitespace(str[i]))
 			break ;

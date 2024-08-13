@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 18:05:34 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:07:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,31 @@ char	*rm_plus(char *str)
 	return (re);
 }
 
+int	ex_append_loop(char ***envp, char *arg, int len)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = NULL;
+	if (len == 0)
+		return (0);
+	while ((*envp)[i] && len != 0)
+	{
+		len = var_len(arg, (*envp)[i]);
+		if (!ft_strncmp((*envp)[i], arg, len))
+		{
+			tmp = ft_strjoin((*envp)[i], ft_strchr(arg, '=') + 1);
+			error_check(tmp, "ft_strdup", ERR_MALLOC);
+			free((*envp)[i]);
+			(*envp)[i] = tmp;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	export_append(char **args, char ***envp, int *j)
 {
 	char	*str;
@@ -201,59 +226,57 @@ int	export_append(char **args, char ***envp, int *j)
 	if (!ft_strchr(args[*j], '+'))
 		return (0);
 	str = rm_plus(args[*j]);
-	len = var_len(args[*j], NULL);
-	while ((*envp)[i] && len != 0 && set != 1)
-	{
-		len = var_len(args[*j], (*envp)[i]);
-		if (!ft_strncmp((*envp)[i], args[*j], len))
-		{
-			// free((*envp)[i]);
-			(*envp)[i] = ft_strjoin((*envp)[i], ft_strchr(args[*j], '=') + 1);
-			error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
-			set = 1;
-		}
-		i++;
-	}
+	len = var_len(str, NULL);
+	set = ex_append_loop(envp, str, len);
 	if (set != 1)
-		(*envp) = append_env(args[*j], *envp);
+		(*envp) = append_env(str, *envp);
 	*j += 1;
 	if (!args[*j])
 		return (1);
 	return (0);
 }
 
-int	export(char **args, char ***envp) // maybe rework qoutes for this
+int	export_loop(char ***envp, char *arg, int len)
 {
-	int i;
-	int j;
-	int set;
-	int len;
-	int len2;
+	int	i;
 
+	i = 0;
+	if (len == 0)
+		return (0);
+	while ((*envp)[i] && len != 0)
+	{
+		len = var_len(arg, (*envp)[i]);
+		if (!ft_strncmp((*envp)[i], arg, len))
+		{
+			free((*envp)[i]);
+			(*envp)[i] = ft_strdup(arg);
+			error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	export(char **args, char ***envp)
+{
+	int	i;
+	int	j;
+	int	set;
+	int	len;
+	int	len2;
+
+	j = 1;
 	if (!args[1])
 		return (export_print(*envp), 0);
 	if (check_input(args, envp, 1) == -1)
 		return (1);
-	j = 1;
 	while (args[j])
 	{
 		if (export_append(args, envp, &j))
 			break ;
 		len = var_len(args[j], NULL);
-		i = 0;
-		set = 0;
-		while ((*envp)[i] && len != 0 && set != 1)
-		{
-			len = var_len(args[j], (*envp)[i]);
-			if (!ft_strncmp((*envp)[i], args[j], len))
-			{
-				free((*envp)[i]);
-				(*envp)[i] = ft_strdup(args[j]);
-				error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
-				set = 1;
-			}
-			i++;
-		}
+		set = export_loop(envp, args[j], len);
 		if (set != 1)
 			(*envp) = append_env(args[j], *envp);
 		j++;

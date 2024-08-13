@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:57:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:05:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:15:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	not_valid(char *str)
 	write(2, str, ft_strlen(str));
 	write(2, "': not a valid identifier\n", 27);
 }
+
 int	check_input(char **args, char ***envp, int mode)
 {
 	int	i;
