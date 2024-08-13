@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/11 16:15:37 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/13 14:29:41 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,13 +32,15 @@ BUILTINS :=	directory.c\
 			exit.c\
 			set_.c
 ERR_CLEAN:=	error.c\
-			cleaning.c
+			cleaning.c\
+			wrapper_functions.c
 EXECUTING:= child.c\
 			execute_commands.c\
 			piping_utils.c\
 			redirecting.c
 EXPANDING:= expanding.c\
-			expanding_utils.c
+			expanding_utils.c\
+			splitting_utils.c
 MDE_SGNL :=	initialize.c\
 			signals.c
 PARSING  :=	parse.c\
@@ -80,7 +82,7 @@ $(LIBFT):
 
 	
 	@printf "$(GREEN)\n\nBuilding libraries\n\n$(RESET)"
-	@make -s -C $(LIB) & PID=$$!; \
+	@make bonus -s -C $(LIB) & PID=$$!; \
 	while kill -0 $$PID 2>/dev/null; do \
 		printf "$(GREEN)█ $(RESET)"; \
 		sleep 0.1; \

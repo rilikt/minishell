@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 17:58:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:03:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	signal_handler(int signal)
 {
 	// printf("signal: %d\n", sig);
-	if (sig == 0)
+	if (g_sig == 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		return ;
 	}
-	if (sig == 42)
+	if (g_sig == 42)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		rl_replace_line("", 0);
@@ -28,11 +28,11 @@ void	signal_handler(int signal)
 		rl_redisplay();
 		return ;
 	}
-	if (sig == 666)
+	if (g_sig == 666)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		sig = 2;
+		g_sig = 2;
 		return ;
 	}
 }

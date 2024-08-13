@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 18:35:52 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:09:02 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	ft_error(char *arg, char *msg, int errorcode)
 {
 	if (msg)
-	{	write(STDERR_FILENO, "minishell: ", 12);
+	{
+		write(STDERR_FILENO, "minishell: ", 12);
 		if (arg)
 		{
 			write(STDERR_FILENO, arg, ft_strlen(arg));
@@ -24,11 +25,12 @@ void	ft_error(char *arg, char *msg, int errorcode)
 		write(STDERR_FILENO, ": ", 2);
 		if (errorcode)
 		{
-			write (STDERR_FILENO, strerror(errorcode), ft_strlen(strerror(errorcode)));
+			write(STDERR_FILENO, strerror(errorcode),
+				ft_strlen(strerror(errorcode)));
 		}
 		write(STDERR_FILENO, "\n", 1);
-	}	
-	return;
+	}
+	return ;
 }
 
 void	ft_sytax_error(int *err, t_token *tkn)
@@ -38,7 +40,7 @@ void	ft_sytax_error(int *err, t_token *tkn)
 	if (!tkn)
 		write(STDERR_FILENO, "'newline'", 10);
 	else
-		write (STDERR_FILENO, tkn->str, ft_strlen(tkn->str));
+		write(STDERR_FILENO, tkn->str, ft_strlen(tkn->str));
 	write(STDERR_FILENO, "\n", 1);
 	return ;
 }
@@ -49,7 +51,7 @@ void quotes_err(int *err)
 	*err = ERR_SYNTAX;
 }
 
-void	error_check(void *ptr, char *msg, int error_code)
+void	error_check(void *ptr, const char *msg, int error_code)
 {
 	char	*err_msg;
 

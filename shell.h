@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:35:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:08:03 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 
 # ifndef GLOBAL_H
 #  define GLOBAL_H
-extern int				sig;
+
+extern int				g_sig;
 # endif
 
 enum					e_errorcodes
@@ -104,7 +105,6 @@ typedef struct s_redirect
 	int					*int_vars;
 	int					in_fd;
 	int					out_fd;
-	int					here_doc;
 	struct s_redirect	*next;
 }						t_rdct;
 
@@ -130,7 +130,7 @@ typedef struct s_command
 	int					stdin_fd;
 	t_rdct				*reds;
 	int					var_in_redir;
-	struct termios		term;
+
 	struct s_command	*next;
 }						t_cmd;
 
@@ -140,20 +140,21 @@ typedef struct s_piping
 	int					last_pipe;
 }						t_pipe;
 
-typedef struct s_vars
+typedef struct arg_vars
 {
-	int					*i_vars;
-	char				*c_vars;
-}						t_vars;
+	int					*s_index;
+	int					*e_index;
+	char				*type;
+}						t_avars;
 
 typedef struct s_expand_help
 {
 	char				**envp;
-	t_vars				vars;
-	t_vars				arg_vars;
-	int					count;
+	t_avars				*arg_vars;
+	int					v_count;
+	char				**str;
 	int					exit;
-}						t_exp_help;
+}						t_exp;
 
 typedef struct s_shell
 {
@@ -187,8 +188,7 @@ typedef struct s_redir_val
 /*==				builtins							==*/
 /*========================================================*/
 // builtin.c
-int						single_cmd_check(t_cmd *cmd, int exitstatus,
-							char **envp);
+int						single_cmd_check(t_shell *shell);
 int						check_and_exec_builtins(t_cmd *cmd, char ***envp,
 							int *err, int exitstatus);
 void					check_builtins(t_cmd *cmd);
@@ -205,7 +205,6 @@ int						echo(char **args);
 // env.c
 int						env(char **arg, char **envp);
 char					**copy_env(char **envp);
-char					**ez_export_arr(char *var);
 
 // export.c export_2.c
 int						export(char **args, char ***envp);
@@ -237,13 +236,19 @@ void					set_last_arg(t_cmd *cmd, char ***envp, int mode);
 // error.c
 void					ft_error(char *arg, char *msg, int errorcode);
 void					ft_sytax_error(int *err, t_token *tkn);
-void					error_check(void *ptr, char *msg, int error_code);
+void					error_check(void *ptr, const char *msg, int error_code);
 void					quotes_err(int *err);
-
 
 // cleaning.c
 void					free_string_array(char **str);
 void					exit_shell(void);
+
+//wrapper_functions.c
+char					*ms_strdup(const char *str);
+char					*ms_substr(const char *str, unsigned int start,
+							size_t len);
+char					**ms_split(char *str, char c);
+char					*ms_strjoin(char const *s1, char const *s2);
 
 /*========================================================*/
 /*==				executer							==*/
@@ -251,7 +256,7 @@ void					exit_shell(void);
 // child.c
 void					run_childprocess(t_cmd *cmd, t_pipe *pipes,
 							t_shell *shell, int mode);
-char					*get_path(char *cmd, char **envp);
+char					*get_path(char *cmd, t_shell *shell);
 
 // execute_commandline.c
 void					execute_commandline(t_shell *shell);
@@ -274,17 +279,30 @@ void					redirect_accordingly(t_rdct *reds);
 /*==				expander							==*/
 /*========================================================*/
 // expanding.c
-void					expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
+char					*get_var(char *pos, char **var_name, int var_len,
+							t_exp *utils);
+int						insert_var(char **str, char *pos, char *var_value,
+							char *var_name);
+void					handle_var(int i, char **pos, int *tmp, t_exp *utils);
+void					expand_string(char **str, int type, t_exp *utils,
+							int i);
+int						expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 // expanding_utils.c
-void					check_char_behind(char **pos, char **str, int *tmp,
-							t_exp_help *u);
+int						*check_char_behind(char **pos, char **str);
 int						ft_arr_len(char **arr);
-char					**check_and_insert_first_index(char **args,
-							t_exp_help *utils);
-char					**split_and_arrange_arg(char **args, int i, int arg_len,
-							char **new_args);
-char					**split_and_arrange_cmd(char **args);
+void					free_arg_vars(t_exp *utils, int arg_len);
+void					setup_help_struct(t_cmd *cmd, t_exp *utils,
+							int arg_len, int vars_used);
+int						count_vars_in_str(char *str);
+void					expand_heredoc(char **str, t_exp *utils);
+
+// splitting_utils.c
+int						is_quoted(int i, t_avars arg_vars);
+char					**make_arr_from_list(t_list **new_arg);
+char					**divide_string_correctly(char *str, t_avars arg_vars);
+char					**split_arg(char **args, t_avars *arg_vars, int *i,
+							int a);
 
 /*========================================================*/
 /*==				mode_nd_signals						==*/

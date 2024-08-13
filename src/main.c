@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:02:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:10:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
 
-int	sig = 0;
+int	g_sig = 0;
+
+
 
 int main(int argc, char **argv, char **envp)
 {
@@ -31,9 +33,8 @@ int main(int argc, char **argv, char **envp)
 		if (!shell.err)
 			parse_tokens(&shell);
 		// print_commands(&shell);
-		// printf("err:%d, exit:%d\n", shell.err, shell.exitstatus);
 		if (!shell.err && shell.cmd_nb == 1 &&
-			single_cmd_check(shell.commands, shell.exitstatus, shell.envp))
+			single_cmd_check(&shell))
 			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell.envp, &shell.err, shell.exitstatus);
 		else if (!shell.err)
 			execute_commandline(&shell);

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 16:20:24 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:03:36 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,10 +181,10 @@ char	*heredoc_loop(char *delimiter)
 
 	line = NULL;
 	input = NULL;
-	while (1 && sig != 2)
+	while (1 && g_sig != 2)
 	{
 		line = readline("> ");
-		if (!line || sig == 2)
+		if (!line || g_sig == 2)
 			break ;
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)
 			&& delimiter[0] != '\0')
@@ -206,7 +206,7 @@ void	is_heredoc(t_token *node, int q_flag)
 
 	if (node->prev->type != IN_HEREDOC || node->type == PIPE || is_redir(node))
 		return ;
-	sig = 666;
+	g_sig = 666;
 	line = NULL;
 	input = NULL;
 	delimiter = check_and_rm_quotes(node->str);
@@ -216,14 +216,14 @@ void	is_heredoc(t_token *node, int q_flag)
 	else
 		node->type = WORD;
 	free(node->str);
-	if (sig == 2)
+	if (g_sig == 2)
 	{
 		fd = open("/dev/tty", O_RDWR);
 		dup2(fd, STDIN_FILENO);
 		input = NULL;
 	}
 	node->str = input;
-	sig = 0;
+	g_sig = 0;
 }
 
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
