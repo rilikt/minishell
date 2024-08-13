@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 12:22:21 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:10:30 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	pipe_mode_check(t_pipe *pipes, int *mode, int i, int cmd_nb)
 {
 	if (i == 0)
-		{
-			pipes->pipe[0] = -1;
-			pipes->pipe[1] = -1;
-			pipes->last_pipe = -1;
-		}
+	{
+		pipes->pipe[0] = -1;
+		pipes->pipe[1] = -1;
+		pipes->last_pipe = -1;
+	}
 	if (i == cmd_nb - 1)
 		*mode = END;
 	if (*mode != END && pipe(pipes->pipe) < 0)
@@ -33,13 +33,13 @@ int	wait_for_children(int *pid, int nb)
 	int	t;
 
 	i = -1;
-	sig = 15;
+	g_sig = 15;
 	while (++i < nb)
-	{	
+	{
 		waitpid(pid[i], &t, 0);
 		t = WEXITSTATUS(t);
 	}
-	sig = 0;
+	g_sig = 0;
 	free(pid);
 	pid = NULL;
 	return (t);

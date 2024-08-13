@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/12 11:44:52 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/13 14:29:41 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ BUILTINS :=	directory.c\
 			exit.c\
 			set_.c
 ERR_CLEAN:=	error.c\
-			cleaning.c
+			cleaning.c\
+			wrapper_functions.c
 EXECUTING:= child.c\
 			execute_commands.c\
 			piping_utils.c\

@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 20:52:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:41:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_var(char *pos, char **var_name, int var_len, t_exp *utils)
 	tmp = pos + 1;
 	if (*tmp == '?')
 		var_value = ft_itoa(utils->exit);
-	*var_name = ft_substr(pos, 1, var_len);
+	*var_name = ms_substr(pos, 1, var_len);
 	if (!var_value)
 		var_value = ft_getenv(*var_name, utils->envp);
 	return (var_value);
@@ -40,8 +40,8 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	new_str = (char *)malloc(sizeof(char) * new_len + 1);
 	error_check(new_str, "malloc in insert_var", ERR_MALLOC);
 	ft_strlcpy(new_str, *str, pos - *str + 1);
-	ft_strlcpy(&(new_str[ft_strlen(new_str)]), var_value,
-		ft_strlen(var_value) + 1);
+	ft_strlcpy(&(new_str[ft_strlen(new_str)]), var_value, ft_strlen(var_value)
+		+ 1);
 	index_var_end = ft_strlen(new_str);
 	ft_strlcpy(&(new_str[ft_strlen(new_str)]), var_end, ft_strlen(var_end) + 1);
 	free(*str);
@@ -55,17 +55,18 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 	char	*var_name;
 	char	*var_value;
 	int		var_len;
-	
+	t_avars	*lol;
+
 	var_value = NULL;
 	var_name = NULL;
-	t_avars *lol = &(utils->arg_vars[i]);
+	lol = &(utils->arg_vars[i]);
 	if (utils->arg_vars[i].type[utils->v_count] == '0')
 	{
 		*tmp += 1;
 		utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
 	}
 	else if (utils->arg_vars[i].type[utils->v_count] == '1'
-			|| utils->arg_vars[i].type[utils->v_count] == '2')
+		|| utils->arg_vars[i].type[utils->v_count] == '2')
 	{
 		var_len = utils->arg_vars[i].s_index[utils->v_count];
 		utils->arg_vars[i].s_index[utils->v_count] = *tmp;
@@ -73,16 +74,15 @@ void	handle_var(int i, char **pos, int *tmp, t_exp *utils)
 		{
 			var_value = get_var(*pos, &var_name, var_len, utils);
 			if (!var_value)
-				ft_memmove(*pos, *pos + var_len + 1, ft_strlen(*pos + var_len + 1) + 1);
+				ft_memmove(*pos, *pos + var_len + 1, ft_strlen(*pos + var_len
+						+ 1) + 1);
 			else
 				*tmp = insert_var(utils->str, *pos, var_value, var_name);
 		}
-		// else if (!((*(*pos + 1) == '\0') || (*(*pos + 1) == '$')))
-		// 	ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
 		else
 			*tmp += 1;
 		utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
-	}	
+	}
 	else if (utils->arg_vars[i].type[utils->v_count] == '3')
 	{
 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
@@ -94,7 +94,8 @@ void	expand_string(char **str, int type, t_exp *utils, int i)
 {
 	int		tmp;
 	char	*pos;
-	char frt;
+	char	frt;
+
 	tmp = 0;
 	utils->v_count = 0;
 	utils->str = str;
@@ -132,12 +133,12 @@ int	expand_redirects(t_rdct *reds, t_exp *utils)
 		if (tmp->char_vars)
 		{
 			utils->arg_vars->type = tmp->char_vars;
-			error_check(utils->arg_vars->type, "strdup in expand_cmd", ERR_MALLOC);
+			error_check(utils->arg_vars->type, "strdup in exp_cmd", ERR_MALLOC);
 			utils->arg_vars->s_index = tmp->int_vars;
 			utils->arg_vars->e_index = tmp->int_vars;
-				expand_string(&tmp->filename, tmp->type, utils, 0);
+			expand_string(&tmp->filename, tmp->type, utils, 0);
 			if (ft_strchr(tmp->filename, ' ') && tmp->type != IN_HEREDOC)
-				return(ft_error(f_name, "ambiguous redirect", 0),
+				return (ft_error(f_name, "ambiguous redirect", 0),
 					free(utils->arg_vars), free(f_name), 2);
 		}
 		tmp = tmp->next;
@@ -158,14 +159,16 @@ int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 	utils.envp = envp;
 	utils.exit = exitstatus;
 	if (cmd->char_vars)
-		setup_exp_help_struct(cmd, &utils, arg_len, 0);
-	while (cmd->char_vars && cmd->args[++i] && ++a >= 0)
 	{
-		expand_string(&cmd->args[i], 0, &utils, a);
-		if (strchr(utils.arg_vars[a].type, '1'))
-			cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
+		setup_help_struct(cmd, &utils, arg_len, 0);
+		while (cmd->char_vars && cmd->args[++i] && ++a >= 0)
+		{
+			expand_string(&cmd->args[i], 0, &utils, a);
+			if (strchr(utils.arg_vars[a].type, '1'))
+				cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
+		}
+		free_arg_vars(&utils, arg_len);
 	}
-	// free_arg_vars(&utils, arg_len);
 	if (cmd->reds)
 		return (expand_redirects(cmd->reds, &utils));
 	return (0);

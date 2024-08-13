@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 15:04:52 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:43:36 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	change_input_fd(t_rdct *reds)
 {
 	if (access(reds->filename, F_OK))
+	{
+		printf("hallo\n");
 		error_check(NULL, reds->filename, ERR_FILE);
+	}
 	if (access(reds->filename, R_OK))
 		error_check(NULL, reds->filename, ERR_PERMISSION);
 	reds->in_fd = open(reds->filename, O_RDONLY);
@@ -72,12 +75,8 @@ void	redirect_accordingly(t_rdct *reds)
 		else if (reds->type == OUT_RED_APPEND && !access(reds->filename, W_OK))
 			change_output_fd(reds, O_APPEND);
 		else
-			error_check(NULL, NULL, 0); //permissions check!!
+			error_check(NULL, reds->filename, 13);
 		reds = reds->next;
 	}
 	return ;
 }
-// /bin/echo hi >./outfiles/outfile01 | /bin/echo bye
-// >> "$H"OM"E"
-// cat OME
-// /bin/rm -f OME

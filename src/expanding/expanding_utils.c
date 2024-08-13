@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 20:18:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:38:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	*check_char_behind(char **pos, char **str)
 	char	c;
 	int		*var_len;
 
-	var_len = (int*)malloc(sizeof(int));
+	var_len = (int *)malloc(sizeof(int));
 	*var_len = 0;
 	if (*pos && *(*pos + 1))
 		c = *(*pos + 1);
@@ -27,14 +27,15 @@ int	*check_char_behind(char **pos, char **str)
 		return (NULL);
 	else if (!ft_isalpha((int)c) && c != '_')
 		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
-	else if(ft_isalpha((int)c) || c == '_')
+	else if (ft_isalpha((int)c) || c == '_')
 	{
-		while(ft_isalpha((int)*(*pos + 1 + *var_len))
-			|| ft_isdigit((int)*(*pos + 1 + *var_len)) || *(*pos + 1 + *var_len) == '_')
-		(*var_len)++;
+		while (ft_isalpha((int)*(*pos + 1 + *var_len)) || ft_isdigit((int)*(*pos
+					+ 1 + *var_len)) || *(*pos + 1 + *var_len) == '_')
+			(*var_len)++;
 	}
 	return (var_len);
 }
+
 int	ft_arr_len(char **arr)
 {
 	int	i;
@@ -42,7 +43,7 @@ int	ft_arr_len(char **arr)
 	i = 0;
 	if (!arr)
 		return (i);
-	while  (arr[i])
+	while (arr[i])
 		i++;
 	return (i);
 }
@@ -51,6 +52,7 @@ void	free_arg_vars(t_exp *utils, int arg_len)
 {
 	int	i;
 	int	s_e_len;
+
 	i = 0;
 	while (i < arg_len && utils->arg_vars)
 	{
@@ -63,27 +65,33 @@ void	free_arg_vars(t_exp *utils, int arg_len)
 		i++;
 	}
 	free(utils->arg_vars);
-	
 }
 
-void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
+void	setup_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
 {
 	int	i;
 	int	j;
 	int	var_count;
-	
+
 	i = -1;
 	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len + 1);
-	error_check(utils->arg_vars, "malloc arg_vars in setup_exp_help_struct", ERR_MALLOC);
+	error_check(utils->arg_vars, "malloc arg_vars in setup_exp_help_struct",
+		ERR_MALLOC);
 	while (++i < arg_len)
 	{
 		var_count = count_vars_in_str(cmd->args[i]);
-		utils->arg_vars[i].type = ft_substr(cmd->char_vars, vars_used, var_count);
-		error_check(utils->arg_vars[i].type, "substr in setup_exp_help_struct", ERR_MALLOC);
-		utils->arg_vars[i].s_index = (int *)malloc(sizeof(int) * ft_strlen(utils->arg_vars[i].type));
-		error_check(utils->arg_vars[i].type, "malloc s_i in setup_exp_struct", ERR_MALLOC);
-		utils->arg_vars[i].e_index = (int *)malloc(sizeof(int) * ft_strlen(utils->arg_vars[i].type));
-		error_check(utils->arg_vars[i].type, "malloc e_i in setup_exp_struct", ERR_MALLOC);
+		utils->arg_vars[i].type = ft_substr(cmd->char_vars, vars_used,
+				var_count);
+		error_check(utils->arg_vars[i].type, "substr in setup_exp_help_struct",
+			ERR_MALLOC);
+		utils->arg_vars[i].s_index = (int *)malloc(sizeof(int)
+				* ft_strlen(utils->arg_vars[i].type));
+		error_check(utils->arg_vars[i].type, "malloc s_i in setup_exp_struct",
+			ERR_MALLOC);
+		utils->arg_vars[i].e_index = (int *)malloc(sizeof(int)
+				* ft_strlen(utils->arg_vars[i].type));
+		error_check(utils->arg_vars[i].type, "malloc e_i in setup_exp_struct",
+			ERR_MALLOC);
 		j = -1;
 		while (++j < var_count)
 		{
@@ -93,17 +101,17 @@ void	setup_exp_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
 		vars_used += var_count;
 	}
 }
-	// int k = 0;
-	// int l = 0;
+// int k = 0;
+// int l = 0;
 
-	// while (cmd->args[k])
-	// {
-	// 	l = 0;
-	// 	while (l < ft_strlen(utils->arg_vars[k].type))
-	// 		printf("%d,", utils->arg_vars[k].s_index[l++]);
-	// 	printf("\n%s\n", utils->arg_vars[k].type);
-	// 	k++;
-	// }
+// while (cmd->args[k])
+// {
+// 	l = 0;
+// 	while (l < ft_strlen(utils->arg_vars[k].type))
+// 		printf("%d,", utils->arg_vars[k].s_index[l++]);
+// 	printf("\n%s\n", utils->arg_vars[k].type);
+// 	k++;
+// }
 int	count_vars_in_str(char *str)
 {
 	int	j;
@@ -115,12 +123,11 @@ int	count_vars_in_str(char *str)
 	{
 		while (str[++j])
 		{
-		if (str[j] == '$')
-			var_count++;	
+			if (str[j] == '$')
+				var_count++;
 		}
 	}
 	return (var_count);
-	
 }
 
 void	expand_heredoc(char **str, t_exp *utils)

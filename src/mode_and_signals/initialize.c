@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/07 11:03:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:50:16 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,16 @@ char	*put_input(int argc, char **argv)
 	}
 	return (input);
 }
-void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
+
+void	change_shlvl(t_shell *shell, char **envp)
 {
 	char	*shlvl[3];
 	char	*tmp;
 	int		nb;
-	int		i;
 
-	i = 0;
 	nb = 0;
 	shlvl[0] = "export";
 	shlvl[2] = NULL;
-	shell->envp = copy_env(envp);
-	shell->input = put_input(argc, argv);
-	shell->tokens = NULL;
-	shell->char_vars = NULL;
-	shell->int_vars = NULL;
-	shell->commands = NULL;
-	shell->cmd_nb = 0;
-	shell->exitstatus = 0;
-	shell->err = 0;
 	shlvl[1] = ft_getenv("SHLVL", envp);
 	if (shlvl[1])
 		nb = ft_atoi(shlvl[1]);
@@ -67,4 +57,18 @@ void setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 	free(tmp);
 	export(shlvl, &shell->envp);
 	free(shlvl[1]);
+}
+
+void	setup_shell(t_shell *shell, char **envp, int argc, char **argv)
+{
+	shell->envp = copy_env(envp);
+	shell->input = put_input(argc, argv);
+	shell->tokens = NULL;
+	shell->char_vars = NULL;
+	shell->int_vars = NULL;
+	shell->commands = NULL;
+	shell->cmd_nb = 0;
+	shell->exitstatus = 0;
+	shell->err = 0;
+	change_shlvl(shell, envp);
 }

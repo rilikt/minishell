@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 20:32:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:40:58 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	single_cmd_check(t_shell *shell)
 	shell->err = expand_cmd(shell->commands, shell->exitstatus, shell->envp);
 	check_builtins(shell->commands);
 	if (shell->commands->builtin_flag == EXTERN)
-		return(0);
+		return (0);
 	else
 	{
 		if (shell->commands->reds)
@@ -29,12 +29,12 @@ int	single_cmd_check(t_shell *shell)
 		}
 		redirect_accordingly(shell->commands->reds);
 	}
-	return(1);
+	return (1);
 }
 
 int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 {
-	int exit_re;
+	int	exit_re;
 
 	exit_re = 0;
 	set_last_arg(cmd, envp, 0);
@@ -54,13 +54,11 @@ int	check_and_exec_builtins(t_cmd *cmd, char ***envp, int *err, int exitstatus)
 		exit_re = ft_exit(cmd->args, err, exitstatus);
 	if (cmd->stdout_fd > -1)
 	{
-		printf("%s: stdout_fd is %d\n", cmd->args[0], cmd->stdout_fd);
-		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_and_exec_builtins");
+		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup2 in check_exec_builtins");
 		ft_close(cmd->stdout_fd, "close1 in check_and_exec_builtins");
 	}
 	if (cmd->stdin_fd > -1)
 	{
-		printf("%s: stdin_fd is %d\n", cmd->args[0], cmd->stdout_fd);
 		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup2 in check_and_exec_builtins");
 		ft_close(cmd->stdin_fd, "close2 in check_and_exec_builtins");
 	}
@@ -86,14 +84,14 @@ void	check_builtins(t_cmd *cmd)
 	{
 		if (!cmd->args)
 			cmd->builtin_flag = NO_CMD;
-		if (cmd->args && cmd->args[0] && !ft_strncmp(cmd->args[0],
-			arr[i], ft_strlen(arr[i]) + 1))
+		if (cmd->args && cmd->args[0] && !ft_strncmp(cmd->args[0], arr[i],
+				ft_strlen(arr[i]) + 1))
 			cmd->builtin_flag = i;
 		i++;
 	}
 	if (cmd->builtin_flag == NOT_SET)
 		cmd->builtin_flag = EXTERN;
-	return;
+	return ;
 }
 // $USER pstrohal text  ' text
 // $USER pstrohal text  ' text

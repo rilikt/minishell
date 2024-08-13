@@ -3,43 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/09 18:31:27 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:10:51 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
 void	signal_handler(int signal)
-{	
-	// printf("signal: %d\n", sig);
-	if (sig == 0)
+{
+	if (g_sig == 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
-		return;
+		return ;
 	}
-	if (sig == 42)
+	if (g_sig == 42)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		return;
+		return ;
 	}
-	if (sig == 666)
+	if (g_sig == 666)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		sig = 2;
-		return;
+		g_sig = 2;
+		return ;
 	}
 }
 void	check_mode_handle_signals(t_shell *shell)
 {
 	int	fd[2];
-	
+
 	fd[0] = isatty(STDIN_FILENO);
 	fd[1] = isatty(STDERR_FILENO);
 	if (fd[0] && fd[1] && !shell->input)
@@ -59,5 +58,4 @@ void	check_mode_handle_signals(t_shell *shell)
 	}
 	signal(SIGINT, signal_handler);
 	return ;
-
 }
