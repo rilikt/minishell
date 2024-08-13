@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 16:38:22 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:34:54 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 	}
 	return (path_to_cmd);
 }
+
+
+
+
 
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
@@ -75,7 +79,7 @@ char	*get_path(char *cmd, t_shell *shell)
 
 	i = -1;
 	path_string = ft_getenv("PATH", shell->envp);
-	if (path_string)
+	if (!path_string)
 		return (free(cmd), NULL);
 	path = ms_split(path_string, ':');
 	while (path[++i])

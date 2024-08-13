@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 13:38:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:13:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_arr_len(char **arr)
 void	free_arg_vars(t_exp *utils, int arg_len)
 {
 	int	i;
-	int	s_e_len;
 
 	i = 0;
 	while (i < arg_len && utils->arg_vars)

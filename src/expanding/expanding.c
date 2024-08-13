@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 16:41:46 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/13 19:15:46 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ int	expand_redirects(t_rdct *reds, t_exp *utils)
 		if (tmp->char_vars)
 		{
 			utils->arg_vars->type = tmp->char_vars;
-			error_check(utils->arg_vars->type, "strdup in exp_cmd", ERR_MALLOC);
 			utils->arg_vars->s_index = tmp->int_vars;
 			utils->arg_vars->e_index = tmp->int_vars;
 			expand_string(&tmp->filename, tmp->type, utils, 0);

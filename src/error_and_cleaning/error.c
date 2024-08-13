@@ -3,33 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 18:09:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:58:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	ft_error(char *arg, char *msg, int errorcode)
+void	ft_error(char *arg, char *msg, int error_code)
 {
-	if (msg)
+	char	*err_msg;
+
+	err_msg = NULL;
+	if (error_code == 127)
+		err_msg = "command not found";
+	else if (errno != 0)
+		err_msg = strerror(errno);
+	else
+		err_msg = strerror(error_code);
+	write(STDERR_FILENO, "minishell: ", 12);
+	if (arg)
+		write(STDERR_FILENO, arg, ft_strlen(arg));
+	write(STDERR_FILENO, msg, ft_strlen(msg) + 1);
+	write(STDERR_FILENO, ": ", 2);
+	if (err_msg)
 	{
-		write(STDERR_FILENO, "minishell: ", 12);
-		if (arg)
-		{
-			write(STDERR_FILENO, arg, ft_strlen(arg));
-		}
-		write(STDERR_FILENO, msg, ft_strlen(msg) + 1);
-		write(STDERR_FILENO, ": ", 2);
-		if (errorcode)
-		{
-			write(STDERR_FILENO, strerror(errorcode),
-				ft_strlen(strerror(errorcode)));
-		}
-		write(STDERR_FILENO, "\n", 1);
+		write(STDERR_FILENO, err_msg,
+			ft_strlen(err_msg));
 	}
+	write(STDERR_FILENO, "\n", 1);
 	return ;
 }
 
