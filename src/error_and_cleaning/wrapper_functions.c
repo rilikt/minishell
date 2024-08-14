@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wrapper_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:05:24 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 16:36:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:46:53 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,15 @@ char	*ms_strjoin(char const *s1, char const *s2)
 
 	s = ft_strjoin(s1, s2);
 	error_check(s, s1, ERR_MALLOC);
+	return (s);
+}
+
+char	*ms_freejoin(char *s1, char const *s2)
+{
+	char	*s;
+
+	s = ft_strjoin(s1, s2);
+	error_check(s, s1, ERR_MALLOC);
+	free(s1);
 	return (s);
 }

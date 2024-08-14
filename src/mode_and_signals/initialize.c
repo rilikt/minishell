@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/12 18:01:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:12:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	*put_input(int argc, char **argv)
 	{
 		while (i < argc)
 		{
-			tmp2 = ft_strjoin(tmp, argv[i++]);
-			input = ft_strjoin(tmp2, " ");
+			tmp2 = ms_strjoin(tmp, argv[i++]);
+			input = ms_strjoin(tmp2, " ");
 			free(tmp2);
 			if (i != argc - 1)
 				free(tmp);
@@ -48,7 +48,7 @@ void	initial_export(t_shell *shell)
 	nb = 0;
 	var[0] = "export";
 	var[1] = getcwd(path, sizeof(path));
-	var[1] = ft_strjoin("PWD=", var[1]);
+	var[1] = ms_strjoin("PWD=", var[1]);
 	var[2] = NULL;
 	export(var, &shell->envp);
 	free(var[1]);
@@ -57,7 +57,7 @@ void	initial_export(t_shell *shell)
 		nb = ft_atoi(var[1]);
 	nb += 1;
 	tmp = ft_itoa(nb);
-	var[1] = ft_strjoin("SHLVL=", tmp);
+	var[1] = ms_strjoin("SHLVL=", tmp);
 	free(tmp);
 	export(var, &shell->envp);
 	free(var[1]);

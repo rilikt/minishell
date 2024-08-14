@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitting_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 10:44:15 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 11:48:58 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:25:06 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	**split_arg(char **args, t_avars *arg_vars, int *i, int a)
 	new_args = (char **)malloc(sizeof(char *) * (new_len + 1));
 	error_check(new_args, "maloc in split_args", ERR_MALLOC);
 	rejoin_args(args, new_args, arg_arr, i);
+	free(args);
 	return (new_args);
 }
 

@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:34:52 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:53:59 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	free_struct(t_shell *shell)
+void	free_tokens(t_shell *shell)
 {
-	t_shell	*temp;
 	t_token	*temp_tkn;
-	t_cmd	*temp_cmd;
-	t_rdct	*temp_redir;
+	t_shell	*temp;
+
 
 	temp = shell;
 	while (temp->tokens)
@@ -26,8 +25,23 @@ void	free_struct(t_shell *shell)
 		temp->tokens = temp->tokens->next;
 		if (temp_tkn->str)
 			free(temp_tkn->str);
+		if (temp_tkn->char_vars)
+		{
+			free(temp_tkn->char_vars);
+			free(temp_tkn->int_vars);
+		}
 		free(temp_tkn);
 	}
+}
+
+
+void	free_struct(t_shell *shell)
+{
+	t_shell	*temp;
+	t_cmd	*temp_cmd;
+	t_rdct	*temp_redir;
+
+	temp = shell;
 	while (temp->commands)
 	{
 		temp_cmd = temp->commands;
@@ -36,10 +50,20 @@ void	free_struct(t_shell *shell)
 		{
 			temp_redir = temp_cmd->reds;
 			temp_cmd->reds = temp_cmd->reds->next;
+			if (temp_cmd->reds->char_vars)
+			{
+				free(temp_cmd->reds->char_vars);
+				free(temp_cmd->reds->int_vars);
+			}
 			free(temp_redir);
 		}
 		if (temp_cmd->args)
 			free(temp_cmd->args);
+		if (temp_cmd->char_vars)
+		{
+			free(temp_cmd->char_vars);
+			free(temp_cmd->int_vars);
+		}
 		free(temp_cmd);
 	}
 	if (shell->input)
@@ -47,6 +71,8 @@ void	free_struct(t_shell *shell)
 		free(shell->input);
 		shell->input = NULL;
 	}
+	free(shell->char_vars);
+	free(shell->int_vars);
 }
 
 void	free_string_array(char **str)

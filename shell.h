@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:09:51 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:50:46 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,12 +241,14 @@ void	quotes_err(int *err);
 // cleaning.c
 void	free_string_array(char **str);
 void	exit_shell(void);
+void	free_tokens(t_shell *shell);
 
 //wrapper_functions.c
 char	*ms_strdup(const char *str);
 char	*ms_substr(const char *str, unsigned int start, size_t len);
 char	**ms_split(char *str, char c);
 char	*ms_strjoin(char const *s1, char const *s2);
+char	*ms_freejoin(char *s1, char const *s2);
 
 /*========================================================*/
 /*==				executer							==*/

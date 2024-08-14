@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:39:45 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:46:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ char	*heredoc_loop(char *delimiter)
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)
 			&& delimiter[0] != '\0')
 			break ;
-		line = ms_strjoin(line, "\n");
-		input = ms_strjoin(input, line);
+		line = ms_freejoin(line, "\n");
+		input = ms_freejoin(input, line);
 	}
 	return (input);
 }

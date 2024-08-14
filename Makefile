@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/14 12:55:27 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/14 14:16:00 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
-CFLAGS = #-fsanitize=address # -Wall -Wextra -Werror
+CFLAGS = -fsanitize=address # -Wall -Wextra -Werror
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 all: $(NAME)
