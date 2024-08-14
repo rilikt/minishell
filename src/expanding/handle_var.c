@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:44 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 16:22:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:29:44 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ void	handle_case_one_two(int i, char **pos, int *tmp, t_exp *utils)
 	else
 		*tmp += 1;
 	utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
-	if (var_value)
-		free(var_value);
+	
 	return ;
 }
 
