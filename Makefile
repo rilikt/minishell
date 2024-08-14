@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/14 18:03:30 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/14 18:30:45 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,11 +26,13 @@ BUILTINS :=	directory.c\
 			echo.c\
 			env.c\
 			export.c\
-			export_2.c\
+			export_append.c\
+			export_print.c\
 			unset.c\
 			export_unset_input_check.c\
 			exit.c\
-			set_.c
+			set_.c\
+			ft_getenv.c
 ERR_CLEAN:=	error.c\
 			cleaning.c\
 			wrapper_functions.c
@@ -55,6 +57,7 @@ TOKENIZER:=	read_input.c\
 			tokenizer.c\
 			quotes.c\
 			expander_flags.c\
+			expander_flags_int.c\
 			heredoc.c\
 			token_vars.c
 

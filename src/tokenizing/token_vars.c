@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:33:18 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:36:06 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:06:51 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	*set_int_vars(int *arr, char *str, char *vars)
 		re[j] = arr[i];
 		j++;
 		i++;
-		
 	}
 	if (!vars[i])
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:35:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:32:01 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,11 +205,18 @@ int		echo(char **args);
 int		env(char **arg, char **envp);
 char	**copy_env(char **envp);
 
-// export.c export_2.c
+// export.c
 int		export(char **args, char ***envp);
-char	*ft_getenv(char *find, char **env);
 int		var_len(char *str, char *str2);
 char	**append_env(char *var, char **envp);
+
+// export_append.c
+char	*rm_plus(char *str);
+int		ex_append_loop(char ***envp, char *arg, int len);
+int		check_plus(char *arg);
+int		export_append(char **args, char ***envp, int *j);
+
+// export_print.c
 void	add_qoutes(char **envp);
 int		copy_envp(char ***local_envp, char **envp);
 void	export_print(char **envp);
@@ -217,11 +224,15 @@ int		check_and_print(char **args, char ***envp);
 
 // unset.c
 int		unset(char **args, char ***envp);
+char	**unset_loop(char **re, char ***envp, char **args);
 int		compare_to_envp(char **args, char *envp);
 
 // export_unset_input_check.c
 int		check_input(char **args, char ***envp, int mode);
 int		invalid_char(char *c, int mode);
+
+// ft_getenv.c
+char	*ft_getenv(char *find, char **env);
 
 // exit.c
 int		ft_exit(char **args, int *err, int exitstatus);
@@ -388,13 +399,18 @@ char	*create_string(char *str, char *re, int i, int k);
 // expander_flags.c
 void	char_var_list(t_shell *shell);
 void	var_lists(t_shell *shell);
+char	*cvl_if_quotes(char *vars, t_shell *shell, int *i);
+int		check_end(char c);
+
+// expander_flags_int.c
+void	int_var_list(t_shell *shell);
+void	ivl_loop(int *arr, t_shell *shell, int *i, int *j);
 
 // heredoc.c
 int		count_quotes(char *str, int q_count, int start);
 char	*check_and_rm_quotes(char *str);
 char	*heredoc_loop(char *delimiter);
 void	is_heredoc(t_token *node, int q_flag);
-
 
 // int		check_operators(char *arg);
 

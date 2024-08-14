@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 15:25:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 16:38:04 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:22:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	set_last_arg(t_cmd *cmd, char ***envp, int mode)
 {
-	int i;
-	char *ex[3];
+	int		i;
+	char	*ex[3];
 
 	if (mode)
 	{
