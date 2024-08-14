@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 17:06:18 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 12:03:43 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:16:26 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	change_input_fd(t_rdct *reds, int *err)
 
 void	change_output_fd(t_rdct *reds, int mode, int *err)
 {
-	reds->out_fd = open(reds->filename, O_WRONLY | mode);
+	reds->out_fd = open(reds->filename, mode);
 	if (reds->out_fd < 0)
 	{
 		ft_error(NULL, reds->filename, ERR_OPEN);

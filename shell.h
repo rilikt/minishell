@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 14:50:46 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:06:26 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ typedef struct s_redir_val
 /*========================================================*/
 // builtin.c
 int		single_cmd_check(t_shell *shell);
-int		check_and_exec_builtins(t_shell *shell);
+int		check_and_exec_builtins(t_cmd *cmd, t_shell *shell);
 void	check_builtins(t_cmd *cmd);
 
 // directory.c

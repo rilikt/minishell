@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 16:25:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:30:18 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 {
 	char	*path_to_cmd;
 
+	if (!cmd)
+		return (NULL);
 	if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 	{
 		path_to_cmd = ms_strdup(cmd->args[0]);
@@ -58,7 +60,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	if (cmd->builtin_flag == EXTERN && cmd->args[0])
 		path_to_cmd = path_check(cmd, shell);
 	if (cmd->builtin_flag != EXTERN)
-		exit(check_and_exec_builtins(shell));
+		exit(check_and_exec_builtins(cmd, shell));
 	if ((!cmd->args || !cmd->args[0]) && !shell->err)
 		exit(0);
 	set_last_arg(cmd, &shell->envp, 0);
