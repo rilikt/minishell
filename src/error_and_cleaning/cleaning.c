@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/11 12:49:26 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:34:52 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ void	free_struct(t_shell *shell)
 	t_token	*temp_tkn;
 	t_cmd	*temp_cmd;
 	t_rdct	*temp_redir;
-	int		cmd_i;
-	int		redir_i;
-	int		i;
 
 	temp = shell;
 	while (temp->tokens)
@@ -52,12 +49,12 @@ void	free_struct(t_shell *shell)
 	}
 }
 
-void free_string_array(char **str)
+void	free_string_array(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		// printf("%s\n", str[i]);
 		if (str[i])

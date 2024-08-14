@@ -6,35 +6,11 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 19:13:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:43:13 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
-
-int	*check_char_behind(char **pos, char **str)
-{
-	char	c;
-	int		*var_len;
-
-	var_len = (int *)malloc(sizeof(int));
-	*var_len = 0;
-	if (*pos && *(*pos + 1))
-		c = *(*pos + 1);
-	else
-		return (NULL);
-	if (c == '\0')
-		return (NULL);
-	else if (!ft_isalpha((int)c) && c != '_')
-		ft_memmove(*pos, *pos + 1, ft_strlen(*pos + 1) + 1);
-	else if (ft_isalpha((int)c) || c == '_')
-	{
-		while (ft_isalpha((int)*(*pos + 1 + *var_len)) || ft_isdigit((int)*(*pos
-					+ 1 + *var_len)) || *(*pos + 1 + *var_len) == '_')
-			(*var_len)++;
-	}
-	return (var_len);
-}
 
 int	ft_arr_len(char **arr)
 {
@@ -66,51 +42,35 @@ void	free_arg_vars(t_exp *utils, int arg_len)
 	free(utils->arg_vars);
 }
 
-void	setup_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used)
+void	setup_help_struct(t_cmd *cmd, t_exp *u, int arg_len, int vars_used)
 {
-	int	i;
-	int	j;
+	int	i[2];
 	int	var_count;
 
-	i = -1;
-	utils->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len + 1);
-	error_check(utils->arg_vars, "malloc arg_vars in setup_exp_help_struct",
-		ERR_MALLOC);
-	while (++i < arg_len)
+	i[0] = -1;
+	u->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len + 1);
+	error_check(u->arg_vars, "1setup_exp_help_struct", ERR_MALLOC);
+	while (++i[0] < arg_len)
 	{
-		var_count = count_vars_in_str(cmd->args[i]);
-		utils->arg_vars[i].type = ft_substr(cmd->char_vars, vars_used,
+		var_count = count_vars_in_str(cmd->args[i[0]]);
+		u->arg_vars[i[0]].type = ms_substr(cmd->char_vars, vars_used,
 				var_count);
-		error_check(utils->arg_vars[i].type, "substr in setup_exp_help_struct",
-			ERR_MALLOC);
-		utils->arg_vars[i].s_index = (int *)malloc(sizeof(int)
-				* ft_strlen(utils->arg_vars[i].type));
-		error_check(utils->arg_vars[i].type, "malloc s_i in setup_exp_struct",
-			ERR_MALLOC);
-		utils->arg_vars[i].e_index = (int *)malloc(sizeof(int)
-				* ft_strlen(utils->arg_vars[i].type));
-		error_check(utils->arg_vars[i].type, "malloc e_i in setup_exp_struct",
-			ERR_MALLOC);
-		j = -1;
-		while (++j < var_count)
+		u->arg_vars[i[0]].s_index = (int *)malloc(sizeof(int)
+				* ft_strlen(u->arg_vars[i[0]].type));
+		error_check(u->arg_vars[i[0]].type, "2setup_exp_struct", ERR_MALLOC);
+		u->arg_vars[i[0]].e_index = (int *)malloc(sizeof(int)
+				* ft_strlen(u->arg_vars[i[0]].type));
+		error_check(u->arg_vars[i[0]].type, "3setup_exp_struct", ERR_MALLOC);
+		i[1] = -1;
+		while (++i[1] < var_count)
 		{
-			utils->arg_vars[i].s_index[j] = cmd->int_vars[vars_used + j];
-			utils->arg_vars[i].e_index[j] = 0;
+			u->arg_vars[i[0]].s_index[i[1]] = cmd->int_vars[vars_used + i[1]];
+			u->arg_vars[i[0]].e_index[i[1]] = 0;
 		}
 		vars_used += var_count;
 	}
 }
-// int k = 0;
-// int l = 0;
 
-// while (cmd->args[k])
-// {
-// 	l = 0;
-// 	while (l < ft_strlen(utils->arg_vars[k].type))
-// 		printf("%d,", utils->arg_vars[k].s_index[l++]);
-// 	printf("\n%s\n", utils->arg_vars[k].type);
-// 	k++;
-// }
 int	count_vars_in_str(char *str)
 {
 	int	j;
@@ -128,54 +88,3 @@ int	count_vars_in_str(char *str)
 	}
 	return (var_count);
 }
-
-void	expand_heredoc(char **str, t_exp *utils)
-{
-	int		tmp;
-	char	*pos;
-	char	*var_value;
-	char	*var_name;
-	int		*var_len;
-
-	tmp = 0;
-	utils->str = str;
-	var_value = NULL;
-	pos = ft_strchr(*str + tmp, '$');
-	while (pos)
-	{
-		var_len = check_char_behind(&pos, str);
-		if (var_len)
-			var_value = get_var(pos, &var_name, *var_len, utils);
-		if (var_value)
-			tmp = insert_var(str, pos, var_value, var_name);
-		else
-		{
-			ft_memmove(pos, pos + 1 + *var_len, ft_strlen(pos));
-			tmp++;
-		}
-		pos = ft_strchr(*str + tmp, '$');
-	}
-	return ;
-}
-/*
-ec$USER "$HOME $?" $$USER"$SHLVL" $"$"$
-export T="ho    world"
-
- minishell > ec$HOME >  $USER"LOL" <HALLO$HOME <<s
-> lool
-> $USER
-> $SHLVL
-> "HALLO $USER$$$"
-> s
-
-cat << s
-egdfg
-srg
-$HOME.edwsgo
-rghgsfadok$USER/fdf"PRP"
-'hallo$HOME'
-hah
-s
-
-
-*/

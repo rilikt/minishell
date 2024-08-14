@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 19:34:54 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:20:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 	return (path_to_cmd);
 }
 
-
-
-
+void	expand_and_setup(t_cmd *cmd, t_shell *shell)
+{
+	cmd->stdout_fd = -1;
+	cmd->stdin_fd = -1;
+	shell->exitstatus = expand_cmd(cmd, shell->exitstatus, shell->envp);
+	check_builtins(cmd);
+}
 
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
@@ -49,22 +53,16 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	signal(SIGINT, &exit);
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
-	{
-		cmd->stdout_fd = -1;
-		cmd->stdin_fd = -1;
-		err = expand_cmd(cmd, shell->exitstatus, shell->envp);
-		check_builtins(cmd);
-	}
-	redirect_accordingly(cmd->reds);
+		expand_and_setup(cmd, shell);
+	redirect_accordingly(cmd->reds, &(shell->err));
 	if (cmd->builtin_flag == EXTERN && cmd->args)
 		path_to_cmd = path_check(cmd, shell);
 	if (cmd->builtin_flag != EXTERN)
-		exit(check_and_exec_builtins(cmd, &shell->envp, &shell->err,
-				shell->exitstatus));
-	if (!cmd->args || !cmd->args[0])
+		exit(check_and_exec_builtins(shell));
+	if ((!cmd->args || !cmd->args[0]) && !shell->err)
 		exit(0);
 	set_last_arg(cmd, &shell->envp, 0);
-	if (path_to_cmd)
+	if (path_to_cmd && !shell->err)
 		execve(path_to_cmd, cmd->args, shell->envp);
 	exit(shell->err);
 }
@@ -75,7 +73,6 @@ char	*get_path(char *cmd, t_shell *shell)
 	char	**path;
 	char	*path_string;
 	char	*tmp;
-	char	*tmp2;
 
 	i = -1;
 	path_string = ft_getenv("PATH", shell->envp);

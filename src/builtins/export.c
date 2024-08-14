@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 14:07:08 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:33:51 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,11 +260,9 @@ int	export_loop(char ***envp, char *arg, int len)
 
 int	export(char **args, char ***envp)
 {
-	int	i;
 	int	j;
 	int	set;
 	int	len;
-	int	len2;
 
 	j = 1;
 	if (!args[1])

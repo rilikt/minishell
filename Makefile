@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/13 19:29:51 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/14 11:51:38 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,11 @@ EXECUTING:= child.c\
 			execute_commands.c\
 			piping_utils.c\
 			redirecting.c
-EXPANDING:= expanding.c\
+EXPANDING:= divide_argument.c\
+			expand_heredoc.c\
+			expanding.c\
 			expanding_utils.c\
+			handle_var.c\
 			splitting_utils.c
 MDE_SGNL :=	initialize.c\
 			signals.c
@@ -74,7 +77,7 @@ LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
-CFLAGS = # -Wall -Wextra -Werror
+CFLAGS = #-fsanitize=address #-Wall -Wextra -Werror
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 all: $(NAME)
