@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 14:53:59 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:15:05 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,17 @@ void	free_struct(t_shell *shell)
 		{
 			temp_redir = temp_cmd->reds;
 			temp_cmd->reds = temp_cmd->reds->next;
-			if (temp_cmd->reds->char_vars)
+			if (temp_redir->char_vars)
 			{
-				free(temp_cmd->reds->char_vars);
-				free(temp_cmd->reds->int_vars);
+				free(temp_redir->char_vars);
+				free(temp_redir->int_vars);
 			}
+			if (temp_redir->filename)
+				free(temp_redir->filename);
 			free(temp_redir);
 		}
 		if (temp_cmd->args)
-			free(temp_cmd->args);
+			free_string_array(temp_cmd->args);
 		if (temp_cmd->char_vars)
 		{
 			free(temp_cmd->char_vars);

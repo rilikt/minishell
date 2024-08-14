@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:00:41 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:05:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ char	*create_string(char *str, char *re, int i, int k, int start)
 			i++;
 	}
 	re[k] = '\0';
+	free(str);
 	return (re);
 }
 

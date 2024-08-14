@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 14:46:17 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:06:57 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,9 @@ char	*heredoc_loop(char *delimiter)
 			break ;
 		line = ms_freejoin(line, "\n");
 		input = ms_freejoin(input, line);
+		free(line);
 	}
+	free(delimiter);
 	return (input);
 }
 
@@ -215,7 +217,6 @@ void	is_heredoc(t_token *node, int q_flag)
 		node->type = VARIABLE;
 	else
 		node->type = WORD;
-	free(node->str);
 	if (g_sig == 2)
 	{
 		fd = open("/dev/tty", O_RDWR);

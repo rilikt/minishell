@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 12:20:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:25:57 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 	{
 		if (ft_strchr(cmd->args[0], '/'))
 			ft_error(NULL, cmd->args[0], ERR_FILE);
-		path_to_cmd = get_path(ft_strjoin("/", cmd->args[0]), shell);
+		path_to_cmd = get_path(ms_strjoin("/", cmd->args[0]), shell);
 		if (!path_to_cmd)
 		{
 			ft_error(path_to_cmd, cmd->args[0], ERR_PATH);
@@ -55,7 +55,7 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	if (shell->cmd_nb > 1)
 		expand_and_setup(cmd, shell);
 	redirect_accordingly(cmd->reds, &(shell->err));
-	if (cmd->builtin_flag == EXTERN && cmd->args)
+	if (cmd->builtin_flag == EXTERN && cmd->args[0])
 		path_to_cmd = path_check(cmd, shell);
 	if (cmd->builtin_flag != EXTERN)
 		exit(check_and_exec_builtins(shell));
@@ -75,6 +75,7 @@ char	*get_path(char *cmd, t_shell *shell)
 	char	*tmp;
 
 	i = -1;
+
 	path_string = ft_getenv("PATH", shell->envp);
 	if (!path_string)
 		return (free(cmd), NULL);
@@ -85,6 +86,7 @@ char	*get_path(char *cmd, t_shell *shell)
 		if (access(tmp, X_OK) == 0)
 		{
 			free_string_array(path);
+			free(cmd);
 			return (tmp);
 		}
 		free(tmp);
