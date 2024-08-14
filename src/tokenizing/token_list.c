@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:41:04 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:39:45 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ char	*set_vars(char *str, char *vars)
 	}
 	if (count == 0)
 		return (NULL);
-	re = ft_substr(vars, i, count);
-	error_check(re, "set_vars", ERR_MALLOC);
+	re = ms_substr(vars, i, count);
 	i += count;
 	if (!vars[i])
 		i = 0;
@@ -121,7 +120,7 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	{
 		free(str);
 		str = NULL;
-		new_node->str = ft_strdup(ft_getenv("HOME", shell->envp));
+		new_node->str = ms_strdup(ft_getenv("HOME", shell->envp));
 	}
 	else
 		new_node->str = str;
@@ -192,10 +191,8 @@ char	*heredoc_loop(char *delimiter)
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)
 			&& delimiter[0] != '\0')
 			break ;
-		line = ft_strjoin(line, "\n");
-		error_check(line, "ft_strjoin", ERR_MALLOC);
-		input = ft_strjoin(input, line);
-		error_check(input, "ft_strjoin", ERR_MALLOC);
+		line = ms_strjoin(line, "\n");
+		input = ms_strjoin(input, line);
 	}
 	return (input);
 }
@@ -234,12 +231,6 @@ void	append_node(t_token **head, char *str, int q_flag, t_shell *shell)
 	t_token	*new_node;
 	t_token	*temp;
 
-	// if (!str || !str[0]) // removes empty strings
-	// {
-	// 	if (str)
-	// 		free(str);
-	// 	return ;
-	// }
 	new_node = create_node(str, q_flag, shell);
 	if (*head == NULL)
 	{

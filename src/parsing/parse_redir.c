@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 17:57:17 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:42:08 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 		redir.filename = (*tkn_temp)->str;
 		if ((*tkn_temp)->type == VARIABLE)
 		{
-			redir.vars = ft_strjoin(redir.vars, (*tkn_temp)->char_vars);
+			redir.vars = ms_strjoin(redir.vars, (*tkn_temp)->char_vars);
 			redir.int_vars = add_to_arr(redir.vars, (*tkn_temp)->int_vars,
 					(*tkn_temp)->char_vars, redir.int_vars);
 		}

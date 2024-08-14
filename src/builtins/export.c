@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 12:26:11 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:44:48 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ char	**append_env(char *var, char **envp)
 	len = 0;
 	while (envp[len])
 	{
-		re[len] = ft_strdup(envp[len]);
-		error_check(re[len], "ft_strdup in append_env", ERR_MALLOC);
+		re[len] = ms_strdup(envp[len]);
 		len++;
 	}
-	re[len] = ft_strdup(var);
-	error_check(re[len], "ft_strdup in append_env", ERR_MALLOC);
+	re[len] = ms_strdup(var);
 	re[len + 1] = NULL;
 	free_string_array(envp);
 	return (re);
@@ -104,8 +102,7 @@ int	copy_envp(char ***local_envp, char **envp)
 	len = 0;
 	while (envp[len])
 	{
-		(*local_envp)[len] = ft_strdup(envp[len]);
-		error_check((*local_envp)[len], "copy_envp", ERR_MALLOC);
+		(*local_envp)[len] = ms_strdup(envp[len]);
 		len++;
 	}
 	(*local_envp)[len] = NULL;
@@ -203,8 +200,7 @@ int	ex_append_loop(char ***envp, char *arg, int len)
 		len = var_len(arg, (*envp)[i]);
 		if (!ft_strncmp((*envp)[i], arg, len))
 		{
-			tmp = ft_strjoin((*envp)[i], ft_strchr(arg, '=') + 1);
-			error_check(tmp, "ft_strdup", ERR_MALLOC);
+			tmp = ms_strjoin((*envp)[i], ft_strchr(arg, '=') + 1);
 			free((*envp)[i]);
 			(*envp)[i] = tmp;
 			return (1);
@@ -264,8 +260,7 @@ int	export_loop(char ***envp, char *arg, int len)
 		if (!ft_strncmp((*envp)[i], arg, len))
 		{
 			free((*envp)[i]);
-			(*envp)[i] = ft_strdup(arg);
-			error_check((*envp)[i], "ft_strdup", ERR_MALLOC);
+			(*envp)[i] = ms_strdup(arg);
 			return (1);
 		}
 		i++;

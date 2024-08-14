@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:21:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/03 20:37:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:41:46 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,3 @@ void	print_commands(t_shell *shell)
 		cmd_i++;
 	}
 }
-
-// void copy_string(char **des, char *src)
-// {
-// 	int len = ft_strlen(src) +1;
-// 	*des = (char *)malloc(len);
-// 	int i = 0;
-// 	while(src[i])
-// 	{
-// 		(*des)[i] = src[i];
-// 		i++;
-// 	}
-// 	(*des)[i] = '\0';
-// 	// printf("%s\n", *des);
-
-// }

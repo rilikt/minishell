@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 15:25:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:48:10 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:42:54 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	set_last_arg(t_cmd *cmd, char ***envp, int mode)
 			i++;
 		}
 		i--;
-		ex[1] = ft_strjoin("_=", cmd->args[i]);
+		ex[1] = ms_strjoin("_=", cmd->args[i]);
 	}
 	else
-		ex[1] = ft_strjoin("_=", "");
+		ex[1] = ms_strjoin("_=", "");
 	ex[2] = NULL;
 	export(ex, envp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:50:45 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:41:36 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	while_not_op(t_token **temp, t_shell *shell, char **vars,
 	{
 		if ((*temp)->type == VARIABLE)
 		{
-			*vars = ft_strjoin(*vars, (*temp)->char_vars);
+			*vars = ms_strjoin(*vars, (*temp)->char_vars);
 			*int_vars = add_to_arr(*vars, (*temp)->int_vars, (*temp)->char_vars,
 					*int_vars);
 		}

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 13:00:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:37:59 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	tokenize(t_shell *shell)
 			break ;
 		start = i;
 		i = token_loop(i, str, shell);
-		token_str = ft_substr(str, start, i - start);
+		token_str = ms_substr(str, start, i - start);
 		token_str = check_qoutes(token_str, &q_flag, shell);
 		append_node(&token, token_str, q_flag, shell);
 	}

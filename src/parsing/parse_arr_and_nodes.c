@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 17:58:08 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:42:37 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ char	**create_array(t_token *start, t_token *end)
 	error_check(arr, "create_array", ERR_MALLOC);
 	while (i < str_count)
 	{
-		// arr[i] = strdup(start->str);
-		arr[i] = start->str;
+		arr[i] = ms_strdup(start->str);
+		// arr[i] = start->str;
 		start = start->next;
 		i++;
 	}

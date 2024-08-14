@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 17:51:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:41:05 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*cvl_if_quotes(char *vars, t_shell *shell, int *i)
 		while (shell->input[*i] && (shell->input[*i] != shell->input[start]))
 		{
 			if (shell->input[*i] == '$')
-				vars = ft_strjoin(vars, flag);
+				vars = ms_strjoin(vars, flag);
 			*i += 1;
 		}
 	}
@@ -134,9 +134,9 @@ void	char_var_list(t_shell *shell)
 		if (shell->input[i] == '$')
 		{
 			if ((shell->input[i + 1] == 39 || shell->input[i + 1] == 34))
-				vars = ft_strjoin(vars, "3");
+				vars = ms_strjoin(vars, "3");
 			else
-				vars = ft_strjoin(vars, "1");
+				vars = ms_strjoin(vars, "1");
 		}
 		if (shell->input[i])
 			i++;

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:26:00 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:34:35 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 			shell.exitstatus = check_and_exec_builtins(&shell);
 		else if (!shell.err)
 			execute_commandline(&shell);
-		// free_struct(&shell);
+		free_struct(&shell);
 		free(shell.input);
 		shell.input = NULL;
 	}

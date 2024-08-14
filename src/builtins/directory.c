@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:32:11 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:55:12 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	update_env(char ***envp)
 	getcwd(path, sizeof(path));
 	old[0] = "export";
 	new[0] = "export";
-	old[1] = ft_strjoin("OLDPWD=", ft_getenv("PWD", *envp));
-	error_check(old[1], "ft_strjoin in update_env", ERR_MALLOC);
-	new[1] = ft_strjoin("PWD=", path);
-	error_check(new[1], "ft_strjoin in update_env", ERR_MALLOC);
+	old[1] = ms_strjoin("OLDPWD=", ft_getenv("PWD", *envp));
+	new[1] = ms_strjoin("PWD=", path);
 	old[2] = NULL;
 	new[2] = NULL;
 	export(old, envp);
