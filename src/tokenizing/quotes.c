@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:36:57 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:00:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	in_qoutes(char *str, int *input_i, t_shell *shell)
 		i++;
 	if (str[i] != str[start])
 		quotes_err(&shell->err);
+	if (!str[i])
+		return (*input_i = i, 1);
 	*input_i = i + 1;
 	j = i + 1;
 	if (is_operator(str, &j))

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 14:07:08 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:47:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,21 @@ int	ex_append_loop(char ***envp, char *arg, int len)
 	return (0);
 }
 
+
+int check_plus(char *arg)
+{
+	int i;
+
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+	{
+		if (arg[i] == '+')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	export_append(char **args, char ***envp, int *j)
 {
 	char	*str;
@@ -223,7 +238,7 @@ int	export_append(char **args, char ***envp, int *j)
 
 	i = 0;
 	set = 0;
-	if (!ft_strchr(args[*j], '+'))
+	if (!check_plus(args[*j]))
 		return (0);
 	str = rm_plus(args[*j]);
 	len = var_len(str, NULL);
