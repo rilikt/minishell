@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/14 11:36:24 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/14 12:25:57 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,11 @@ EXECUTING:= child.c\
 			execute_commands.c\
 			piping_utils.c\
 			redirecting.c
-EXPANDING:= expanding.c\
+EXPANDING:= divide_argument.c\
+			expand_heredoc.c\
+			expanding.c\
 			expanding_utils.c\
+			handle_var.c\
 			splitting_utils.c
 MDE_SGNL :=	initialize.c\
 			signals.c

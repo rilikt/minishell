@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:31:40 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 15:17:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:32:45 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	env(char **arg, char **envp)
 {
 	int	i;
-	int	len;
 
 	i = 0;
 	if (arg[1])
@@ -42,9 +41,9 @@ void	add_oldpwd(char ***envp)
 	export(pwd, envp);
 }
 
-int env_len(char **envp)
+int	env_len(char **envp)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (envp && envp[len])

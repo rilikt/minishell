@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 19:29:45 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:32:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int	get_home(char **arg, char **move_to, char **envp)
 
 int	cd(char **arg, char ***envp)
 {
-	char	path[1024];
-	char	*new_path;
 	char	*move_to;
 
 	move_to = arg[1];
@@ -80,5 +78,6 @@ int	pwd(char **arg)
 	char	path[1024];
 
 	printf("%s\n", getcwd(path, sizeof(path)));
+	arg = NULL;
 	return (0);
 }

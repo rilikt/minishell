@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:49:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:26:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 int	g_sig = 0;
 
-
-
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
 	setup_shell(&shell, envp, argc, argv);
 	check_mode_handle_signals(&shell);
-	while(shell.err != ERR_EXIT)
+	while (shell.err != ERR_EXIT)
 	{
 		shell.err = 0;
 		if (!shell.input)
@@ -35,11 +33,10 @@ int main(int argc, char **argv, char **envp)
 		// print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1 &&
 			single_cmd_check(&shell))
-			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell.envp, &shell.err, shell.exitstatus);
+			shell.exitstatus = check_and_exec_builtins(&shell);
 		else if (!shell.err)
 			execute_commandline(&shell);
 		// free_struct(&shell);
-		// printf("%d\n", shell.exitstatus);
 		free(shell.input);
 		shell.input = NULL;
 	}

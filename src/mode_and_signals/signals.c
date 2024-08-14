@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 18:03:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:49:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	signal_handler(int signal)
 {
-	// printf("signal: %d\n", sig);
 	if (g_sig == 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
@@ -32,10 +31,11 @@ void	signal_handler(int signal)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		g_sig = 2;
+		g_sig = signal;
 		return ;
 	}
 }
+
 void	check_mode_handle_signals(t_shell *shell)
 {
 	int fd[2];

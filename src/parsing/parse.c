@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/12 16:53:30 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 11:50:45 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 void	parse_tokens(t_shell *shell)
 {
 	t_token	*temp;
-	t_token	*start;
 	t_cmd	*command;
-	int		is_var;
 	char	**arr;
 
 	shell->cmd_nb = 0;

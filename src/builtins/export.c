@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 11:47:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 12:26:11 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,11 +275,9 @@ int	export_loop(char ***envp, char *arg, int len)
 
 int	export(char **args, char ***envp)
 {
-	int	i;
 	int	j;
 	int	set;
 	int	len;
-	int	len2;
 
 	j = 1;
 	if (!args[1])
