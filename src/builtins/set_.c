@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 15:25:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:08:20 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:38:41 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	set_last_arg(t_cmd *cmd, char ***envp, int mode)
 {
-	int i;
-	char *ex[3];
+	int		i;
+	char	*ex[3];
 
 	if (mode)
 	{

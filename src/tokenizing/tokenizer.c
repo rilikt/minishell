@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:25:29 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:06:42 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	operator_check(char *str, int *input_i)
 	int		i;
 	char	*operator;
 
-	operator= "|<>";
+	operator = "|<>";
 	i = 0;
 	if (!str)
 		return (0);
