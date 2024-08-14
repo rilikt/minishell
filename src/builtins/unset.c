@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:10:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 13:54:53 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:44:59 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ int	unset(char **args, char ***envp)
 	{
 		if (compare_to_envp(args, (*envp)[len]))
 		{
-			re[i] = (*envp)[len];
+			re[i] = ms_strdup((*envp)[len]);
 			i++;
 		}
 		len++;
 	}
+	free_string_array(*envp);
 	return (re[i] = NULL, *envp = re, 0);
 }
 

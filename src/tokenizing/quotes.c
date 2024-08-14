@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 17:09:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 16:05:00 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:32:13 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ int	is_closed(char *str, int q_count, int start, t_shell *shell)
 	return (q_count);
 }
 
-char	*create_string(char *str, char *re, int i, int k, int start)
+char	*create_string(char *str, char *re, int i, int k)
 {
+	int	start;
+
+	start = 0;
 	while (str[i])
 	{
 		if (str[i] != 34 && str[i] != 39)
@@ -91,9 +94,7 @@ char	*create_string(char *str, char *re, int i, int k, int start)
 		if (str[i])
 			i++;
 	}
-	re[k] = '\0';
-	free(str);
-	return (re);
+	return (re[k] = '\0', free(str), re);
 }
 
 char	*check_qoutes(char *str, int *q_flag, t_shell *shell)
@@ -107,5 +108,5 @@ char	*check_qoutes(char *str, int *q_flag, t_shell *shell)
 	re = (char *)malloc(ft_strlen(str) + 1 - q_count);
 	error_check(re, "check_quotes", ERR_MALLOC);
 	*q_flag = 1;
-	return (create_string(str, re, 0, 0, 0));
+	return (create_string(str, re, 0, 0));
 }

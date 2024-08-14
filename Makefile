@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/14 16:31:12 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/14 18:03:30 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,9 @@ TOKENIZER:=	read_input.c\
 			token_list.c\
 			tokenizer.c\
 			quotes.c\
-			expander_flags.c
+			expander_flags.c\
+			heredoc.c\
+			token_vars.c
 
 SOURCES = main.c\
 		$(addprefix builtins/,$(BUILTINS))\

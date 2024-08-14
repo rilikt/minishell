@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 11:22:48 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:42:37 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:50:58 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**create_array(t_token *start, t_token *end)
 	while (i < str_count)
 	{
 		arr[i] = ms_strdup(start->str);
-		// arr[i] = start->str;
 		start = start->next;
 		i++;
 	}
@@ -71,17 +70,18 @@ char	**append_array(char **arr, t_token *start, t_token *end)
 	error_check(re, "append_array", ERR_MALLOC);
 	while (arr[i])
 	{
-		re[i] = arr[i];
+		re[i] = ms_strdup(arr[i]);
 		i++;
 	}
 	while (start != end)
 	{
-		re[i] = start->str;
+		re[i] = ms_strdup(start->str);
 		i++;
 		start = start->next;
 	}
 	re[i] = NULL;
-	return (free(arr), re);
+	free_string_array(arr);
+	return (re);
 }
 
 void	append_cmd_node(t_cmd **head)

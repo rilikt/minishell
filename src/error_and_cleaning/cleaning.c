@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 16:30:07 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:50:07 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	free_tokens(t_shell *shell)
 	}
 }
 
-
 void	free_struct(t_shell *shell)
 {
 	t_shell	*temp;
@@ -50,13 +49,13 @@ void	free_struct(t_shell *shell)
 		{
 			temp_redir = temp_cmd->reds;
 			temp_cmd->reds = temp_cmd->reds->next;
+			if (temp_redir->filename)
+				free(temp_redir->filename);
 			if (temp_redir->char_vars)
 			{
 				free(temp_redir->char_vars);
 				free(temp_redir->int_vars);
 			}
-			if (temp_redir->filename)
-				free(temp_redir->filename);
 			free(temp_redir);
 		}
 		if (temp_cmd->args)

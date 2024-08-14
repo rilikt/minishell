@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:41:36 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:42:30 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	*add_to_arr(char *vars, int *arr, char *added, int *int_vars)
 		i++;
 		j++;
 	}
-	// free(int_vars);
 	return (re);
 }
 

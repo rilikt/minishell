@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 15:25:13 by timschmi          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/14 15:45:57 by timschmi         ###   ########.fr       */
-=======
-/*   Updated: 2024/08/14 15:45:39 by pstrohal         ###   ########.fr       */
->>>>>>> rebasing hell
+/*   Updated: 2024/08/14 16:38:04 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +37,5 @@ void	set_last_arg(t_cmd *cmd, char ***envp, int mode)
 		ex[1] = ms_strjoin("_=", "");
 	ex[2] = NULL;
 	export(ex, envp);
-<<<<<<< HEAD
 	free(ex[1]);
-=======
-	free(ex[01]);
->>>>>>> rebasing hell
 }

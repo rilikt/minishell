@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 16:06:26 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:35:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,13 +361,9 @@ int		check_whitespace(char *input);
 char	*read_input(int mode, t_shell *shell);
 
 // token_list.c
-int		check_variable(char *str, int q_flag);
 int		find_type(char *str, int q_flag);
 t_token	*create_node(char *str, int q_flag, t_shell *shell);
-void	is_heredoc(t_token *node, int q_flag);
 void	append_node(t_token **head, char *str, int q_flag, t_shell *shell);
-char	*set_vars(char *str, char *vars);
-int		*set_int_vars(int *arr, char *str, char *vars);
 
 // tokenizer.c
 void	tokenize(t_shell *shell);
@@ -377,16 +373,28 @@ int		is_whitespace(char c);
 void	print_tokens(t_shell *shell);
 int		token_loop(int i, char *str, t_shell *shell);
 
+// token_vars.c
+int		check_variable(char *str, int q_flag);
+char	*set_vars(char *str, char *vars);
+int		*set_int_vars(int *arr, char *str, char *vars);
+
 // quotes.c
 char	*check_qoutes(char *str, int *q_flag, t_shell *shell);
 char	*rm_qoutes(char *str);
 int		in_qoutes(char *str, int *input_i, t_shell *shell);
 int		is_closed(char *str, int q_count, int start, t_shell *shell);
-char	*create_string(char *str, char *re, int i, int k, int start);
+char	*create_string(char *str, char *re, int i, int k);
 
 // expander_flags.c
 void	char_var_list(t_shell *shell);
 void	var_lists(t_shell *shell);
+
+// heredoc.c
+int		count_quotes(char *str, int q_count, int start);
+char	*check_and_rm_quotes(char *str);
+char	*heredoc_loop(char *delimiter);
+void	is_heredoc(t_token *node, int q_flag);
+
 
 // int		check_operators(char *arg);
 

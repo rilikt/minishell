@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 12:01:47 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:37:59 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:25:29 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,25 @@ int	token_loop(int i, char *str, t_shell *shell)
 
 void	tokenize(t_shell *shell)
 {
-	char	*str;
 	char	*token_str;
 	t_token	*token;
 	int		i;
 	int		start;
 	int		q_flag;
 
-	str = shell->input;
 	token = NULL;
 	i = 0;
 	var_lists(shell);
-	while (str[i])
+	while (shell->input[i])
 	{
 		q_flag = 0;
-		while (is_whitespace(str[i]))
+		while (is_whitespace(shell->input[i]))
 			i++;
-		if (!str[i])
+		if (!shell->input[i])
 			break ;
 		start = i;
-		i = token_loop(i, str, shell);
-		token_str = ms_substr(str, start, i - start);
+		i = token_loop(i, shell->input, shell);
+		token_str = ms_substr(shell->input, start, i - start);
 		token_str = check_qoutes(token_str, &q_flag, shell);
 		append_node(&token, token_str, q_flag, shell);
 	}
@@ -86,7 +84,7 @@ int	is_operator(char *str, int *input_i)
 	int		j;
 	char	*operator;
 
-	operator= "|<>";
+	operator = "|<>";
 	i = *input_i;
 	j = 0;
 	while (operator[j])
@@ -94,7 +92,7 @@ int	is_operator(char *str, int *input_i)
 		if (str[i] == operator[j])
 		{
 			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i
-					+ 1] == '>'))
+						+ 1] == '>'))
 				i++;
 			*input_i = i + 1;
 			return (1);
