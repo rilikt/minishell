@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:08:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 18:45:26 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 20:56:28 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exit_msg(char *str)
 {
-	// write(1, "exit\n", 6);
 	write(2, "minishell: exit: ", 18);
 	write(2, str, ft_strlen(str));
 	write(2, ": numeric argument required\n", 28);

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 10:44:15 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 14:25:06 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 23:56:41 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,5 @@ void	rejoin_args(char **args, char **new_args, char **arr, int *i)
 	while (args[k])
 		new_args[j++] = args[k++];
 	new_args[j] = NULL;
+	free(arr);
 }

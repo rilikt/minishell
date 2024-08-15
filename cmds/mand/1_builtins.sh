@@ -487,16 +487,16 @@ export TES!T=123
 
 export TES\~T=123
 
-															export TEST+=100
+					export TEST+=100
 
 export TES_T=123
 /bin/echo $TES_T
 env | grep TES_T
 
-															export HELLO42=T=""
-															/bin/echo $HELLO42
-															env | grep HELLO42
-															env | grep HELLO42=T=
+					export HELLO42=T=""
+					/bin/echo $HELLO42
+					env | grep HELLO42
+					env | grep HELLO42=T=
 
 echo $?
 export ?=hallo

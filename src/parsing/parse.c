@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:48:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 18:49:44 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 22:17:09 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	while_not_op(t_token **temp, t_shell *shell, char **vars,
 	{
 		if ((*temp)->type == VARIABLE)
 		{
-			*vars = ms_strjoin(*vars, (*temp)->char_vars);
+			*vars = ms_freejoin(*vars, (*temp)->char_vars);
 			*int_vars = add_to_arr(*vars, (*temp)->int_vars, (*temp)->char_vars,
 					*int_vars);
 		}
@@ -86,7 +86,7 @@ t_cmd	*parse_loop(t_token *temp, t_cmd *command, t_shell *shell, char **arr)
 		if (is_redir(temp))
 		{
 			if (check_redir(&command, &temp, &shell->err))
-				return (shell->exitstatus = 2, command);
+				return (free_string_array(arr), shell->exitstatus = 2, command);
 			start = temp;
 			while_not_op(&temp, shell, &vars, &int_vars);
 			arr = append_array(arr, start, temp);

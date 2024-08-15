@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 17:30:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:25:18 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,3 @@ void	check_builtins(t_cmd *cmd)
 		cmd->builtin_flag = EXTERN;
 	return ;
 }
-// $USER pstrohal text  ' text
-// $USER pstrohal text  ' text

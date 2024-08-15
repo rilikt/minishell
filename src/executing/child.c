@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 18:07:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 20:59:05 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ char	*get_path(char *cmd, t_shell *shell)
 	char	*tmp;
 
 	i = -1;
-
 	path_string = ft_getenv("PATH", shell->envp);
 	if (!path_string)
 		return (free(cmd), NULL);
