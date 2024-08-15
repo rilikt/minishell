@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 19:04:20 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:42:28 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_sytax_error(int *err, t_token *tkn)
 	return ;
 }
 
-void quotes_err(int *err)
+void	quotes_err(int *err)
 {
 	write(2, "syntax error: unclosed quotes\n", 31);
 	*err = ERR_SYNTAX;

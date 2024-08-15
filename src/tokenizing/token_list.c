@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 15:07:13 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:34:02 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:15:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ t_token	*create_node(char *str, int q_flag, t_shell *shell)
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	new_node->type = find_type(str, q_flag);
-	if (!q_flag && !ft_strncmp(str, "~", 2))
+	if (!q_flag && (!ft_strncmp(str, "~", 2) || !ft_strncmp(str, "~/", 2)) && ft_getenv("HOME", shell->envp))
 	{
+		if (!ft_strncmp(str, "~", 2))
+			new_node->str = ms_strdup(ft_getenv("HOME", shell->envp));
+		else
+			new_node->str = ms_strjoin(ft_getenv("HOME", shell->envp),
+					ft_strchr(str, '/'));
 		free(str);
 		str = NULL;
-		new_node->str = ms_strdup(ft_getenv("HOME", shell->envp));
 	}
 	else
 		new_node->str = str;

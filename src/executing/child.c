@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 21:00:12 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:42:15 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	*get_path(char *cmd, t_shell *shell)
 	char	*tmp;
 
 	i = -1;
-
 	path_string = ft_getenv("PATH", shell->envp);
 	if (!path_string)
 		return (free(cmd), NULL);

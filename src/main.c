@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 19:15:35 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:42:23 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell);
 		else if (!shell.err)
 			execute_commandline(&shell);
-		free_tokens(&shell);
 		free_struct(&shell);
 	}
 	free_string_array(shell.envp);

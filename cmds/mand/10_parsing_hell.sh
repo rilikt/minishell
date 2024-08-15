@@ -1,6 +1,3 @@
-# **************************************************************************** #
-#                                PARSING HELL                                  #
-# **************************************************************************** #
 
 ">>" asd
 
@@ -37,17 +34,17 @@ $USER
 export T=">>"
 $T lol
 
-									cat << "$USER"
-									why
-									not
-									$USER
+cat << "$USER"
+why
+not
+$USER
 
-									cat << "$US"E"R"
-									because
-									we
-									love
-									bash
-									$USER
+cat << "$US"E"R"
+because
+we
+love
+bash
+$USER
 
 >> $HOME
 
@@ -69,8 +66,8 @@ pwd
 cd "$HOME"/Desktop/
 pwd
 
-									cd "$H"O"ME"/Desktop/
-									echo $?
+cd "$H"O"ME"/Desktop/
+echo $?
 
 export T=n
 echo "-"$T$T
@@ -93,8 +90,8 @@ echo $T"o -n"
 export T=ech
 echo $T'o'
 
-										export T="-n test1 -n test 2"
-										echo $T
+export T="-n test1 -n test 2"
+echo $T
 
 export T=ech
 echo $T'o '
@@ -164,11 +161,11 @@ l$T
 export T="s"
 l$T -a
 
-													export T="l"
-													$Ts
+export T="l"
+$Ts
 
-													export T="l"
-													$Ts -a
+export T="l"
+$Ts -a
 
 LS
 
@@ -216,8 +213,8 @@ $T$T$T$T$T$T$T
 export T="echo segfault | grep segfault"
 $T
 
-														export T=-nnnnnnnn"nnnnnnn "
-														echo $T
+export T=-nnnnnnnn"nnnnnnn "
+echo $T
 
 export T=-"n                    "
 Echo $T
@@ -269,7 +266,7 @@ USER
 
 p""''''w''''''""""""''''''''''''''''''''''''''''''''d
 
-														'''''''''''''''' echo ok
+'''''''''''''''' echo ok
 
            ''echo ok
 
@@ -294,11 +291,11 @@ export L=amazing L=ok L=cool
 export L=ok
 echo $L
 
-													echo '$'$'$'$'$'
+echo '$'$'$'$'$'
 
-													echo '$'$'$'$'$'$'$'
+echo '$'$'$'$'$'$'$'
 
-													echo "$"$'$'$"$"$"$"$'$'
+echo "$"$'$'$"$"$"$"$'$'
 
 echo $/ $/ 
 
@@ -318,4 +315,4 @@ exit 123"123"
 
 >| echo sure
 
-												cd --
+cd --

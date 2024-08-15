@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   divide_argument.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:17:07 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 11:48:31 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 23:56:55 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

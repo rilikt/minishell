@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:44 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 18:49:39 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 23:14:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ char	*get_var(char *pos, char **var_name, int var_len, t_exp *utils)
 	var_value = NULL;
 	tmp = pos + 1;
 	if (*tmp == '?')
-		var_value = ft_itoa(utils->exit);
+		(var_value = ft_itoa(utils->exit));
 	*var_name = ms_substr(pos, 1, var_len);
 	if (!var_value)
+	{
 		var_value = ft_getenv(*var_name, utils->envp);
+		if (var_value)
+			var_value = ms_strdup(var_value);
+	}
 	return (var_value);
 }
 
@@ -45,7 +49,6 @@ int	insert_var(char **str, char *pos, char *var_value, char *var_name)
 	index_var_end = ft_strlen(new_str);
 	ft_strlcpy(&(new_str[ft_strlen(new_str)]), var_end, ft_strlen(var_end) + 1);
 	free(*str);
-	free(var_name);
 	*str = new_str;
 	return (index_var_end);
 }
@@ -64,14 +67,17 @@ void	handle_case_one_two(int i, char **pos, int *tmp, t_exp *utils)
 	{
 		var_value = get_var(*pos, &var_name, var_len, utils);
 		if (!var_value)
-			ft_memmove(*pos, *pos + var_len + 1, ft_strlen(*pos + var_len
-					+ 1) + 1);
+			ft_memmove(*pos, *pos + var_len + 1,
+				ft_strlen(*pos + var_len + 1) + 1);
 		else
 			*tmp = insert_var(utils->str, *pos, var_value, var_name);
 	}
 	else
 		*tmp += 1;
 	utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
+	free(var_name);
+	if (var_value)
+		free(var_value);
 	return ;
 }
 

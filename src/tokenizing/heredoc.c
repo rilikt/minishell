@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:26:35 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 14:46:09 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 23:41:35 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ char	*heredoc_loop(char *delimiter)
 		line = ms_freejoin(line, "\n");
 		input = ms_freejoin(input, line);
 		free(line);
+		line = NULL;
 	}
+	if (line)
+		free(line);
 	free(delimiter);
 	return (input);
 }
