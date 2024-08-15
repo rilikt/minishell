@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:48:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:40:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	main(int argc, char **argv, char **envp)
 			shell.input = read_input(shell.mode, &shell);
 		if (!shell.err)
 			tokenize(&shell);
-		print_tokens(&shell);
+		// print_tokens(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);
-		print_commands(&shell);
+		// print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1
 			&& single_cmd_check(&shell))
 			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell);

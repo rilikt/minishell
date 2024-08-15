@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 16:07:21 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:30:14 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_and_exec_builtins(t_cmd *cmd, t_shell *shell)
 	else if (cmd->builtin_flag == CD)
 		exit_re = cd(cmd->args, &shell->envp);
 	else if (cmd->builtin_flag == PWD)
-		exit_re = pwd(cmd->args);
+		exit_re = pwd();
 	else if (cmd->builtin_flag == EXPORT)
 		exit_re = export(cmd->args, &shell->envp);
 	else if (cmd->builtin_flag == UNSET)

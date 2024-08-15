@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:32:01 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:30:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int		check_and_exec_builtins(t_cmd *cmd, t_shell *shell);
 void	check_builtins(t_cmd *cmd);
 
 // directory.c
-int		pwd(char **arg);
+int		pwd(void);
 int		cd(char **arg, char ***envp);
 void	go_home(void);
 void	update_env(char ***envp);

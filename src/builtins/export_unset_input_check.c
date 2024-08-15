@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:57:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 15:15:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:39:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	check_input(char **args, char ***envp, int mode)
 	while (args[i])
 	{
 		j = 0;
-		if (ft_isdigit(args[i][j]) || args[i][j] == '=' || args[i][j] == '\0')
+		if (ft_isdigit(args[i][j]) || args[i][j] == '=' || args[i][j] == '\0'
+			|| args[i][j] == '+')
 			return (not_valid(args[i]), -1);
 		while (args[i][j])
 		{

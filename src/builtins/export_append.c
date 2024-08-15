@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:04:03 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:34:31 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:31:22 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,9 @@ int	check_plus(char *arg)
 int	export_append(char **args, char ***envp, int *j)
 {
 	char	*str;
-	int		i;
 	int		len;
 	int		set;
 
-	i = 0;
 	set = 0;
 	if (!check_plus(args[*j]))
 		return (0);

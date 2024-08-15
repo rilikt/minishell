@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:24:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:24:23 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:50:19 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_getenv(char *find, char **env) // check for empty env
 	{
 		len_var = var_len(env[i], NULL);
 		if ((len_var == len_find) && !ft_strncmp(find, env[i], len_find))
-			// Is the first condition tested before the second? Otherwise myb segfault
+		// Is the first condition tested before the second? Otherwise myb segfault
 			return (env[i] + len_var + 1);
 		i++;
 	}

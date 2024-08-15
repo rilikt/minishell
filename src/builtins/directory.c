@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:55:12 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:29:48 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,10 @@ int	cd(char **arg, char ***envp)
 	return (0);
 }
 
-int	pwd(char **arg)
+int	pwd(void)
 {
 	char	path[1024];
 
 	printf("%s\n", getcwd(path, sizeof(path)));
-	arg = NULL;
 	return (0);
 }

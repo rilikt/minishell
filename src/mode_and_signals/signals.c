@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 11:49:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:51:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	signal_handler(int signal)
 
 void	check_mode_handle_signals(t_shell *shell)
 {
-	int fd[2];
+	int	fd[2];
 
 	fd[0] = isatty(STDIN_FILENO);
 	fd[1] = isatty(STDERR_FILENO);

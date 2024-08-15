@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 15:12:47 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:51:05 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	initial_export(t_shell *shell)
 
 void	setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	shell->envp = copy_env(envp);

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 17:08:42 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/13 15:57:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:45:26 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	ft_intlen(long long int n)
 	len = 0;
 	if (n == LLONG_MIN)
 		n += 1;
+	if (n == 0)
+		return (1);
 	if (n < 0)
 	{
 		len++;
@@ -90,25 +92,25 @@ int	ft_intlen(long long int n)
 int	ft_exit(char **args, int *err, int exitstatus)
 {
 	long long int	re;
-	int				i;
 	int				clen;
 	int				ilen;
 
-	i = 0;
+	clen = 0;
 	if (!args[1])
 		return (*err = 1, exitstatus);
 	if (args[1][0] == '\0' || num_check(args[1]))
 		return (*err = 1, exit_msg(args[1]), 255);
 	if (args[2])
 		return (write(2, "minishell: exit: too many arguments\n", 37), 1);
-	clen = ft_strlen(args[1]);
+	while (args[1][clen] == '0' && args[1][clen + 1])
+		clen++;
+	clen = ft_strlen(args[1] + clen);
 	re = ft_longtoi(args[1]);
-	if (re == LLONG_MAX || re == LLONG_MIN)
-	{
-		ilen = ft_intlen(re);
-		if (clen != ilen)
-			return (*err = 1, exit_msg(args[1]), 255);
-	}
+	ilen = ft_intlen(re);
+	if (args[1][0] == '+')
+		ilen++;
+	if (clen != ilen)
+		return (*err = 1, exit_msg(args[1]), 255);
 	if (re < 0)
 		re = (re % 256 + 256) % 256;
 	else if (re > 255)

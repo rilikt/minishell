@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 11:42:47 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 18:30:19 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 17:28:32 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ int	var_len(char *str, char *str2)
 	}
 	else
 	{
-		if (!(len1 = var_len(str, NULL)))
+		len1 = var_len(str, NULL);
+		if (!len1)
 			len1 = ft_strlen(str);
-		if (!(len2 = var_len(str2, NULL)))
+		len2 = var_len(str2, NULL);
+		if (!len2)
 			len2 = ft_strlen(str2);
 		if (len1 < len2)
 			len1 = len2;
