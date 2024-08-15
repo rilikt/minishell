@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:26:35 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 17:31:58 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:46:09 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ char	*heredoc_loop(char *delimiter)
 	input = NULL;
 	while (1 && g_sig != 2)
 	{
-		line = readline("> ");
+		if (isatty(STDIN_FILENO))
+			line = readline("> ");
+		else
+			line = use_get_next();
 		if (!line || g_sig == 2)
 			break ;
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)

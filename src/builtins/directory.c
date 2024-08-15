@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 12:43:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:27:14 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,6 @@ int	get_home(char **arg, char **move_to, char **envp)
 	return (0);
 }
 
-void	expand_tilde(char **arg, char **move_to)
-{
-	char	*home;
-
-	if (arg[1][0] == '~' && (arg[1][1] == '/' || !arg[1][1]))
-	{
-		home = getenv("HOME");
-		ft_memmove(arg[1], &(arg[1][1]), ft_strlen(&arg[1][1]) + 1);
-		home = ms_strjoin(home, arg[1]);
-		free(arg[1]);
-		arg[1] = home;
-		*move_to = arg[1];
-	}
-	return;
-}
-
 int	cd(char **arg, char ***envp)
 {
 	char	*move_to;
@@ -78,7 +62,6 @@ int	cd(char **arg, char ***envp)
 			return (1);
 		}
 	}
-	expand_tilde(arg, &move_to);
 	if (chdir(move_to) == -1)
 	{
 		ft_error("cd: ", move_to, ERR_FILE);

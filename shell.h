@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:32:01 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 14:46:39 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,6 +369,7 @@ void	free_struct(t_shell *shell);
 
 // read_input.c
 int		check_whitespace(char *input);
+char	*use_get_next(void);
 char	*read_input(int mode, t_shell *shell);
 
 // token_list.c

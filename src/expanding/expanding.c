@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 11:05:28 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:42:17 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,23 @@ int	expand_redirects(t_rdct *reds, t_exp *utils)
 	return (free(utils->arg_vars), free(f_name), 0);
 }
 
+void	check_removal(char **args, int i, char *type)
+{
+	char	**new_args;
+	int		len;
+
+	if (!*args[i] && !ft_strchr(type, '2') && *type)
+	{
+		len = ft_arr_len(args);
+		free(args[i]);
+		while (i < len)
+		{
+			args[i] = args[i + 1];
+			i++;
+		}
+	}
+}
+
 int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 {
 	int		i;
@@ -85,6 +102,7 @@ int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		while (cmd->char_vars && cmd->args[++i] && ++a >= 0)
 		{
 			expand_string(&cmd->args[i], 0, &utils, a);
+			check_removal(cmd->args, i, utils.arg_vars[a].type);
 			if (strchr(utils.arg_vars[a].type, '1'))
 				cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
 		}
