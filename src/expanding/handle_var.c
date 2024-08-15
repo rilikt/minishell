@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 11:04:44 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 17:29:44 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 12:18:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	handle_case_one_two(int i, char **pos, int *tmp, t_exp *utils)
 	else
 		*tmp += 1;
 	utils->arg_vars[i].e_index[utils->v_count] = *tmp - 1;
-	
+
 	return ;
 }
 
