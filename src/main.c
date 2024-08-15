@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 18:49:13 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:15:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ int	main(int argc, char **argv, char **envp)
 			execute_commandline(&shell);
 		free_tokens(&shell);
 		free_struct(&shell);
-		free(shell.input);
-		shell.input = NULL;
 	}
 	free_string_array(shell.envp);
 	if (shell.mode == INTERACTIVE)
 		tcsetattr(STDIN_FILENO, TCSANOW, &(shell.term[0]));
-	return (shell.exitstatus);
+	exit(shell.exitstatus);
 }

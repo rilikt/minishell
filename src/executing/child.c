@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 18:07:57 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 21:00:12 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 	if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 	{
 		path_to_cmd = ms_strdup(cmd->args[0]);
-		free(cmd->args[0]);
+		if ((cmd->args[0][0] == '.' && !cmd->args[0][1]) || 
+			!ft_strncmp(cmd->args[0], "..", 3))
+			return (ft_error(NULL, cmd->args[0], ERR_PATH),
+				shell->err = 22, NULL);
+				free(cmd->args[0]);
 		cmd->args[0] = ms_strdup(ft_strrchr(path_to_cmd, '/'));
+
 	}
 	else
 	{
 		if (ft_strchr(cmd->args[0], '/'))
-			ft_error(NULL, cmd->args[0], ERR_FILE);
+			return (ft_error(NULL, cmd->args[0], ERR_FILE),
+				shell->err = ERR_PATH, NULL);
 		path_to_cmd = get_path(ms_strjoin("/", cmd->args[0]), shell);
 		if (!path_to_cmd)
 		{
@@ -46,6 +52,24 @@ void	expand_and_setup(t_cmd *cmd, t_shell *shell)
 	check_builtins(cmd);
 }
 
+char *path_handling(t_cmd *cmd, t_shell *shell)
+{
+	struct stat	st;
+	
+	if (!stat(cmd->args[0], &st))
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			ft_error(cmd->args[0], NULL, 22);
+			cmd->args[0] = NULL;
+		}
+		return (NULL);
+	}
+	else
+		return (path_check(cmd, shell));
+	
+}
+
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
 	char	*path_to_cmd;
@@ -59,9 +83,14 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 		expand_and_setup(cmd, shell);
 	redirect_accordingly(cmd->reds, &(shell->err));
 	if (cmd->builtin_flag == EXTERN && cmd->args[0])
-		path_to_cmd = path_check(cmd, shell);
+		path_to_cmd = path_handling(cmd, shell);
 	if (cmd->builtin_flag != EXTERN)
 		exit(check_and_exec_builtins(cmd, shell));
+	if (cmd->args && cmd->args[0] && !*cmd->args[0])
+	{
+		ft_error("", NULL, ERR_PATH);
+		exit(127);
+	}
 	if ((!cmd->args || !cmd->args[0]) && !shell->err)
 		exit(0);
 	set_last_arg(cmd, &shell->envp, 0);

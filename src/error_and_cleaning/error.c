@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 15:54:29 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/13 18:58:52 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/15 19:04:20 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	ft_error(char *arg, char *msg, int error_code)
 	write(STDERR_FILENO, "minishell: ", 12);
 	if (arg)
 		write(STDERR_FILENO, arg, ft_strlen(arg));
-	write(STDERR_FILENO, msg, ft_strlen(msg) + 1);
+	if (msg)
+		write(STDERR_FILENO, msg, ft_strlen(msg) + 1);
 	write(STDERR_FILENO, ": ", 2);
 	if (err_msg)
 	{
