@@ -6,11 +6,34 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 00:42:15 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:40:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
+
+int	directory_check(char **path_to_cmd, t_shell *shell)
+{
+	struct stat	st;
+	
+	if (stat(*path_to_cmd, &st))
+	{
+		ft_error(*path_to_cmd, "stat() failed!", ERR_EXIT);
+		shell->err = ERR_EXIT;
+		return (1);
+	}
+
+	if (S_ISDIR(st.st_mode))
+	{
+			// printf("2 %d\n", errno);
+		ft_error(*path_to_cmd, NULL, 21);
+		shell->err = 126;
+		*path_to_cmd = NULL;
+		return (1);
+	}
+	else
+		return (0);
+}
 
 char	*path_check(t_cmd *cmd, t_shell *shell)
 {
@@ -21,13 +44,10 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 	if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 	{
 		path_to_cmd = ms_strdup(cmd->args[0]);
-		if ((cmd->args[0][0] == '.' && !cmd->args[0][1]) || 
-			!ft_strncmp(cmd->args[0], "..", 3))
-			return (ft_error(NULL, cmd->args[0], ERR_PATH),
-				shell->err = 22, NULL);
-				free(cmd->args[0]);
+		free(cmd->args[0]);
+		if (directory_check(&path_to_cmd, shell))
+			return (NULL);
 		cmd->args[0] = ms_strdup(ft_strrchr(path_to_cmd, '/'));
-
 	}
 	else
 	{
@@ -52,38 +72,20 @@ void	expand_and_setup(t_cmd *cmd, t_shell *shell)
 	check_builtins(cmd);
 }
 
-char *path_handling(t_cmd *cmd, t_shell *shell)
-{
-	struct stat	st;
-	
-	if (!stat(cmd->args[0], &st))
-	{
-		if (S_ISDIR(st.st_mode))
-		{
-			ft_error(cmd->args[0], NULL, 22);
-			cmd->args[0] = NULL;
-		}
-		return (NULL);
-	}
-	else
-		return (path_check(cmd, shell));
-	
-}
 
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
 	char	*path_to_cmd;
-	int		err;
-
+	
+	errno = 0;
 	path_to_cmd = NULL;
-	err = 0;
 	signal(SIGINT, &exit);
 	change_std_fd(pipes, mode);
 	if (shell->cmd_nb > 1)
 		expand_and_setup(cmd, shell);
 	redirect_accordingly(cmd->reds, &(shell->err));
 	if (cmd->builtin_flag == EXTERN && cmd->args[0])
-		path_to_cmd = path_handling(cmd, shell);
+		path_to_cmd = path_check(cmd, shell);
 	if (cmd->builtin_flag != EXTERN)
 		exit(check_and_exec_builtins(cmd, shell));
 	if (cmd->args && cmd->args[0] && !*cmd->args[0])

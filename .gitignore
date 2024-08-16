@@ -12,9 +12,4 @@ src/executing/hallo.txt
 *.h.gch
 *.dSYM
 test.c
-<
->
->>
-<<
-|
-
+test2.c

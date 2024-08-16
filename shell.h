@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 20:35:04 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 12:00:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ enum	e_errorcodes
 	ERR_CLOSE,
 	ERR_SPLIT,
 	ERR_PERMISSION = 13,
-	ERR_PATH = 127,
 	ERR_EXPORT,
 	ERR_WRITE,
+	ERR_DIR = 126,
+	ERR_PATH = 127,
 };
 
 enum	e_forkmode
