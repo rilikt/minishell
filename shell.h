@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 15:19:17 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:29:27 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,12 +291,11 @@ int		expand_redirects(t_rdct *reds, t_exp *utils);
 int		expand_cmd(t_cmd *cmd, int exitstatus, char **envp);
 
 // expanding_utils.c
-int		*check_char_behind(char **pos);
 int		ft_arr_len(char **arr);
 void	free_arg_vars(t_exp *utils, int arg_len);
+void	fill_int_arrays(t_cmd *cmd, t_exp *u, int *i, int *vars_used);
 void	setup_help_struct(t_cmd *cmd, t_exp *utils, int arg_len, int vars_used);
 int		count_vars_in_str(char *str);
-void	expand_heredoc(char **str, t_exp *utils);
 
 //expand_heredoc.c
 int		*check_char_behind(char **pos);
