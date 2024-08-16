@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 09:50:22 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 15:59:00 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:41:00 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_redir(t_cmd **command, t_token **tkn_temp, int *err)
 		return (ft_sytax_error(err, *tkn_temp), ERR_SYNTAX);
 	if (*tkn_temp)
 	{
-		redir.filename = ms_strdup((*tkn_temp)->str);
+		if ((*tkn_temp)->str)
+			redir.filename = ms_strdup((*tkn_temp)->str);
 		if ((*tkn_temp)->type == VARIABLE)
 		{
 			redir.vars = ms_strjoin(redir.vars, (*tkn_temp)->char_vars);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 12:54:15 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 14:06:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:00:43 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	wait_for_children(int *pid, int nb)
 	int	t;
 
 	i = -1;
-	g_sig = 15;
+	legit_variable(1, 15);
 	while (++i < nb)
 	{
 		waitpid(pid[i], &t, 0);
 		t = WEXITSTATUS(t);
 	}
-	g_sig = 0;
+	legit_variable(1, 0);
 	free(pid);
 	pid = NULL;
 	return (t);

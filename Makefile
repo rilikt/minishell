@@ -6,7 +6,7 @@
 #    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/16 14:16:48 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/16 15:18:45 by timschmi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,6 @@ MDE_SGNL :=	initialize.c\
 			signals.c
 PARSING  :=	parse.c\
 			parse_redir.c\
-			parse_utils.c\
 			parse_arr_and_nodes.c
 TOKENIZER:=	read_input.c\
 			token_list.c\
@@ -82,7 +81,7 @@ LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
-CFLAGS = #-fsanitize=address # -Wall -Wextra -Werror
+CFLAGS = -fsanitize=address # -Wall -Wextra -Werror
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 all: $(NAME)

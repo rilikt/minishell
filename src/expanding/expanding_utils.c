@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 21:55:03 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:20:27 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,17 @@ void	setup_help_struct(t_cmd *cmd, t_exp *u, int arg_len, int vars_used)
 		{
 			u->arg_vars[i[0]].s_index = (int *)malloc(sizeof(int)
 					* ft_strlen(u->arg_vars[i[0]].type));
-			error_check(u->arg_vars[i[0]].type, "2setup_exp_struct", ERR_MALLOC);
+			error_check(u->arg_vars[i[0]].type, "2setup_exp_struct",
+				ERR_MALLOC);
 			u->arg_vars[i[0]].e_index = (int *)malloc(sizeof(int)
 					* ft_strlen(u->arg_vars[i[0]].type));
-			error_check(u->arg_vars[i[0]].type, "3setup_exp_struct", ERR_MALLOC);
+			error_check(u->arg_vars[i[0]].type, "3setup_exp_struct",
+				ERR_MALLOC);
 			i[1] = -1;
 			while (++i[1] < var_count)
 			{
-				u->arg_vars[i[0]].s_index[i[1]] = cmd->int_vars[vars_used + i[1]];
+				u->arg_vars[i[0]].s_index[i[1]] = cmd->int_vars[vars_used
+					+ i[1]];
 				u->arg_vars[i[0]].e_index[i[1]] = 0;
 			}
 			vars_used += var_count;

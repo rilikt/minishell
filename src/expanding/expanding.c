@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 23:31:14 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:20:33 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	expand_cmd(t_cmd *cmd, int exitstatus, char **envp)
 		{
 			expand_string(&cmd->args[i], 0, &utils, a);
 			check_removal(cmd->args, i, utils.arg_vars[a].type, &a);
-			if (a >=0 && ft_strchr(utils.arg_vars[a].type, '1'))
+			if (a >= 0 && ft_strchr(utils.arg_vars[a].type, '1'))
 				cmd->args = split_arg(cmd->args, utils.arg_vars, &i, a);
 		}
 		free_arg_vars(&utils, arg_len);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 12:40:49 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:09:54 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 int	directory_check(char **path_to_cmd, t_shell *shell)
 {
 	struct stat	st;
-	
+
 	if (stat(*path_to_cmd, &st))
 	{
 		ft_error(*path_to_cmd, "stat() failed!", ERR_EXIT);
+		free(*path_to_cmd);
 		shell->err = ERR_EXIT;
 		return (1);
 	}
-
 	if (S_ISDIR(st.st_mode))
 	{
-			// printf("2 %d\n", errno);
 		ft_error(*path_to_cmd, NULL, 21);
 		shell->err = 126;
+		free(*path_to_cmd);
 		*path_to_cmd = NULL;
 		return (1);
 	}
@@ -46,7 +46,7 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 		path_to_cmd = ms_strdup(cmd->args[0]);
 		free(cmd->args[0]);
 		if (directory_check(&path_to_cmd, shell))
-			return (NULL);
+			return (cmd->args[0] = NULL, NULL);
 		cmd->args[0] = ms_strdup(ft_strrchr(path_to_cmd, '/'));
 	}
 	else
@@ -72,11 +72,10 @@ void	expand_and_setup(t_cmd *cmd, t_shell *shell)
 	check_builtins(cmd);
 }
 
-
 void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 {
 	char	*path_to_cmd;
-	
+
 	errno = 0;
 	path_to_cmd = NULL;
 	signal(SIGINT, &exit);
@@ -117,11 +116,11 @@ char	*get_path(char *cmd, t_shell *shell)
 	{
 		tmp = ms_strjoin(path[i], cmd);
 		if (access(tmp, X_OK) == 0)
-		{
-			free_string_array(path);
-			free(cmd);
-			return (tmp);
-		}
+			return (free_string_array(path), free(cmd), tmp);
+		if (access(tmp, F_OK) == 0)
+			return (free_string_array(path), free(cmd),
+				ft_error(tmp, NULL, ERR_PERMISSION),
+				shell->err = ERR_PERMISSION, tmp);
 		free(tmp);
 	}
 	free(cmd);

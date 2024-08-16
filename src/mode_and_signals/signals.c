@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:51:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:13:18 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	signal_handler(int signal)
 {
-	if (g_sig == 0)
+	if (legit_variable(0, 0) == 0)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		return ;
 	}
-	if (g_sig == 42)
+	if (legit_variable(0, 0) == 42)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		rl_replace_line("", 0);
@@ -27,12 +27,25 @@ void	signal_handler(int signal)
 		rl_redisplay();
 		return ;
 	}
-	if (g_sig == 666)
+	if (legit_variable(0, 0) == 666)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		g_sig = signal;
+		legit_variable(1, 2);
 		return ;
+	}
+}
+
+int	legit_variable(int p, int val)
+{
+	static int	i = 0;
+
+	if (!p)
+		return (i);
+	else
+	{
+		i = val;
+		return (0);
 	}
 }
 

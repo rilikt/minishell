@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:27 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 12:24:21 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:18:25 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../shell.h"
-
-int	g_sig = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -27,10 +25,8 @@ int	main(int argc, char **argv, char **envp)
 			shell.input = read_input(shell.mode, &shell);
 		if (!shell.err)
 			tokenize(&shell);
-		// print_tokens(&shell);
 		if (!shell.err)
 			parse_tokens(&shell);
-		// print_commands(&shell);
 		if (!shell.err && shell.cmd_nb == 1
 			&& single_cmd_check(&shell))
 			shell.exitstatus = check_and_exec_builtins(shell.commands, &shell);

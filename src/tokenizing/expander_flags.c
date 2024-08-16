@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 17:42:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:14:21 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	var_lists(t_shell *shell)
 {
 	char_var_list(shell);
 	int_var_list(shell);
-	// printf("%s\n", shell->char_vars);
-	// print_int_arr(shell->int_vars, ft_strlen(shell->char_vars));
 }
 
 char	*cvl_if_quotes(char *vars, t_shell *shell, int *i)

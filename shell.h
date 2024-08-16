@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 12:00:35 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:19:17 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@
 # include <termios.h>
 # include <unistd.h>
 # include <sys/stat.h>
-
-# ifndef GLOBAL_H
-#  define GLOBAL_H
-
-extern int				g_sig;
-# endif
 
 enum	e_errorcodes
 {
@@ -193,12 +187,13 @@ typedef struct s_redir_val
 int		single_cmd_check(t_shell *shell);
 int		check_and_exec_builtins(t_cmd *cmd, t_shell *shell);
 void	check_builtins(t_cmd *cmd);
+void	check_fd(t_cmd *cmd);
 
 // directory.c
 int		pwd(void);
 int		cd(char **arg, char ***envp);
 void	go_home(void);
-void	update_env(char ***envp);
+void	update_env(char ***envp, char *old_path);
 
 // echo.c
 int		echo(char **args);
@@ -336,6 +331,7 @@ char	*put_input(int argc, char **argv);
 // signals.c
 void	signal_handler(int signum);
 void	check_mode_handle_signals(t_shell *shell);
+int		legit_variable(int p, int val);
 
 /*========================================================*/
 /*==				parser								==*/
@@ -351,10 +347,6 @@ void	store_in_cmd(t_cmd **head, char **arr, char *vars, int *int_vars);
 int		check_redir(t_cmd **command, t_token **tkn_temp, int *err);
 void	append_rdct_node(t_cmd **head, t_redir_val *redir);
 int		is_redir(t_token *token);
-
-// parse_utils.c
-void	print_commands(t_shell *shell);
-void	print_arr(char **arr);
 
 // parse.c
 void	while_not_op(t_token **temp, t_shell *shell,
@@ -384,7 +376,6 @@ void	tokenize(t_shell *shell);
 int		operator_check(char *str, int *input_i);
 int		is_operator(char *str, int *input_i);
 int		is_whitespace(char c);
-void	print_tokens(t_shell *shell);
 int		token_loop(int i, char *str, t_shell *shell);
 
 // token_vars.c

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:39:58 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 12:40:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:00:50 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*read_input(int mode, t_shell *shell)
 	char	*input;
 	char	*rl_str;
 
-	g_sig = 42;
+	legit_variable(1, 42);
 	input = NULL;
 	rl_str = setup_prompt();
 	if (mode == INTERACTIVE)
@@ -82,6 +82,6 @@ char	*read_input(int mode, t_shell *shell)
 	}
 	free(rl_str);
 	add_history(input);
-	g_sig = 0;
+	legit_variable(1, 0);
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:26:35 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 23:41:35 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:01:42 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ char	*heredoc_loop(char *delimiter)
 
 	line = NULL;
 	input = NULL;
-	while (1 && g_sig != 2)
+	while (1 && legit_variable(0, 0) != 2)
 	{
 		if (isatty(STDIN_FILENO))
 			line = readline("> ");
 		else
 			line = use_get_next();
-		if (!line || g_sig == 2)
+		if (!line || legit_variable(0, 0) == 2)
 			break ;
 		if (!ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1)
 			&& delimiter[0] != '\0')
@@ -88,28 +88,29 @@ char	*heredoc_loop(char *delimiter)
 
 void	is_heredoc(t_token *node, int q_flag)
 {
-	char	*line;
 	char	*input;
 	char	*delimiter;
 	int		fd;
 
 	if (node->prev->type != IN_HEREDOC || node->type == PIPE || is_redir(node))
 		return ;
-	g_sig = 666;
-	line = NULL;
-	input = NULL;
+	legit_variable(1, 666);
 	delimiter = check_and_rm_quotes(node->str);
 	input = heredoc_loop(delimiter);
 	if (!q_flag)
 		node->type = VARIABLE;
 	else
 		node->type = WORD;
-	if (g_sig == 2)
+	if (legit_variable(0, 0) == 2)
 	{
 		fd = open("/dev/tty", O_RDWR);
-		dup2(fd, STDIN_FILENO);
+		if (fd < 0)
+			ft_error(NULL, "open failed in heredoc", ERR_OPEN);
+		ft_dup2(fd, STDIN_FILENO, "heredoc");
+		if (input)
+			free(input);
 		input = NULL;
 	}
 	node->str = input;
-	g_sig = 0;
+	legit_variable(1, 0);
 }

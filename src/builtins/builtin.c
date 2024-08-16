@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 12:48:00 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/15 21:25:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 15:19:39 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ int	single_cmd_check(t_shell *shell)
 	return (1);
 }
 
+void	check_fd(t_cmd *cmd)
+{
+	if (cmd->stdout_fd > -1)
+	{
+		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup21");
+		ft_close(cmd->stdout_fd, "close1");
+	}
+	if (cmd->stdin_fd > -1)
+	{
+		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup22");
+		ft_close(cmd->stdin_fd, "close2");
+	}
+}
+
 int	check_and_exec_builtins(t_cmd *cmd, t_shell *shell)
 {
 	int	exit_re;
@@ -52,16 +66,7 @@ int	check_and_exec_builtins(t_cmd *cmd, t_shell *shell)
 		exit_re = env(cmd->args, shell->envp);
 	else if (cmd->builtin_flag == EXIT)
 		exit_re = ft_exit(cmd->args, &shell->err, shell->exitstatus);
-	if (cmd->stdout_fd > -1)
-	{
-		ft_dup2(cmd->stdout_fd, STDOUT_FILENO, "dup21");
-		ft_close(cmd->stdout_fd, "close1");
-	}
-	if (cmd->stdin_fd > -1)
-	{
-		ft_dup2(cmd->stdin_fd, STDIN_FILENO, "dup22");
-		ft_close(cmd->stdin_fd, "close2");
-	}
+	check_fd(cmd);
 	return (exit_re);
 }
 

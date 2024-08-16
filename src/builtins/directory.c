@@ -6,13 +6,13 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 16:32:16 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 18:50:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:30:24 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../shell.h"
 
-void	update_env(char ***envp)
+void	update_env(char ***envp, char *old_path)
 {
 	char	*old[3];
 	char	*new[3];
@@ -20,15 +20,18 @@ void	update_env(char ***envp)
 
 	getcwd(path, sizeof(path));
 	old[0] = "export";
-	new[0] = "export";
-	old[1] = ms_strjoin("OLDPWD=", ft_getenv("PWD", *envp));
-	new[1] = ms_strjoin("PWD=", path);
+	old[1] = ms_strjoin("OLDPWD=", old_path);
 	old[2] = NULL;
-	new[2] = NULL;
 	export(old, envp);
-	export(new, envp);
 	free(old[1]);
-	free(new[1]);
+	if (ft_getenv("PWD", *envp))
+	{
+		new[0] = "export";
+		new[1] = ms_strjoin("PWD=", path);
+		new[2] = NULL;
+		export(new, envp);
+		free(new[1]);
+	}
 }
 
 int	get_home(char **arg, char **move_to, char **envp)
@@ -47,8 +50,10 @@ int	get_home(char **arg, char **move_to, char **envp)
 int	cd(char **arg, char ***envp)
 {
 	char	*move_to;
+	char	path[1024];
 
 	move_to = arg[1];
+	getcwd(path, sizeof(path));
 	if (get_home(arg, &move_to, *envp))
 		return (1);
 	if (arg[1] && !ft_strncmp(arg[1], "-", 2))
@@ -67,7 +72,7 @@ int	cd(char **arg, char ***envp)
 		ft_error("cd: ", move_to, ERR_FILE);
 		return (1);
 	}
-	update_env(envp);
+	update_env(envp, path);
 	return (0);
 }
 
