@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 15:19:54 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 20:51:28 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 00:34:47 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	free_struct(t_shell *shell)
 {
 	t_shell	*temp;
 	t_cmd	*temp_cmd;
-	t_rdct	*temp_redir;
 
 	temp = shell;
 	free_tokens(shell);
