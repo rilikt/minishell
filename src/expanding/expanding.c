@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 17:22:38 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 15:20:33 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:53:50 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	expand_string(char **str, int type, t_exp *utils, int i)
 {
 	int		tmp;
 	char	*pos;
-	char	frt;
 
 	tmp = 0;
 	utils->v_count = 0;
@@ -25,7 +24,6 @@ void	expand_string(char **str, int type, t_exp *utils, int i)
 	{
 		while (str[0][tmp])
 		{
-			frt = str[0][tmp];
 			if (str[0][tmp] == '$')
 			{
 				pos = *str + tmp;
@@ -69,7 +67,6 @@ int	expand_redirects(t_rdct *reds, t_exp *utils)
 
 void	check_removal(char **args, int i, char *type, int *a)
 {
-	char	**new_args;
 	int		len;
 
 	if (!*args[i] && !ft_strchr(type, '2') && *type)

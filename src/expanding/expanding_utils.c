@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:51 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 16:28:31 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:49:01 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	fill_int_arrays(t_cmd *cmd, t_exp *u, int *i, int *vars_used)
 		u->arg_vars[i[0]].s_index[i[1]] = cmd->int_vars[*vars_used + i[1]];
 		u->arg_vars[i[0]].e_index[i[1]] = 0;
 	}
-	vars_used += i[2];
+	*vars_used += i[2];
 }
 
 // i[0] = main loop index
@@ -60,7 +60,6 @@ void	fill_int_arrays(t_cmd *cmd, t_exp *u, int *i, int *vars_used)
 void	setup_help_struct(t_cmd *cmd, t_exp *u, int arg_len, int vars_used)
 {
 	int	i[3];
-	int	var_count;
 
 	i[0] = -1;
 	u->arg_vars = (t_avars *)malloc(sizeof(t_avars) * arg_len + 1);

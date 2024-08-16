@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 15:56:00 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 15:13:18 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:33:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	signal_handler(int signal)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		legit_variable(1, 2);
+		legit_variable(1, signal);
 		return ;
 	}
 }

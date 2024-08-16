@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/16 16:15:37 by timschmi         ###   ########.fr        #
+#    Updated: 2024/08/16 16:53:28 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
-CFLAGS = -fsanitize=address # -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 all: $(NAME)

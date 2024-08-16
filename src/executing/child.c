@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 16:09:54 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:17:03 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 		free(cmd->args[0]);
 		if (directory_check(&path_to_cmd, shell))
 			return (cmd->args[0] = NULL, NULL);
-		cmd->args[0] = ms_strdup(ft_strrchr(path_to_cmd, '/'));
 	}
 	else
 	{

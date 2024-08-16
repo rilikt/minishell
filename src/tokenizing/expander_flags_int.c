@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_flags_int.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:08:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/14 18:09:32 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:34:49 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	int_var_list(t_shell *shell)
 	int	*arr;
 	int	i;
 	int	j;
-	int	count;
 
 	i = 0;
 	j = 0;

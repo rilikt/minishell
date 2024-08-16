@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 17:14:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/14 18:51:05 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:37:40 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ void	initial_export(t_shell *shell)
 
 void	setup_shell(t_shell *shell, char **envp, int argc, char **argv)
 {
-	int	i;
-
-	i = 0;
 	shell->envp = copy_env(envp);
 	shell->input = put_input(argc, argv);
 	shell->tokens = NULL;

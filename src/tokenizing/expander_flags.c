@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_flags.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 15:14:21 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:34:29 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ void	char_var_list(t_shell *shell)
 {
 	char	*vars;
 	int		i;
-	int		start;
-	char	*flag;
 
 	vars = NULL;
 	i = 0;
