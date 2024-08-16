@@ -6,7 +6,7 @@
 /*   By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:04:03 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/15 17:31:22 by timschmi         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:22:50 by timschmi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	ex_append_loop(char ***envp, char *arg, int len)
 		len = var_len(arg, (*envp)[i]);
 		if (!ft_strncmp((*envp)[i], arg, len))
 		{
-			tmp = ms_strjoin((*envp)[i], ft_strchr(arg, '=') + 1);
+			if (ft_strchr((*envp)[i], '='))
+				tmp = ms_strjoin((*envp)[i], ft_strchr(arg, '=') + 1);
+			else
+				tmp = ms_strjoin((*envp)[i], ft_strchr(arg, '='));
 			free((*envp)[i]);
 			(*envp)[i] = tmp;
 			return (1);
