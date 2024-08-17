@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:08:53 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/17 13:25:06 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:03:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	ivl_loop(int *arr, t_shell *shell, int *i, int *j)
 			count = 1;
 		else if (shell->char_vars[*i] == '1' || shell->char_vars[*i] == '2')
 		{
-			while (shell->input[*j] && ft_isalnum(shell->input[*j]))
+			while (shell->input[*j] && (ft_isalnum(shell->input[*j])
+				|| shell->input[*j] == '_'))
 			{
 				count++;
 				*j += 1;
