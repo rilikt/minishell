@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/17 14:30:10 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:46:38 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ void	run_childprocess(t_cmd *cmd, t_pipe *pipes, t_shell *shell, int mode)
 	if (shell->cmd_nb > 1)
 		expand_and_setup(cmd, shell);
 	redirect_accordingly(cmd->reds, &(shell->err));
-	if (cmd->builtin_flag == EXTERN && cmd->args[0])
+	if (cmd->builtin_flag == EXTERN && cmd->args[0] && !shell->err)
 		path_to_cmd = path_check(cmd, shell);
-	if (cmd->builtin_flag != EXTERN)
+	if (cmd->builtin_flag != EXTERN && !shell->err)
 		exit(check_and_exec_builtins(cmd, shell));
-	if (cmd->args && cmd->args[0] && !*cmd->args[0])
+	if (cmd->args && cmd->args[0] && !*cmd->args[0] && !shell->err)
 	{
 		ft_error("", NULL, ERR_PATH);
 		exit(127);
