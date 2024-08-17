@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
+#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/08/17 14:47:42 by pstrohal         ###   ########.fr        #
+=======
+#    Updated: 2024/08/17 14:38:30 by timschmi         ###   ########.fr        #
+>>>>>>> 96ed7d460a3e2ade9d0933e1550c5dc237e1bdd2
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +85,7 @@ LIBFT :=	$(INCLUDE_PATH)libft/libft.a
 HEADER := shell.h
 ART = $(INCLUDE_PATH)art.txt
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
 #	@curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh
