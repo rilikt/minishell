@@ -6,7 +6,7 @@
 #    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-#    Updated: 2024/08/17 14:23:47 by pstrohal         ###   ########.fr        #
+#    Updated: 2024/08/17 14:29:17 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,10 +84,11 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 LFLAGS = -L$(LIB) -lft -lreadline -L$(LIBG) -lget_next_line
 
+#	@curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh
+#	@brew install readline
+	
 all: $(NAME)
 $(LIBFT):
-	#curl -fsSL https://rawgit.com/kube/42homebrew/master/install.sh | zsh
-	#brew install readline
 	@printf "$(GREEN)\n\nBuilding libraries\n\n$(RESET)"
 	@make bonus -s -C $(LIB) & PID=$$!; \
 	while kill -0 $$PID 2>/dev/null; do \

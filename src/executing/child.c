@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/17 14:11:56 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:30:10 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	directory_check(char **path_to_cmd, t_shell *shell)
 	else if (st.st_uid != 0 && !ft_strchr(*path_to_cmd, '/'))
 	{
 		ft_error(*path_to_cmd, NULL, 127);
-		return(free(*path_to_cmd), shell->err = 127, *path_to_cmd = NULL, 1);
+		return (free(*path_to_cmd), shell->err = 127, *path_to_cmd = NULL, 1);
 	}
 	else
 		return (0);
