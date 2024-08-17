@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: timschmi <timschmi@student.42.fr>          +#+  +:+       +#+         #
+#    By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/08 10:32:41 by pstrohal          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/08/17 14:47:42 by pstrohal         ###   ########.fr        #
-=======
-#    Updated: 2024/08/17 14:38:30 by timschmi         ###   ########.fr        #
->>>>>>> 96ed7d460a3e2ade9d0933e1550c5dc237e1bdd2
+#    Updated: 2024/08/17 14:52:44 by pstrohal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
