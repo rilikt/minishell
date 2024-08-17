@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:10:19 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 16:34:29 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:27:53 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,6 @@ void	print_int_arr(int *arr, int len)
 		i++;
 	}
 	printf("\n");
-}
-
-int	check_end(char c)
-{
-	char	*set;
-	int		i;
-
-	set = "$\"'/\\|. ?";
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	var_lists(t_shell *shell)

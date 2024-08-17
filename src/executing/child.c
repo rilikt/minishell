@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:37:42 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/08/16 17:17:03 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:11:56 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int	directory_check(char **path_to_cmd, t_shell *shell)
 		*path_to_cmd = NULL;
 		return (1);
 	}
+	else if (st.st_uid != 0 && !ft_strchr(*path_to_cmd, '/'))
+	{
+		ft_error(*path_to_cmd, NULL, 127);
+		return(free(*path_to_cmd), shell->err = 127, *path_to_cmd = NULL, 1);
+	}
 	else
 		return (0);
 }
@@ -39,14 +44,11 @@ char	*path_check(t_cmd *cmd, t_shell *shell)
 {
 	char	*path_to_cmd;
 
-	if (!cmd)
-		return (NULL);
 	if (!access(cmd->args[0], F_OK) && !access(cmd->args[0], X_OK))
 	{
 		path_to_cmd = ms_strdup(cmd->args[0]);
-		free(cmd->args[0]);
 		if (directory_check(&path_to_cmd, shell))
-			return (cmd->args[0] = NULL, NULL);
+			return (NULL);
 	}
 	else
 	{

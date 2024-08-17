@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 15:17:50 by timschmi          #+#    #+#             */
-/*   Updated: 2024/08/16 16:29:27 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:27:57 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,7 +393,6 @@ char	*create_string(char *str, char *re, int i, int k);
 void	char_var_list(t_shell *shell);
 void	var_lists(t_shell *shell);
 char	*cvl_if_quotes(char *vars, t_shell *shell, int *i);
-int		check_end(char c);
 
 // expander_flags_int.c
 void	int_var_list(t_shell *shell);
