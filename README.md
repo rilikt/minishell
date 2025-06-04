@@ -1,4 +1,4 @@
-# 🐚 minishell – Your Own Bash-like Shell in C
+# 🐚 minishell – Our Own Bash-like Shell in C
 
 **minishell** is a fully functioning, minimal UNIX shell implemented in C. This project introduces core concepts of process management, file descriptors, signal handling, parsing, and I/O redirection—while also being the first **group project** in the 42 curriculum.
 
